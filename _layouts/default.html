@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html>
+  <head>
+<link rel="stylesheet" type="text/css" href="../css/main.css">
+<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/vaakash/socializer/80391a50/css/socializer.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+ <body>
+	 <center>
+     <header class="page-header" role="banner">
+      <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
+      <a href="{{site.baseurl}}../" class="btn">Home</a>
+      <!---<a href="{{site.baseurl}}/about" class="btn">About</a>--->
+      <a href="{{site.baseurl}}/cv" class="btn">CV</a>
+      <a href="{{site.baseurl}}/blog" class="btn">Blog</a>
+      <a href="{{site.baseurl}}/contact/" class="btn">Contact</a>
+    </header>
+	 </center>
+	  <main id="content" class="main-content" role="main">
+      {{ content }}
+	 </main>
+    <footer>
+      <div class="footer">
+        <center>
+          <div class="socializer a sr-48px sr-circle sr-float sr-icon-white sr-pad">
+            <span class="sr-email"><a href="mailto:ashley.otter@phe.gov.uk" target="_blank" title="Email"><i class="fa fa-envelope"></i></a></span>
+            <span class="sr-twitter"><a href="https://twitter.com/asherichia" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></span>
+            <span class="sr-linkedin"><a href="https://www.linkedin.com/in/ashley-otter" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></span>
+            <span class="sr-github"><a href="https://www.github.com/asherichia" target="_blank" title="Github"><i class="fa fa-github"></i></a></span></div>
+        </center>
+      </div>
+    </footer>
+  </body>
+  </html>
