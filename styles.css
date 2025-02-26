@@ -1,0 +1,119 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure full height for hero */
+html, body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+}
+
+.hero-content h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.hero-content p {
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
+
+.hero-buttons {
+  margin-top: 20px;
+}
+
+.hero-buttons .btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 12px 24px;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 1em;
+  border-radius: 4px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.hero-buttons .btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+/* Footer Styling */
+footer {
+  background: #222;
+  padding: 20px 0;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Social Icon Styles */
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-size: 1.2em;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+  background-color: #555;
+}
+
+/* Specific Social Colors */
+.social-icon.twitter { background-color: #1DA1F2; }
+.social-icon.github  { background-color: #333; }
+.social-icon.linkedin { background-color: #0077B5; }
+.social-icon.email { background-color: #D44638; }
+.social-icon.scholar { background-color: #4285F4; }
+
+.social-icon.twitter:hover { background-color: #0d8ddb; }
+.social-icon.github:hover  { background-color: #555; }
+.social-icon.linkedin:hover { background-color: #006699; }
+.social-icon.email:hover { background-color: #b03c2e; }
+.social-icon.scholar:hover { background-color: #3367D6; }
+
+/* Highlight effect for "viral immunology" */
+@keyframes funkyHighlight {
+  0% { color: #ff0; }
+  50% { color: #ff6347; }
+  100% { color: #ff0; }
+}
+
+.highlight {
+  transition: transform 0.3s ease;
+  color: #ff0;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.highlight:hover {
+  animation: funkyHighlight 1s infinite alternate;
+  transform: scale(1.1);
+}
