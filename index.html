@@ -15,6 +15,10 @@
     <div class="raining-antibodies"></div>
     <div class="hero-content">
       <h1>Hey.</h1>
+      <!-- Profile Image -->
+      <div class="profile-container">
+        <img class="profile-image" src="profile.jpg" alt="Dr Ash Otter" />
+      </div>
       <p>I'm Ash, an immunologist working to understand viruses.</p>
       <div class="hero-buttons">
         <a href="about.html" class="btn">About</a>
@@ -46,24 +50,27 @@
   <!-- JavaScript to generate falling antibody images with smooth attraction -->
   <script>
     const container = document.querySelector('.raining-antibodies');
-    const numAntibodies = 50; // Increased number of antibodies
+    const numAntibodies = 70; // Increased number of antibodies
     for (let i = 0; i < numAntibodies; i++) {
       // Create a wrapper to handle falling and attraction
       const wrapper = document.createElement('div');
       wrapper.className = 'antibody-wrapper';
-      // Random horizontal starting position for the wrapper
+      // Random horizontal starting position
       const left = Math.random() * 100;
       wrapper.style.left = left + '%';
+      // Random vertical starting offset between -50px and -150px
+      const topOffset = -50 - Math.random() * 100;
+      wrapper.style.top = topOffset + 'px';
       // Random animation duration (falling) between 12s and 19s
       const duration = Math.random() * 7 + 12;
       wrapper.style.animationDuration = duration + 's';
-      // Random animation delay between 0 and 8s
-      const delay = Math.random() * 8;
-      wrapper.style.animationDelay = delay + 's';
+      // Use a negative random animation delay so each animation is already in progress
+      const delay = "-" + (Math.random() * duration) + "s";
+      wrapper.style.animationDelay = delay;
       // Random horizontal drift between -50px and 50px
       const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
       wrapper.style.setProperty('--drift', drift);
-      // Initialize attraction offsets (used for smooth attraction)
+      // Initialize attraction offsets (for smooth attraction)
       wrapper.style.setProperty('--repelX', '0px');
       wrapper.style.setProperty('--repelY', '0px');
       wrapper.dataset.targetX = "0";
@@ -79,8 +86,8 @@
       // Set a random initial rotation from 0 to 720° for variety
       const rotation = Math.random() * 720 + 'deg';
       img.style.setProperty('--initialRotation', rotation);
-      // Apply continuous spin: each image spins continuously with random speed (5-10s)
-      const spinDuration = Math.random() * 5 + 5;
+      // Apply continuous spin with random duration between 15 and 25s (slower spin)
+      const spinDuration = Math.random() * 10 + 15;
       img.style.animation = 'spin ' + spinDuration + 's linear infinite';
       
       wrapper.appendChild(img);
@@ -112,7 +119,7 @@
       });
     });
     
-    // Smoothly update the CSS variables for each wrapper using requestAnimationFrame for fluid attraction
+    // Smoothly update the CSS variables for each wrapper using requestAnimationFrame
     function smoothUpdate() {
       const wrappers = document.querySelectorAll('.antibody-wrapper');
       wrappers.forEach(function(wrapper) {
@@ -120,7 +127,7 @@
         let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
         let targetX = parseFloat(wrapper.dataset.targetX) || 0;
         let targetY = parseFloat(wrapper.dataset.targetY) || 0;
-        const smoothing = 0.1; // Adjust smoothing factor for more fluid motion
+        const smoothing = 0.1; // Lower value = slower, smoother updates
         let newX = currentX + smoothing * (targetX - currentX);
         let newY = currentY + smoothing * (targetY - currentY);
         wrapper.style.setProperty('--repelX', newX + 'px');
