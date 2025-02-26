@@ -5,6 +5,13 @@
   box-sizing: border-box;
 }
 
+/* Set virus-shaped cursor (ensure virus-cursor.png is ~32x32 and in the root folder) */
+body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  cursor: url('virus-cursor.png') 16 16, auto;
+}
+
 /* Ensure full height for hero */
 html, body {
   height: 100%;
@@ -15,19 +22,19 @@ html, body {
 .hero {
   background: linear-gradient(135deg, #667eea, #764ba2);
   height: 100vh;
-  position: relative; /* Establish positioning context */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: #fff;
   padding: 20px;
-  overflow: hidden; /* Hide falling images outside hero */
+  overflow: hidden;
 }
 
 .hero-content {
   position: relative;
-  z-index: 2; /* Place text above antibodies */
+  z-index: 2;
 }
 
 /* Container for falling antibodies */
@@ -41,8 +48,8 @@ html, body {
   pointer-events: none;
 }
 
-/* Antibody falling animation */
-.antibody {
+/* Antibody wrapper: handles falling and smooth attraction */
+.antibody-wrapper {
   position: absolute;
   top: -50px;
   opacity: 0.8;
@@ -51,12 +58,22 @@ html, body {
 
 @keyframes fall {
   0% {
-    transform: translateX(0) translateY(0);
+    transform: translate(var(--repelX, 0px), var(--repelY, 0px)) translate(0, 0);
     opacity: 0.8;
   }
   100% {
-    transform: translateX(var(--drift)) translateY(110vh);
+    transform: translate(var(--repelX, 0px), var(--repelY, 0px)) translate(var(--drift), 110vh);
     opacity: 0;
+  }
+}
+
+/* Continuous spin animation for the antibody image */
+@keyframes spin {
+  from {
+    transform: rotate(var(--initialRotation, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--initialRotation, 0deg) + 360deg));
   }
 }
 
@@ -104,7 +121,6 @@ footer {
   gap: 15px;
 }
 
-/* Social Icon Styles */
 .social-icon {
   display: inline-flex;
   align-items: center;
@@ -124,7 +140,6 @@ footer {
   background-color: #555;
 }
 
-/* Specific Social Colors */
 .social-icon.twitter { background-color: #1DA1F2; }
 .social-icon.github  { background-color: #333; }
 .social-icon.linkedin { background-color: #0077B5; }
