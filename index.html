@@ -11,11 +11,13 @@
 </head>
 <body>
   <div class="hero">
+    <!-- Container for raining antibodies -->
+    <div class="raining-antibodies"></div>
     <div class="hero-content">
       <h1>Welcome</h1>
       <p>
-        I'm Ash, an immunologist working to understand
-        <span class="highlight">viral immunology</span>.
+        I'm Ash, an immunologist working to understand 
+        <span class="highlight">viruses</span>.
       </p>
       <div class="hero-buttons">
         <a href="about.html" class="btn">About</a>
@@ -43,5 +45,32 @@
       </a>
     </div>
   </footer>
+  
+  <!-- JavaScript to generate falling antibody images -->
+  <script>
+    const container = document.querySelector('.raining-antibodies');
+    const numAntibodies = 30; // Adjust for more or fewer images
+    for (let i = 0; i < numAntibodies; i++) {
+      const img = document.createElement('img');
+      img.src = 'antibody.png';
+      img.className = 'antibody';
+      // Random size between 20 and 50 pixels
+      const size = Math.floor(Math.random() * 31) + 20;
+      img.style.width = size + 'px';
+      // Random horizontal starting position (0% to 100%)
+      const left = Math.random() * 100;
+      img.style.left = left + '%';
+      // Random animation duration between 8s and 15s
+      const duration = Math.random() * 7 + 8;
+      img.style.animationDuration = duration + 's';
+      // Random animation delay between 0 and 10s
+      const delay = Math.random() * 10;
+      img.style.animationDelay = delay + 's';
+      // Random horizontal drift between -50px and 50px using a CSS variable
+      const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
+      img.style.setProperty('--drift', drift);
+      container.appendChild(img);
+    }
+  </script>
 </body>
 </html>
