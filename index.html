@@ -131,7 +131,7 @@
       <div class="profile-container">
         <img class="profile-image" src="assets/team/profile.jpg" alt="Dr Ash Otter" />
       </div>
-      <p>I'm Dr Ash Otter, an immunologist working to understand emerging viruses.</p>
+      <p>I'm <b> Dr Ash Otter</b>, an immunologist working to understand<br> emerging viruses and vaccines.</p>
       <div class="hero-buttons">
         <a href="about.html" class="btn">About</a>
         <a href="research-grid-layout.html" class="btn">Research</a>
@@ -204,28 +204,35 @@
       container.appendChild(wrapper);
     }
     
-    document.addEventListener('mousemove', function(e) {
-      const wrappers = document.querySelectorAll('.antibody-wrapper');
-      wrappers.forEach(function(wrapper) {
-        const rect = wrapper.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const dx = e.clientX - centerX;
-        const dy = e.clientY - centerY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const threshold = 100;
-        let targetX = 0;
-        let targetY = 0;
-        if (distance < threshold) {
-          const force = (threshold - distance) / threshold * 80;
-          const angle = Math.atan2(dy, dx);
-          targetX = Math.cos(angle) * force;
-          targetY = Math.sin(angle) * force;
-        }
-        wrapper.dataset.targetX = targetX;
-        wrapper.dataset.targetY = targetY;
-      });
-    });
+document.addEventListener('mousemove', function(e) {
+  const wrappers = document.querySelectorAll('.antibody-wrapper');
+  wrappers.forEach(function(wrapper) {
+    const rect = wrapper.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const threshold = 100;
+    let targetX = parseFloat(wrapper.dataset.targetX) || 0;
+    let targetY = parseFloat(wrapper.dataset.targetY) || 0;
+    if (distance < threshold) {
+      const force = (threshold - distance) / threshold * 80;
+      const angle = Math.atan2(dy, dx);
+      targetX = Math.cos(angle) * force;
+      targetY = Math.sin(angle) * force;
+    } else {
+      // Instead of instantly resetting to 0, gradually decay the force
+      targetX *= 0.95;
+      targetY *= 0.95;
+      // Zero out very small values to prevent lingering minor offsets
+      if (Math.abs(targetX) < 0.1) targetX = 0;
+      if (Math.abs(targetY) < 0.1) targetY = 0;
+    }
+    wrapper.dataset.targetX = targetX;
+    wrapper.dataset.targetY = targetY;
+  });
+});
     
     function smoothUpdate() {
       const wrappers = document.querySelectorAll('.antibody-wrapper');
