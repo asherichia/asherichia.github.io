@@ -126,6 +126,8 @@ html, body {
   transform: translateY(-3px);
 }
 
+
+
 /* Modern Footer Styles */
 .modern-footer {
   padding: 1rem 0;
@@ -194,4 +196,26 @@ background-color: rgba(255, 255, 255, 0.01);
     height: 2.5rem;
     font-size: 1rem;
   }
+}
+
+/* Style for the typewriter text */
+#typewriter {
+  font-family: 'Roboto', sans-serif; /* Modern, sleek font */
+  font-size: 3em;
+  display: inline-block; /* Ensures the ::after pseudo-element aligns correctly */
+  /* Optionally add additional styling such as color, margin, etc. */
+}
+
+/* Blinking cursor effect using ::after pseudo-element */
+#typewriter::after {
+  content: '|';
+  margin-left: 5px;
+  animation: blink 1s steps(2, start) infinite;
+}
+
+/* Keyframes for blinking effect */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 }
