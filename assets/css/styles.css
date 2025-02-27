@@ -1,0 +1,197 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set virus-shaped cursor (ensure virus-cursor.png is ~32x32 and in the root folder) */
+body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  cursor: url('virus-cursor.png') 32 32, auto;
+}
+
+/* Ensure full height for hero */
+html, body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  position: relative; /* Establish positioning context */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  overflow: hidden; /* Hide falling images outside hero */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* Place text above antibodies */
+}
+
+/* Profile Image Styling */
+.profile-container {
+  margin: 20px auto;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Container for falling antibodies */
+.raining-antibodies {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Antibody wrapper: handles falling and smooth attraction */
+.antibody-wrapper {
+  position: absolute;
+  /* The top offset is set via JS */
+  opacity: 0.8;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translate(var(--repelX, 0px), var(--repelY, 0px)) translate(0, 0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--repelX, 0px), var(--repelY, 0px)) translate(var(--drift), 110vh);
+    opacity: 0;
+  }
+}
+
+/* Continuous spin animation for the antibody image */
+@keyframes spin {
+  from {
+    transform: rotate(var(--initialRotation, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--initialRotation, 0deg) + 360deg));
+  }
+}
+
+/* Hero Content Styling */
+.hero-content h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.hero-content p {
+  font-size: 1.2em;
+  margin-bottom: 3em;
+}
+
+.hero-buttons {
+  margin-top: 20px;
+}
+
+.hero-buttons .btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 12px 24px;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 1em;
+  border-radius: 4px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.hero-buttons .btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+/* Modern Footer Styles */
+.modern-footer {
+  padding: 1rem 0;
+  background-color: #222;
+  border-top: 0.5px solid rgba(0, 0, 0, 0);
+}
+
+.footer-social-container {
+  display: flex;
+background-color: rgba(255, 255, 255, 0.01);
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.footer-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.footer-icon:hover {
+  transform: translateY(-5px);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon-specific hover colors */
+.footer-icon:nth-child(1):hover { color: #1DA1F2; } /* Twitter */
+.footer-icon:nth-child(2):hover { color: #0077B5; } /* LinkedIn */
+.footer-icon:nth-child(3):hover { color: #4285F4; } /* Google Scholar */
+.footer-icon:nth-child(4):hover { color: #333333; } /* GitHub */
+.footer-icon:nth-child(5):hover { color: #D44638; } /* Email */
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .footer-social-container {
+    gap: 1rem;
+  }
+  
+  .footer-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+}
