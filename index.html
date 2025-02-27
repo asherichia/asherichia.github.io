@@ -4,89 +4,193 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dr Ash Otter</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
   <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Added inline styles to fix the button layout issue -->
+  <style>
+    /* Hero buttons responsive fix */
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+      padding: 0 10px;
+    }
+    
+    .btn {
+      padding: 10px 0;
+      width: 140px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
+    
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+    }
+    
+    @media (max-width: 480px) {
+      .hero-buttons {
+        gap: 10px;
+      }
+      
+      .btn {
+        width: 120px;
+        padding: 8px 0;
+        font-size: 0.9em;
+      }
+    }
+    
+    /* Easter Egg Hidden Eyes */
+    .easter-egg {
+      position: fixed;
+      bottom: 5px;
+      right: 5px;
+      width: 40px;
+      height: 20px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .easter-egg-hover-area {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 999;
+    }
+    
+    .easter-egg-hover-area:hover + .easter-egg,
+    .easter-egg:hover {
+      opacity: 1;
+    }
+    
+    .eye {
+      width: 16px;
+      height: 16px;
+      background-color: white;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .eye::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background-color: #333;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s ease;
+    }
+    
+    .easter-egg:hover .eye::after {
+      animation: look-around 2s infinite alternate;
+    }
+    
+    @keyframes look-around {
+      0%, 100% { transform: translate(-50%, -50%); }
+      25% { transform: translate(-30%, -60%); }
+      50% { transform: translate(-70%, -50%); }
+      75% { transform: translate(-50%, -30%); }
+    }
+  </style>
 </head>
 <body>
   <div class="hero">
     <!-- Container for falling antibodies -->
     <div class="raining-antibodies"></div>
     <div class="hero-content">
-      <h1>Hey.</h1>
+      <h1>Sup.</h1>
       <!-- Profile Image -->
       <div class="profile-container">
-        <img class="profile-image" src="profile.jpg" alt="Dr Ash Otter" />
+        <img class="profile-image" src="assets/team/profile.jpg" alt="Dr Ash Otter" />
       </div>
-      <p>I'm Ash, an immunologist working to understand viruses.</p>
+      <p>I'm Dr Ash Otter, an immunologist working to understand emerging viruses.</p>
       <div class="hero-buttons">
         <a href="about.html" class="btn">About</a>
-        <a href="cv.html" class="btn">CV</a>
-        <a href="contact.html" class="btn">Contact</a>
+        <a href="research-grid-layout.html" class="btn">Research</a>
+        <a href="mailto:ashley.otter@ukhsa.gov.uk" class="btn">Contact</a>
       </div>
     </div>
   </div>
-  <footer>
-    <div class="social-icons">
-      <a href="https://twitter.com/asherichia" target="_blank" class="social-icon twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://github.com/asherichia" target="_blank" class="social-icon github">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/ashleyotter" target="_blank" class="social-icon linkedin">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
-      <a href="mailto:ashley.otter@ukhsa.gov.uk" class="social-icon email">
-        <i class="fas fa-envelope"></i>
-      </a>
-      <a href="https://scholar.google.com/citations?user=ckBV9wAAAAJ" target="_blank" class="social-icon scholar">
-        <i class="fas fa-graduation-cap"></i>
-      </a>
-    </div>
-  </footer>
+  
+<!-- Footer -->
+<footer class="modern-footer">
+  <div class="footer-social-container">
+    <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="https://scholar.google.com/citations?user=ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+      <i class="fas fa-graduation-cap"></i>
+    </a>
+    <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</footer>
+
+  <!-- Easter Egg: Hidden Eyes -->
+  <div class="easter-egg-hover-area"></div>
+  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="easter-egg">
+    <div class="eye"></div>
+    <div class="eye"></div>
+  </a>
   
   <!-- JavaScript to generate falling antibody images with smooth attraction -->
   <script>
     const container = document.querySelector('.raining-antibodies');
-    const numAntibodies = 70; // Increased number of antibodies
+    const numAntibodies = 50;
     for (let i = 0; i < numAntibodies; i++) {
-      // Create a wrapper to handle falling and attraction
       const wrapper = document.createElement('div');
       wrapper.className = 'antibody-wrapper';
-      // Random horizontal starting position
       const left = Math.random() * 100;
       wrapper.style.left = left + '%';
-      // Random vertical starting offset between -50px and -150px
       const topOffset = -50 - Math.random() * 100;
       wrapper.style.top = topOffset + 'px';
-      // Random animation duration (falling) between 12s and 19s
       const duration = Math.random() * 7 + 12;
       wrapper.style.animationDuration = duration + 's';
-      // Use a negative random animation delay so each animation is already in progress
       const delay = "-" + (Math.random() * duration) + "s";
       wrapper.style.animationDelay = delay;
-      // Random horizontal drift between -50px and 50px
       const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
       wrapper.style.setProperty('--drift', drift);
-      // Initialize attraction offsets (for smooth attraction)
       wrapper.style.setProperty('--repelX', '0px');
       wrapper.style.setProperty('--repelY', '0px');
       wrapper.dataset.targetX = "0";
       wrapper.dataset.targetY = "0";
       
-      // Create the antibody image element
       const img = document.createElement('img');
-      img.src = 'antibody.png';
+      img.src = 'assets/ui/antibody.png';
       img.className = 'antibody';
-      // Random size between 20 and 50 pixels
       const size = Math.floor(Math.random() * 31) + 20;
       img.style.width = size + 'px';
-      // Set a random initial rotation from 0 to 720° for variety
       const rotation = Math.random() * 720 + 'deg';
       img.style.setProperty('--initialRotation', rotation);
-      // Apply continuous spin with random duration between 15 and 25s (slower spin)
       const spinDuration = Math.random() * 10 + 15;
       img.style.animation = 'spin ' + spinDuration + 's linear infinite';
       
@@ -94,7 +198,6 @@
       container.appendChild(wrapper);
     }
     
-    // On mousemove, calculate target attraction offsets for each wrapper
     document.addEventListener('mousemove', function(e) {
       const wrappers = document.querySelectorAll('.antibody-wrapper');
       wrappers.forEach(function(wrapper) {
@@ -104,11 +207,10 @@
         const dx = e.clientX - centerX;
         const dy = e.clientY - centerY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const threshold = 100; // pixels
+        const threshold = 100;
         let targetX = 0;
         let targetY = 0;
         if (distance < threshold) {
-          // Increase attraction force (multiplier increased to 80)
           const force = (threshold - distance) / threshold * 80;
           const angle = Math.atan2(dy, dx);
           targetX = Math.cos(angle) * force;
@@ -119,7 +221,6 @@
       });
     });
     
-    // Smoothly update the CSS variables for each wrapper using requestAnimationFrame
     function smoothUpdate() {
       const wrappers = document.querySelectorAll('.antibody-wrapper');
       wrappers.forEach(function(wrapper) {
@@ -127,7 +228,7 @@
         let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
         let targetX = parseFloat(wrapper.dataset.targetX) || 0;
         let targetY = parseFloat(wrapper.dataset.targetY) || 0;
-        const smoothing = 0.1; // Lower value = slower, smoother updates
+        const smoothing = 0.1;
         let newX = currentX + smoothing * (targetX - currentX);
         let newY = currentY + smoothing * (targetY - currentY);
         wrapper.style.setProperty('--repelX', newX + 'px');

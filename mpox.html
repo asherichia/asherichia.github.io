@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr Ash Otter - Mpox immunity</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Fix for gradient appearing as blocks instead of smooth gradient */
+    html {
+      min-height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) no-repeat fixed;
+      background-size: cover;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: transparent;
+    }
+    
+    /* Container for page content */
+    .page-container {
+      position: relative;
+      min-height: 100vh;
+      z-index: 1;
+    }
+    
+    /* Navigation */
+    .nav-container {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 0.9em;
+      border-radius: 4px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .nav-btn i {
+      margin-right: 8px;
+    }
+    
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+    }
+    
+    /* Research detail container */
+    .research-detail {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+    
+    /* Header with image */
+    .detail-header {
+      position: relative;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .detail-header-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .detail-title-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      padding: 30px;
+      color: white;
+    }
+    
+    .detail-title {
+      font-size: 2.5rem;
+      margin-bottom: 5px;
+    }
+    
+    .detail-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    /* Content styling */
+    .detail-content {
+      background-color: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .detail-section {
+      margin-bottom: 40px;
+    }
+    
+    .detail-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      color: #667eea;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+    }
+    
+    .section-text {
+      margin-bottom: 20px;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    
+    .detail-list {
+      list-style-type: none;
+      margin-bottom: 20px;
+    }
+    
+    .detail-list-item {
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+    
+    .detail-list-item:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+    }
+    
+    .detail-graph {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 30px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .detail-graph img {
+      width: 100%;
+      display: block;
+    }
+    
+    /* Additional info box */
+    .additional-info {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 30px 0;
+    }
+    
+    .additional-info-title {
+      font-size: 1.2rem;
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    
+    /* Team section */
+    .team-section {
+      margin-top: 40px;
+    }
+    
+    .team-title {
+      font-size: 1.4rem;
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+    
+    .team-members {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .team-member {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      width: calc(50% - 10px);
+    }
+    
+    .team-member-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+    
+    .team-member-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .team-member-info p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    /* Falling antibodies animation */
+    .raining-antibodies {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .antibody-wrapper {
+      position: absolute;
+      animation: fall linear 15s infinite;
+      pointer-events: none;
+    }
+    
+    .antibody {
+      transform: rotate(var(--initialRotation));
+      opacity: 0.7;
+    }
+    
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) translateX(0);
+      }
+      100% {
+        transform: translateY(120vh) translateX(var(--drift));
+      }
+    }
+    
+    @keyframes spin {
+      to {
+        transform: rotate(1080deg);
+      }
+    }
+        
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .detail-header {
+        height: 200px;
+      }
+      
+      .detail-title {
+        font-size: 2rem;
+      }
+      
+      .detail-content {
+        padding: 25px;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .team-member {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Container for the falling antibodies animation -->
+  <div class="raining-antibodies"></div>
+  
+  <!-- Main page container -->
+  <div class="page-container">
+    <!-- Navigation -->
+    <div class="nav-container">
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="research-grid-layout.html" class="nav-btn">
+          <i class="fas fa-flask"></i> All Research
+        </a>
+      </div>
+    </div>
+    
+    <!-- Research detail content -->
+    <div class="research-detail">
+      <!-- Header with image -->
+      <div class="detail-header">
+        <img src="assets/data/mpox-comparison.png" alt="Lorem ipsum" class="detail-header-image">
+        <div class="detail-title-container">
+          <h1 class="detail-title">Mpox</h1>
+          <div class="detail-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        </div>
+      </div>
+      
+      <!-- Main content -->
+      <div class="detail-content">
+        <div class="detail-section">
+          <h2 class="section-title">Background</h2>
+          <p class="section-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+          </p>
+          <p class="section-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+          </p>
+        </div>
+        
+        <div class="detail-section">
+          <h2 class="section-title">Key Findings</h2>
+          <ul class="detail-list">
+            <li class="detail-list-item">
+              <strong>T-cell epitope identification:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+            <li class="detail-list-item">
+              <strong>Antibody response characterization:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+            <li class="detail-list-item">
+              <strong>Improved diagnostics:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+            <li class="detail-list-item">
+              <strong>Disease severity correlates:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+          </ul>
+          
+          <div class="detail-graph">
+            <img src="assets/data/mpox-comparison.png" alt="Test">
+          </div>
+          
+          <div class="additional-info">
+            <h3 class="additional-info-title">Clinical Relevance</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum.
+            </p>
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h2 class="section-title">Current Projects</h2>
+          <p class="section-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec tellus sed augue semper porta.
+          </p>
+          
+          <ul class="detail-list">
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet.
+            </li>
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet.
+            </li>
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet.
+            </li>
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet.
+            </li>
+          </ul>
+          
+          <p class="section-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tempus, tellus eget condimentum rhoncus.
+          </p>
+        </div>
+        
+        <div class="detail-section">
+          <h2 class="section-title">Publications</h2>
+          <ul class="detail-list">
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+            <li class="detail-list-item">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </li>
+          </ul>
+        </div>
+        
+        <div class="team-section">
+          <h2 class="team-title">Research Team</h2>
+          <div class="team-members">
+            <div class="team-member">
+              <img src="assets/images/team/team-ashley.jpg" alt="Lorem ipsum" class="team-member-image">
+              <div class="team-member-info">
+                <h4>Dr. Ashley Otter</h4>
+                <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+            </div>
+            <div class="team-member">
+              <img src="assets/images/team/team-sarah.jpg" alt="Lorem ipsum" class="team-member-image">
+              <div class="team-member-info">
+                <h4>Dr. Sarah Johnson</h4>
+                <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<!-- Footer -->
+<footer class="modern-footer">
+  <div class="footer-social-container">
+    <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="https://scholar.google.com/citations?user=ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+      <i class="fas fa-graduation-cap"></i>
+    </a>
+    <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</footer>
+  </div>
+  
+  <!-- JavaScript for animations -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initAntibodies();
+    });
+    
+    function initAntibodies() {
+      const container = document.querySelector('.raining-antibodies');
+      container.innerHTML = '';
+      
+      const numAntibodies = 50;
+      for (let i = 0; i < numAntibodies; i++) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'antibody-wrapper';
+        
+        // Random horizontal position
+        const left = Math.random() * 100;
+        wrapper.style.left = left + '%';
+        
+        // Random vertical starting position
+        const topOffset = -50 - Math.random() * 100;
+        wrapper.style.top = topOffset + 'px';
+        
+        // Random animation duration between 12 and 19 seconds
+        const duration = Math.random() * 7 + 12;
+        wrapper.style.animationDuration = duration + 's';
+        
+        // Negative random delay so animations are already in progress
+        const delay = "-" + (Math.random() * duration) + "s";
+        wrapper.style.animationDelay = delay;
+        
+        // Random horizontal drift between -50px and 50px
+        const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
+        wrapper.style.setProperty('--drift', drift);
+        
+        // Initialize attraction offsets
+        wrapper.style.setProperty('--repelX', '0px');
+        wrapper.style.setProperty('--repelY', '0px');
+        wrapper.dataset.targetX = "0";
+        wrapper.dataset.targetY = "0";
+        
+        // Create the antibody image element
+        const img = document.createElement('img');
+        img.src = 'assets/ui/antibody.png';
+        img.className = 'antibody';
+        
+        // Random size between 20 and 50 pixels
+        const size = Math.floor(Math.random() * 31) + 20;
+        img.style.width = size + 'px';
+        
+        // Random initial rotation
+        const rotation = Math.random() * 720 + 'deg';
+        img.style.setProperty('--initialRotation', rotation);
+        
+        // Continuous spin animation
+        const spinDuration = Math.random() * 10 + 15;
+        img.style.animation = 'spin ' + spinDuration + 's linear infinite';
+        
+        wrapper.appendChild(img);
+        container.appendChild(wrapper);
+      }
+      
+      document.addEventListener('mousemove', function(e) {
+        const wrappers = document.querySelectorAll('.antibody-wrapper');
+        wrappers.forEach(function(wrapper) {
+          const rect = wrapper.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const dx = e.clientX - centerX;
+          const dy = e.clientY - centerY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const threshold = 100;
+          let targetX = 0;
+          let targetY = 0;
+          if (distance < threshold) {
+            const force = (threshold - distance) / threshold * 80;
+            const angle = Math.atan2(dy, dx);
+            targetX = Math.cos(angle) * force;
+            targetY = Math.sin(angle) * force;
+          }
+          wrapper.dataset.targetX = targetX;
+          wrapper.dataset.targetY = targetY;
+        });
+      });
+      
+      function smoothUpdate() {
+        const wrappers = document.querySelectorAll('.antibody-wrapper');
+        wrappers.forEach(function(wrapper) {
+          let currentX = parseFloat(wrapper.style.getPropertyValue('--repelX')) || 0;
+          let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
+          let targetX = parseFloat(wrapper.dataset.targetX) || 0;
+          let targetY = parseFloat(wrapper.dataset.targetY) || 0;
+          const smoothing = 0.1;
+          let newX = currentX + smoothing * (targetX - currentX);
+          let newY = currentY + smoothing * (targetY - currentY);
+          wrapper.style.setProperty('--repelX', newX + 'px');
+          wrapper.style.setProperty('--repelY', newY + 'px');
+        });
+        requestAnimationFrame(smoothUpdate);
+      }
+      requestAnimationFrame(smoothUpdate);
+    }
+  </script>
+</body>
+</html>

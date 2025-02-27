@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Dr Ash Otter</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Font Awesome for Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Base styles for the about page */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      overflow-x: hidden;
+    }
+    
+    /* Hero section styling for the full page */
+    .about-hero {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Navigation */
+    .nav-container {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0);
+    }
+    
+    .home-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 0.9em;
+      border-radius: 4px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .home-btn i {
+      margin-right: 8px;
+    }
+    
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+    }
+    
+    /* Raining antibodies backdrop - ensure it stays behind content */
+    .raining-antibodies {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    /* Content wrapper - ensure it's above the backdrop */
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      padding: 80px 20px 40px;
+      box-sizing: border-box;
+    }
+    
+    .section-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .section-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Section styling */
+    .section-header {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    
+    /* Bio content */
+    .bio-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+    }
+    
+    .bio-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      flex-shrink: 0;
+      margin: 0 auto;
+    }
+    
+    .bio-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .bio-text p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    
+    /* Timeline styling */
+    .timeline-item {
+      margin-bottom: 30px;
+      position: relative;
+      padding-left: 30px;
+      border-left: 3px solid #667eea;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-item h3 {
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .timeline-item .year {
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 8px;
+    }
+    
+    .timeline-item p {
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 10px;
+      }
+      
+      .section-container {
+        padding: 20px;
+      }
+      
+      .bio-image {
+        margin: 0 auto 20px;
+      }
+      
+      .bio-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .timeline-item {
+        padding-left: 20px;
+      }
+    }
+    
+    /* Easter Egg */
+    .easter-egg-hover-area {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 999;
+    }
+    
+    .easter-egg {
+      position: fixed;
+      bottom: 5px;
+      right: 5px;
+      width: 40px;
+      height: 20px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .easter-egg-hover-area:hover + .easter-egg,
+    .easter-egg:hover {
+      opacity: 1;
+    }
+    
+    .eye {
+      width: 16px;
+      height: 16px;
+      background-color: white;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .eye::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background-color: #333;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s ease;
+    }
+    
+    .easter-egg:hover .eye::after {
+      animation: look-around 2s infinite alternate;
+    }
+    
+    @keyframes look-around {
+      0%, 100% { transform: translate(-50%, -50%); }
+      25% { transform: translate(-30%, -60%); }
+      50% { transform: translate(-70%, -50%); }
+      75% { transform: translate(-50%, -30%); }
+    }
+    
+    /* Note: Footer styling is now entirely managed in styles.css */
+  </style>
+</head>
+<body>
+  <div class="about-hero">
+    <!-- Container for falling antibodies -->
+    <div class="raining-antibodies"></div>
+    
+    <!-- Navigation -->
+    <div class="nav-container">
+      <a href="index.html" class="home-btn">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+    
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+      <!-- Bio Section -->
+      <section id="bio" class="section-container visible">
+        <h2 class="section-header">About Me</h2>
+        <div class="bio-content">
+          <img src="assets/team/profile.jpg" alt="Dr Ash Otter" class="bio-image">
+          <div class="bio-text">
+            <p>I'm <b>Dr Ash Otter</b>, an immunologist specialising in understanding <b>emerging viruses</b>. 
+            <p>Currently, I hold a <b>Group Leader / PI</b> position within the Emerging Pathogen Serology group at <b>UK Health Security Agency</b> (UKHSA).</p>
+            <p>My research spans a wide range pathogens but focusses on utilising serology and immunology tools for public health, with translational potential from understand of emerging pathogens and in-turn allowing us to produce new vaccine and diagnostic candidates.</p>
+            <p>I have extensive interests in all things microbial (not just viruses...), with particular interests acroos zoonoses, high-throughput testing, and developing new methodology.</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Employment Section -->
+      <section id="employment" class="section-container">
+        <h2 class="section-header">Employment history</h2>
+        <div class="timeline-item">
+          <h3>Group Leader, Emerging Pathogen Serology Group</h3>
+          <h3>UK Health Security Agency</h3>
+          <div class="year">2022 - Present</div>
+          <p>Leading a group of 13 staff, comprised of post-doctoral research associates, research scientists, and technicians. Expertise in the development, validation, and implementation of serology methods (ELISA, Luminex, MSD, LFDs etc) for a range of emerging pathogens, including for <b>Mpox, Lassa, and Nipah</b>.</p>
+          <p>Lead on submitting external funding applications to UKVN and UKRI with academic and industrial partners.
+           </p>
+        </div>
+        <div class="timeline-item">
+          <h3>Technical Lead, SARS-CoV-2 Serosurveillance laboratory</h3>
+          <h3>UK Health Security Agency</h3>
+          <div class="year">2020 - 2022</div>
+          <p>Leading on the implementation and evaluation of SARS-CoV-2 serology assays for use in serosurveillance and vaccine/research studies. Data used for national modelling and policy decision making (JCVI, DCMO).
+          <p>Over 1.3 million tests conducted to date. Establishment of laboratory as new permanent group within UKHSA Porton (Emerging Pathogen Serology).</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Diagnostic Research Scientist - Rare and Imported Pathogens Laboratory</h3>
+          <h3>UK Health Security Agency</h3>
+          <div class="year">2019 - 2020</div>
+          <p>Involved in the development, evaluation, validation and implementation of new commercial and in-house diagnostic assays for diverse ACDP 2, 3 and 4 priority pathogens, including Arboviruses and viral haemorrhagiv fevers.</p>
+          <p>Part of RIPL 24/7 on-call team, supporting with PCR testing.</p>
+        </div>
+      </section>
+      
+      <!-- Education Section -->
+      <section id="education" class="section-container">
+        <h2 class="section-header">Education</h2>
+        <div class="timeline-item">
+          <h3>PhD in molecular microbiology</h3>
+          <h4>University of London (RVC)</h4>
+          <div class="year">2015 - 2019</div>
+          <p>Thesis: "Understanding the role of Rv1255c, a TetR transcriptional regulator encoded in the RD13 region of Mycobacterium tuberculosis"</p>
+        </div>
+        <div class="timeline-item">
+          <h3>BSc Microbiology</h3>
+          <h4>Cardiff University</h4>
+          <div class="year">2011 - 2015</div>
+          <p>First-class honors. With industrial placement year.</p>
+        </div>
+      </section>
+      
+  <!-- Other Positions Section -->
+<section id="positions" class="section-container">
+  <h2 class="section-header">Other Positions</h2>
+  
+  <div class="timeline-item">
+    <h3>Pathogenesis and Immunity Lead, ESCMID Scientific Affairs Subcommittee</h3>
+    <div class="year">Feb 2025 – Present</div>
+    <p>Providing expertise within the the area of immunity and pathogenesis for ESCMID-related scientific affairs meetings and events.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Chair, Microbiology Society, Federation of Infection Societies</h3>
+    <div class="year">Dec 2023 – Present</div>
+    <p>Spearheading efforts to promote infection science within Microbiology Society community and bridging clinical and wet-lab research.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Member, Vector-borne Diseases Technical Group, UK Health Security Agency</h3>
+    <div class="year">Jun 2023 – Present</div>
+    <p>Contributing to assessment of managing and categorising vector-borne infections and risks within UK.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Serology Lead, Monkeypox Technical Group, UK Health Security Agency</h3>
+    <div class="year">Jul 2022 – Present</div>
+    <p>Technical expertise for serology for Mpox incident response and subseqeunt follow on studies.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Visiting Lecturer (Part-time), University of Bath</h3>
+    <div class="year">Nov 2022 – Present</div>
+    <p>Delivering lectures on diagnostics, immunology and emerging infections.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Senior Leadership Team, SIREN Study, UK Health Security Agency</h3>
+    <div class="year">Jan 2022 – Present</div>
+    <p>Providing strategic leadership within area of serology testing and sample management for UKHSA SIREN study.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Editor, Journal of Medical Microbiology</h3>
+    <div class="year">Jan 2022 – Present</div>
+    <p>Managing manuscript reviews and guiding editorial decisions, with a focus on virology, diagnostics, and emerging pathogens.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Sero-epidemiology Steering Group, UK Health Security Agency</h3>
+    <div class="year">Jan 2021 – Present</div>
+    <p>Aiding in decision making on serosurveillance projects and sample utilisation.</p>
+  </div>
+  
+  <div class="timeline-item">
+    <h3>Visiting Specialist Lecturer (Part-time), University of Plymouth</h3>
+    <div class="year">Oct 2020 – Present</div>
+    <p>Teaching on subjects including emerging pathogens, diagnostics and vaccines.</p>
+  </div>
+</section>        </div>
+      </section>
+    </div>
+  </div>
+  
+  
+  <!-- Easter Egg: Hidden Eyes -->
+  <div class="easter-egg-hover-area"></div>
+  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="easter-egg">
+    <div class="eye"></div>
+    <div class="eye"></div>
+  </a>
+  
+  <!-- Footer -->
+<footer class="modern-footer">
+  <div class="footer-social-container">
+    <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="https://scholar.google.com/citations?user=ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+      <i class="fas fa-graduation-cap"></i>
+    </a>
+    <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</footer>
+  
+  <!-- JavaScript for raining antibodies and section animations -->
+  <script>
+    const container = document.querySelector('.raining-antibodies');
+    const numAntibodies = 50;
+    for (let i = 0; i < numAntibodies; i++) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'antibody-wrapper';
+      wrapper.style.left = Math.random() * 100 + '%';
+      wrapper.style.top = -50 - Math.random() * 100 + 'px';
+      const duration = Math.random() * 7 + 12;
+      wrapper.style.animationDuration = duration + 's';
+      wrapper.style.animationDelay = "-" + (Math.random() * duration) + "s";
+      wrapper.style.setProperty('--drift', (Math.random() * 100 - 50).toFixed(0) + 'px');
+      wrapper.style.setProperty('--repelX', '0px');
+      wrapper.style.setProperty('--repelY', '0px');
+      wrapper.dataset.targetX = "0";
+      wrapper.dataset.targetY = "0";
+      
+      const img = document.createElement('img');
+      img.src = 'assets/ui/antibody.png';
+      img.className = 'antibody';
+      const size = Math.floor(Math.random() * 31) + 20;
+      img.style.width = size + 'px';
+      img.style.setProperty('--initialRotation', Math.random() * 720 + 'deg');
+      const spinDuration = Math.random() * 10 + 15;
+      img.style.animation = 'spin ' + spinDuration + 's linear infinite';
+      
+      wrapper.appendChild(img);
+      container.appendChild(wrapper);
+    }
+    
+    document.addEventListener('mousemove', function(e) {
+      const wrappers = document.querySelectorAll('.antibody-wrapper');
+      wrappers.forEach(function(wrapper) {
+        const rect = wrapper.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = e.clientX - centerX;
+        const dy = e.clientY - centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const threshold = 100;
+        let targetX = 0;
+        let targetY = 0;
+        if (distance < threshold) {
+          const force = (threshold - distance) / threshold * 80;
+          const angle = Math.atan2(dy, dx);
+          targetX = Math.cos(angle) * force;
+          targetY = Math.sin(angle) * force;
+        }
+        wrapper.dataset.targetX = targetX;
+        wrapper.dataset.targetY = targetY;
+      });
+    });
+    
+    function smoothUpdate() {
+      const wrappers = document.querySelectorAll('.antibody-wrapper');
+      wrappers.forEach(function(wrapper) {
+        let currentX = parseFloat(wrapper.style.getPropertyValue('--repelX')) || 0;
+        let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
+        let targetX = parseFloat(wrapper.dataset.targetX) || 0;
+        let targetY = parseFloat(wrapper.dataset.targetY) || 0;
+        const smoothing = 0.1;
+        wrapper.style.setProperty('--repelX', currentX + smoothing * (targetX - currentX) + 'px');
+        wrapper.style.setProperty('--repelY', currentY + smoothing * (targetY - currentY) + 'px');
+      });
+      requestAnimationFrame(smoothUpdate);
+    }
+    smoothUpdate();
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.section-container');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+      
+      function checkScroll() {
+        const scrollPosition = window.scrollY;
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          if (scrollPosition >= sectionTop - 300 && scrollPosition < sectionTop + sectionHeight - 300) {
+            section.classList.add('visible');
+          }
+        });
+      }
+      
+      window.addEventListener('scroll', checkScroll);
+      checkScroll();
+    });
+  </script>
+</body>
+</html>

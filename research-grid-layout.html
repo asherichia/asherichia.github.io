@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr Ash Otter - Research Projects</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Fix for gradient appearing as blocks instead of smooth gradient */
+    html {
+      min-height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) no-repeat fixed;
+      background-size: cover;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: transparent; /* Remove the body background and use the html one instead */
+    }
+    
+    /* Container for page content */
+    .page-container {
+      position: relative;
+      min-height: 100vh;
+      z-index: 1;
+    }
+    
+    /* Navigation */
+    .nav-container {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .home-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 0.9em;
+      border-radius: 4px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .home-btn i {
+      margin-right: 8px;
+    }
+    
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+    }
+    
+    /* Filter options */
+    .filter-container {
+      padding: 0 20px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .filter-title {
+      color: white;
+      margin-bottom: 15px;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    
+    .filter-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .filter-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .filter-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .filter-btn.active {
+      background-color: white;
+      color: #667eea;
+    }
+    
+    /* Research grid */
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Research card */
+    .research-card {
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .research-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Card image container */
+    .card-image-container {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.5s ease, transform 0.5s ease;
+      filter: grayscale(100%);
+    }
+    
+    .research-card:hover .card-image {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
+    
+    .card-title-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+      padding: 15px;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    
+    /* Card content */
+    .card-content {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-description {
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      color: #555;
+      flex-grow: 1;
+    }
+    
+    .publications-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: #667eea;
+    }
+    
+    .key-publication {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      padding-left: 12px;
+      position: relative;
+      line-height: 1.4;
+    }
+    
+    .key-publication:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+    }
+    
+    .read-more-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      margin-top: 15px;
+      align-self: flex-start;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .read-more-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    
+    /* Detail modal */
+    .detail-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+    
+    .detail-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      background-color: white;
+      width: 90%;
+      max-width: 900px;
+      max-height: 85vh;
+      border-radius: 12px;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .detail-modal.active .modal-content {
+      transform: scale(1);
+    }
+    
+    .modal-header {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    
+    .modal-header-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .modal-title-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      padding: 20px;
+      color: white;
+    }
+    
+    .modal-title {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+    
+    .modal-subtitle {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+    
+    .modal-body {
+      padding: 30px;
+    }
+    
+    .modal-section {
+      margin-bottom: 25px;
+    }
+    
+    .modal-section-title {
+      font-size: 1.5rem;
+      color: #667eea;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+    }
+    
+    .modal-text {
+      margin-bottom: 15px;
+      line-height: 1.7;
+    }
+    
+    .modal-list {
+      list-style-type: none;
+      margin-bottom: 15px;
+    }
+    
+    .modal-list-item {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    .modal-list-item:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+    
+    .modal-graph {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .modal-graph img {
+      width: 100%;
+      display: block;
+    }
+    
+    /* Falling antibodies animation */
+    .raining-antibodies {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .antibody-wrapper {
+      position: absolute;
+      animation: fall linear 15s infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .antibody {
+      /* FIXED: Removed the transform property here to avoid conflict with animation */
+      opacity: 0.7;
+    }
+    
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) translateX(0);
+      }
+      100% {
+        transform: translateY(120vh) translateX(var(--drift));
+      }
+    }
+    
+    @keyframes spin {
+      0% {
+        /* FIXED: Start from initial rotation */
+        transform: rotate(var(--initialRotation));
+      }
+      100% {
+        /* FIXED: Add full 1080 degrees to initial rotation */
+        transform: rotate(calc(var(--initialRotation) + 1080deg));
+      }
+    }
+    
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .research-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .modal-content {
+        width: 95%;
+        max-height: 80vh;
+      }
+      
+      .modal-header {
+        height: 150px;
+      }
+      
+      .modal-title {
+        font-size: 1.5rem;
+      }
+      
+      .modal-body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Container for the falling antibodies animation -->
+  <div class="raining-antibodies"></div>
+  
+  <!-- Main page container -->
+  <div class="page-container">
+    <!-- Navigation -->
+    <div class="nav-container">
+      <a href="index.html" class="home-btn">
+        <i class="fas fa-home"></i>Home
+      </a>
+    </div>
+    
+    <!-- Filter options -->
+    <div class="filter-container">
+      <h2 class="filter-title">Research projects</h2>
+      <div class="filter-options">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Filter1">Filter1</button>
+        <button class="filter-btn" data-filter="Filter2">Filter2</button>
+        <button class="filter-btn" data-filter="zoonotic">Filter3</button>
+        <button class="filter-btn" data-filter="emerging">Filter4</button>
+      </div>
+    </div>
+    
+    <!-- Research grid -->
+    <div class="research-grid">
+      <!-- Mpox Research Card -->
+      <div class="research-card" data-category="Filter1 Filter2">
+        <div class="card-image-container">
+          <img src="assets/data/mpox-comparison.png" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Mpox immunity</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Understanding of broad Mpox (and Smallpox) vaccination-derived immunity
+          </p>
+          <div class="publications-label">Key paper(s):</div>
+          <div class="key-publication">
+            Otter et al. (2023),
+            <a href="https://www.nature.com/articles/s41467-023-41587-x">
+           <b> Nature Communications.</a></b>
+            Monkeypox virus-infected individuals mount comparable humoral immune responses as Smallpox-vaccinated individuals.          </div>
+          <a href="mpox.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+      
+      <!-- Mpox Research Card -->
+      <div class="research-card" data-category="Filter1 Filter2">
+        <div class="card-image-container">
+          <img src="assets/research/mpox-serology.jpg" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Mpox assay development</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Developing serological assays to enable serosurveillance and vaccine-prioritisation
+          </p>
+          <div class="publications-label">Key paper(s):</div>
+          <div class="key-publication">
+            Jones et al. (2024),
+            <a href="https://www.thelancet.com/journals/lanmic/article/PIIS2666-5247(24)00255-6/fulltext">
+           <b> Lancet Microbe.</a></b>
+            Assessment of MpoxPlex, a high-throughput and multiplexed immunoassay: a diagnostic accuracy study.          
+            </div>
+ 
+          <a href="mpox.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+      
+      
+      <!-- SARS-CoV-2 Research Card -->
+      <div class="research-card" data-category="virus zoonotic">
+        <div class="card-image-container">
+          <img src="assets/research/covid.jpg" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Ipsum</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <div class="publications-label">Lorem ipsum</div>
+          <div class="key-publication">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+          </div>
+          <a href="covid.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+      
+      <!-- Nipah Research Card -->
+      <div class="research-card" data-category="virus zoonotic emerging">
+        <div class="card-image-container">
+          <img src="assets/research/nipah.jpg" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Dolor</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <div class="publications-label">Lorem ipsum</div>
+          <div class="key-publication">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+          </div>
+          <a href="nipah.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+      
+      <!-- Emerging Viruses Research Card -->
+      <div class="research-card" data-category="virus emerging">
+        <div class="card-image-container">
+          <img src="assets/research/emerging.jpg" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Sit</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <div class="publications-label">Lorem ipsum</div>
+          <div class="key-publication">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+          </div>
+          <a href="emerging.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+      
+      <!-- Antimicrobial Resistance Card -->
+      <div class="research-card" data-category="bacteria">
+        <div class="card-image-container">
+          <img src="assets/research/amr.jpg" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Amet</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <div class="publications-label">Lorem ipsum</div>
+          <div class="key-publication">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+          </div>
+          <a href="amr.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+      
+      <!-- One Health Surveillance Card -->
+      <div class="research-card" data-category="zoonotic emerging">
+        <div class="card-image-container">
+          <img src="assets/research/onehealth.jpg" alt="Lorem ipsum" class="card-image">
+          <div class="card-title-overlay">Consectetur</div>
+        </div>
+        <div class="card-content">
+          <p class="card-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <div class="publications-label">Lorem ipsum</div>
+          <div class="key-publication">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+          </div>
+          <a href="onehealth.html" class="read-more-btn">Read more</a>
+        </div>
+      </div>
+    </div>
+        
+<!-- Footer -->
+<footer class="modern-footer">
+  <div class="footer-social-container">
+    <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="https://scholar.google.com/citations?user=ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+      <i class="fas fa-graduation-cap"></i>
+    </a>
+    <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</footer>
+  </div>
+  
+  <!-- JavaScript for animations and interactions -->
+  <script>
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize filter functionality
+  initFilters();
+  
+  // Initialize antibody animation using the same code as index.html
+  initAntibodies();
+});
+
+// Function to initialize filter functionality
+function initFilters() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const researchCards = document.querySelectorAll('.research-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      // Get filter value
+      const filterValue = this.getAttribute('data-filter');
+      
+      // Show/hide cards based on filter
+      researchCards.forEach(card => {
+        if (filterValue === 'all') {
+          card.style.display = 'block';
+        } else {
+          if (card.getAttribute('data-category').includes(filterValue)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+}
+
+// Function to initialize antibody animation - MODIFIED to match index.html behavior
+function initAntibodies() {
+  const container = document.querySelector('.raining-antibodies');
+  
+  // Clear any existing content
+  container.innerHTML = '';
+  
+  const numAntibodies = 50; // Increased number of antibodies
+  for (let i = 0; i < numAntibodies; i++) {
+    // Create a wrapper to handle falling and attraction
+    const wrapper = document.createElement('div');
+    wrapper.className = 'antibody-wrapper';
+    // Random horizontal starting position
+    const left = Math.random() * 100;
+    wrapper.style.left = left + '%';
+    // Random vertical starting offset between -50px and -150px
+    const topOffset = -50 - Math.random() * 100;
+    wrapper.style.top = topOffset + 'px';
+    // Random animation duration (falling) between 12s and 19s
+    const duration = Math.random() * 7 + 12;
+    wrapper.style.animationDuration = duration + 's';
+    // Use a negative random animation delay so each animation is already in progress
+    const delay = "-" + (Math.random() * duration) + "s";
+    wrapper.style.animationDelay = delay;
+    // Random horizontal drift between -50px and 50px
+    const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
+    wrapper.style.setProperty('--drift', drift);
+    // Initialize attraction offsets (for smooth attraction)
+    wrapper.style.setProperty('--repelX', '0px');
+    wrapper.style.setProperty('--repelY', '0px');
+    wrapper.dataset.targetX = "0";
+    wrapper.dataset.targetY = "0";
+    
+    // Create the antibody image element
+    const img = document.createElement('img');
+    img.src = 'assets/ui/antibody.png';
+    img.className = 'antibody';
+    // Random size between 20 and 50 pixels
+    const size = Math.floor(Math.random() * 31) + 20;
+    img.style.width = size + 'px';
+    
+    // FIXED: Set the initial rotation as a custom property
+    const rotation = Math.random() * 720 + 'deg';
+    img.style.setProperty('--initialRotation', rotation);
+    
+    // FIXED: Apply animation with correct name and timing, but don't set transform directly
+    const spinDuration = Math.random() * 10 + 15;
+    img.style.animation = 'spin ' + spinDuration + 's linear infinite';
+    
+    wrapper.appendChild(img);
+    container.appendChild(wrapper);
+  }
+}
+
+// On mousemove, calculate target attraction offsets for each wrapper
+document.addEventListener('mousemove', function(e) {
+  const wrappers = document.querySelectorAll('.antibody-wrapper');
+  wrappers.forEach(function(wrapper) {
+    const rect = wrapper.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const threshold = 100; // pixels
+    let targetX = 0;
+    let targetY = 0;
+    if (distance < threshold) {
+      // Increase attraction force (multiplier increased to 80)
+      const force = (threshold - distance) / threshold * 80;
+      const angle = Math.atan2(dy, dx);
+      targetX = Math.cos(angle) * force;
+      targetY = Math.sin(angle) * force;
+    }
+    wrapper.dataset.targetX = targetX;
+    wrapper.dataset.targetY = targetY;
+  });
+});
+
+// Smoothly update the CSS variables for each wrapper using requestAnimationFrame
+function smoothUpdate() {
+  const wrappers = document.querySelectorAll('.antibody-wrapper');
+  wrappers.forEach(function(wrapper) {
+    let currentX = parseFloat(wrapper.style.getPropertyValue('--repelX')) || 0;
+    let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
+    let targetX = parseFloat(wrapper.dataset.targetX) || 0;
+    let targetY = parseFloat(wrapper.dataset.targetY) || 0;
+    const smoothing = 0.1; // Lower value = slower, smoother updates
+    let newX = currentX + smoothing * (targetX - currentX);
+    let newY = currentY + smoothing * (targetY - currentY);
+    wrapper.style.setProperty('--repelX', newX + 'px');
+    wrapper.style.setProperty('--repelY', newY + 'px');
+  });
+  requestAnimationFrame(smoothUpdate);
+}
+smoothUpdate();
+  </script>
+</body>
+</html>
