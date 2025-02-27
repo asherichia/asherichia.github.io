@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dr Ash Otter</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css" />
+  
   <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -120,7 +124,9 @@
     <!-- Container for falling antibodies -->
     <div class="raining-antibodies"></div>
     <div class="hero-content">
-      <h1>Sup.</h1>
+    
+    <h1 id="typewriter"></h1>
+    
       <!-- Profile Image -->
       <div class="profile-container">
         <img class="profile-image" src="assets/team/profile.jpg" alt="Dr Ash Otter" />
@@ -238,5 +244,27 @@
     }
     smoothUpdate();
   </script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const text = "Hello.";
+      let index = 0;
+      const speed = 200; // time between each character (in ms)
+      const delayBeforeStart = 1500; // delay before starting the effect (in ms)
+
+      function typeWriter() {
+        if (index < text.length) {
+          document.getElementById("typewriter").textContent += text.charAt(index);
+          index++;
+          setTimeout(typeWriter, speed);
+        }
+      }
+      
+      setTimeout(typeWriter, delayBeforeStart);
+    });
+  </script>
+
+
+
 </body>
 </html>
