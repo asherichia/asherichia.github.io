@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Dr Ash Otter</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="assets/css/styles.css" />
   <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -61,6 +64,60 @@
     .home-btn:hover {
       background: rgba(255, 255, 255, 0.4);
       transform: translateY(-3px);
+    }
+    
+    /* Scroll indicator styles */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 150;
+      color: white;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      text-align: center;
+    }
+    
+    .scroll-arrow {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.3);
+      border: 3px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: bounce 2s infinite;
+      margin-bottom: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .scroll-arrow i {
+      font-size: 1.5rem;
+      color: white;
+    }
+    
+    .scroll-text {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-15px);
+      }
+      60% {
+        transform: translateY(-7px);
+      }
     }
     
     /* Raining antibodies backdrop - ensure it stays behind content */
@@ -252,7 +309,11 @@
       75% { transform: translate(-50%, -30%); }
     }
     
-    /* Note: Footer styling is now entirely managed in styles.css */
+    /* Footer z-index fix only - rest of styling from styles.css */
+    .modern-footer {
+      position: relative;
+      z-index: 5;
+    }
   </style>
 </head>
 <body>
@@ -267,6 +328,14 @@
       </a>
     </div>
     
+    <!-- Scroll down indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-arrow">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <span class="scroll-text">Scroll for more</span>
+    </div>
+    
     <!-- Content wrapper -->
     <div class="content-wrapper">
       <!-- Bio Section -->
@@ -275,7 +344,7 @@
         <div class="bio-content">
           <img src="assets/team/profile.jpg" alt="Dr Ash Otter" class="bio-image">
           <div class="bio-text">
-            <p>I'm <b>Dr Ash Otter</b>, an immunologist specialising in understanding <b>emerging viruses</b>. 
+            <p>I'm <b>Dr Ash Otter</b>, an immunologist specialising in understanding <b>emerging viruses</b>.</p>
             <p>Currently, I hold a <b>Group Leader / PI</b> position within the Emerging Pathogen Serology group at <b>UK Health Security Agency</b> (UKHSA).</p>
             <p>My research spans a wide range pathogens but focusses on utilising serology and immunology tools for public health, with translational potential from understand of emerging pathogens and in-turn allowing us to produce new vaccine and diagnostic candidates.</p>
             <p>I have extensive interests in all things microbial (not just viruses...), with particular interests acroos zoonoses, high-throughput testing, and developing new methodology.</p>
@@ -327,68 +396,90 @@
         </div>
       </section>
       
-  <!-- Other Positions Section -->
-<section id="positions" class="section-container">
-  <h2 class="section-header">Other Positions</h2>
-  
-  <div class="timeline-item">
-    <h3>Pathogenesis and Immunity Lead, ESCMID Scientific Affairs Subcommittee</h3>
-    <div class="year">Feb 2025 – Present</div>
-    <p>Providing expertise within the the area of immunity and pathogenesis for ESCMID-related scientific affairs meetings and events.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Chair, Microbiology Society, Federation of Infection Societies</h3>
-    <div class="year">Dec 2023 – Present</div>
-    <p>Spearheading efforts to promote infection science within Microbiology Society community and bridging clinical and wet-lab research.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Member, Vector-borne Diseases Technical Group, UK Health Security Agency</h3>
-    <div class="year">Jun 2023 – Present</div>
-    <p>Contributing to assessment of managing and categorising vector-borne infections and risks within UK.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Serology Lead, Monkeypox Technical Group, UK Health Security Agency</h3>
-    <div class="year">Jul 2022 – Present</div>
-    <p>Technical expertise for serology for Mpox incident response and subseqeunt follow on studies.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Visiting Lecturer (Part-time), University of Bath</h3>
-    <div class="year">Nov 2022 – Present</div>
-    <p>Delivering lectures on diagnostics, immunology and emerging infections.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Senior Leadership Team, SIREN Study, UK Health Security Agency</h3>
-    <div class="year">Jan 2022 – Present</div>
-    <p>Providing strategic leadership within area of serology testing and sample management for UKHSA SIREN study.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Editor, Journal of Medical Microbiology</h3>
-    <div class="year">Jan 2022 – Present</div>
-    <p>Managing manuscript reviews and guiding editorial decisions, with a focus on virology, diagnostics, and emerging pathogens.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Sero-epidemiology Steering Group, UK Health Security Agency</h3>
-    <div class="year">Jan 2021 – Present</div>
-    <p>Aiding in decision making on serosurveillance projects and sample utilisation.</p>
-  </div>
-  
-  <div class="timeline-item">
-    <h3>Visiting Specialist Lecturer (Part-time), University of Plymouth</h3>
-    <div class="year">Oct 2020 – Present</div>
-    <p>Teaching on subjects including emerging pathogens, diagnostics and vaccines.</p>
-  </div>
-</section>        </div>
+      <!-- Other Positions Section -->
+      <section id="positions" class="section-container">
+        <h2 class="section-header">Other Positions</h2>
+        
+        <div class="timeline-item">
+          <h3>Pathogenesis and Immunity Lead, ESCMID Scientific Affairs Subcommittee</h3>
+          <div class="year">Feb 2025 – Present</div>
+          <p>Providing expertise within the the area of immunity and pathogenesis for ESCMID-related scientific affairs meetings and events.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Chair, Microbiology Society, Federation of Infection Societies</h3>
+          <div class="year">Dec 2023 – Present</div>
+          <p>Spearheading efforts to promote infection science within Microbiology Society community and bridging clinical and wet-lab research.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Member, Vector-borne Diseases Technical Group, UK Health Security Agency</h3>
+          <div class="year">Jun 2023 – Present</div>
+          <p>Contributing to assessment of managing and categorising vector-borne infections and risks within UK.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Serology Lead, Monkeypox Technical Group, UK Health Security Agency</h3>
+          <div class="year">Jul 2022 – Present</div>
+          <p>Technical expertise for serology for Mpox incident response and subseqeunt follow on studies.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Visiting Lecturer (Part-time), University of Bath</h3>
+          <div class="year">Nov 2022 – Present</div>
+          <p>Delivering lectures on diagnostics, immunology and emerging infections.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Senior Leadership Team, SIREN Study, UK Health Security Agency</h3>
+          <div class="year">Jan 2022 – Present</div>
+          <p>Providing strategic leadership within area of serology testing and sample management for UKHSA SIREN study.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Editor, Journal of Medical Microbiology</h3>
+          <div class="year">Jan 2022 – Present</div>
+          <p>Managing manuscript reviews and guiding editorial decisions, with a focus on virology, diagnostics, and emerging pathogens.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Sero-epidemiology Steering Group, UK Health Security Agency</h3>
+          <div class="year">Jan 2021 – Present</div>
+          <p>Aiding in decision making on serosurveillance projects and sample utilisation.</p>
+        </div>
+        
+        <div class="timeline-item">
+          <h3>Visiting Specialist Lecturer (Part-time), University of Plymouth</h3>
+          <div class="year">Oct 2020 – Present</div>
+          <p>Teaching on subjects including emerging pathogens, diagnostics and vaccines.</p>
+        </div>
       </section>
     </div>
   </div>
   
+  <!-- Footer -->
+  <footer class="modern-footer">
+    <div class="footer-social-container">
+      <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky">
+        <i class="fas fa-cloud"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+      <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+  </footer>
   
   <!-- Easter Egg: Hidden Eyes -->
   <div class="easter-egg-hover-area"></div>
@@ -397,56 +488,92 @@
     <div class="eye"></div>
   </a>
   
-  <!-- Footer -->
-<footer class="modern-footer">
-  <div class="footer-social-container">
-    <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
-      <i class="fab fa-twitter"></i>
-    </a>
-    <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
-      <i class="fab fa-linkedin-in"></i>
-    </a>
-    <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
-      <i class="fas fa-graduation-cap"></i>
-    </a>
-    <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
-      <i class="fab fa-github"></i>
-    </a>
-    <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
-      <i class="fas fa-envelope"></i>
-    </a>
-  </div>
-</footer>
-  
   <!-- JavaScript for raining antibodies and section animations -->
   <script>
-    const container = document.querySelector('.raining-antibodies');
-    const numAntibodies = 50;
-    for (let i = 0; i < numAntibodies; i++) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'antibody-wrapper';
-      wrapper.style.left = Math.random() * 100 + '%';
-      wrapper.style.top = -50 - Math.random() * 100 + 'px';
-      const duration = Math.random() * 7 + 12;
-      wrapper.style.animationDuration = duration + 's';
-      wrapper.style.animationDelay = "-" + (Math.random() * duration) + "s";
-      wrapper.style.setProperty('--drift', (Math.random() * 100 - 50).toFixed(0) + 'px');
-      wrapper.style.setProperty('--repelX', '0px');
-      wrapper.style.setProperty('--repelY', '0px');
-      wrapper.dataset.targetX = "0";
-      wrapper.dataset.targetY = "0";
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize antibodies
+      initAntibodies();
       
-      const img = document.createElement('img');
-      img.src = 'assets/ui/antibody.png';
-      img.className = 'antibody';
-      const size = Math.floor(Math.random() * 31) + 20;
-      img.style.width = size + 'px';
-      img.style.setProperty('--initialRotation', Math.random() * 720 + 'deg');
-      const spinDuration = Math.random() * 10 + 15;
-      img.style.animation = 'spin ' + spinDuration + 's linear infinite';
+      // Section visibility animations
+      const sections = document.querySelectorAll('.section-container');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.3 });
       
-      wrapper.appendChild(img);
-      container.appendChild(wrapper);
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+      
+      function checkScroll() {
+        const scrollPosition = window.scrollY;
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          if (scrollPosition >= sectionTop - 300 && scrollPosition < sectionTop + sectionHeight - 300) {
+            section.classList.add('visible');
+          }
+        });
+      }
+      
+      window.addEventListener('scroll', checkScroll);
+      checkScroll();
+      
+      // Scroll indicator functionality
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      let indicatorHidden = false;
+      
+      // Hide when scrolled and don't show again
+      window.addEventListener('scroll', function() {
+        if (!indicatorHidden) {
+          scrollIndicator.style.opacity = '0';
+          
+          // After it fades out, disable pointer events
+          setTimeout(function() {
+            scrollIndicator.style.pointerEvents = 'none';
+            scrollIndicator.style.display = 'none'; // Ensure complete removal
+          }, 500);
+          
+          // Mark as hidden permanently
+          indicatorHidden = true;
+        }
+      });
+    });
+    
+    function initAntibodies() {
+      const container = document.querySelector('.raining-antibodies');
+      container.innerHTML = '';
+      
+      const numAntibodies = 50;
+      for (let i = 0; i < numAntibodies; i++) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'antibody-wrapper';
+        wrapper.style.left = Math.random() * 100 + '%';
+        wrapper.style.top = -50 - Math.random() * 100 + 'px';
+        const duration = Math.random() * 7 + 12;
+        wrapper.style.animationDuration = duration + 's';
+        wrapper.style.animationDelay = "-" + (Math.random() * duration) + "s";
+        wrapper.style.setProperty('--drift', (Math.random() * 100 - 50).toFixed(0) + 'px');
+        wrapper.style.setProperty('--repelX', '0px');
+        wrapper.style.setProperty('--repelY', '0px');
+        wrapper.dataset.targetX = "0";
+        wrapper.dataset.targetY = "0";
+        
+        const img = document.createElement('img');
+        img.src = 'assets/ui/antibody.png';
+        img.className = 'antibody';
+        const size = Math.floor(Math.random() * 31) + 20;
+        img.style.width = size + 'px';
+        img.style.setProperty('--initialRotation', Math.random() * 720 + 'deg');
+        const spinDuration = Math.random() * 10 + 15;
+        img.style.animation = 'spin ' + spinDuration + 's linear infinite';
+        
+        wrapper.appendChild(img);
+        container.appendChild(wrapper);
+      }
     }
     
     document.addEventListener('mousemove', function(e) {
@@ -486,35 +613,6 @@
       requestAnimationFrame(smoothUpdate);
     }
     smoothUpdate();
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      const sections = document.querySelectorAll('.section-container');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.3 });
-      
-      sections.forEach(section => {
-        observer.observe(section);
-      });
-      
-      function checkScroll() {
-        const scrollPosition = window.scrollY;
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-          if (scrollPosition >= sectionTop - 300 && scrollPosition < sectionTop + sectionHeight - 300) {
-            section.classList.add('visible');
-          }
-        });
-      }
-      
-      window.addEventListener('scroll', checkScroll);
-      checkScroll();
-    });
   </script>
 </body>
 </html>

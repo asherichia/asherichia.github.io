@@ -137,7 +137,7 @@ html, body {
 
 .footer-social-container {
   display: flex;
-background-color: rgba(255, 255, 255, 0.01);
+background-color: rgba(0, 0, 0, 0.01);
   justify-content: center;
   align-items: center;
   gap: 1rem;
@@ -166,7 +166,7 @@ background-color: rgba(255, 255, 255, 0.01);
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.01);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
@@ -180,10 +180,11 @@ background-color: rgba(255, 255, 255, 0.01);
 
 /* Icon-specific hover colors */
 .footer-icon:nth-child(1):hover { color: #1DA1F2; } /* Twitter */
-.footer-icon:nth-child(2):hover { color: #0077B5; } /* LinkedIn */
-.footer-icon:nth-child(3):hover { color: #4285F4; } /* Google Scholar */
-.footer-icon:nth-child(4):hover { color: #333333; } /* GitHub */
-.footer-icon:nth-child(5):hover { color: #D44638; } /* Email */
+.footer-icon:nth-child(2):hover { color: #0285FF; } /* BlueSky */
+.footer-icon:nth-child(3):hover { color: #0077B5; } /* LinkedIn */
+.footer-icon:nth-child(4):hover { color: #4285F4; } /* Google Scholar */
+.footer-icon:nth-child(5):hover { color: #333333; } /* GitHub */
+.footer-icon:nth-child(6):hover { color: #D44638; } /* Email */
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
@@ -219,3 +220,32 @@ background-color: rgba(255, 255, 255, 0.01);
   50% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+
+
+/* Simple fix for antibodies falling behind footer */
+.raining-antibodies {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0; /* Keep this at 0 */
+  overflow: hidden;
+}
+
+/* Make sure footer appears above the antibodies */
+.modern-footer {
+  position: relative;
+  z-index: 5; /* Higher than antibodies (0) but lower than content (10) */
+}
+
+/* Ensure the page content stays above antibodies */
+.page-container {
+  position: relative;
+  z-index: 1; /* Above antibodies */
+}
+
+
+
