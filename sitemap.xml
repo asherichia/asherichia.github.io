@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://asherichia.github.io/index.html</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://asherichia.github.io/about.html</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://asherichia.github.io/research-grid-layout.html</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://asherichia.github.io/mpox.html</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://asherichia.github.io/h5n1-detail.html</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>0.64</priority>
+  </url>
+  <url>
+    <loc>https://asherichia.github.io/SBS-detail.html</loc>
+    <lastmod>2024-05-20</lastmod>
+    <priority>0.64</priority>
+  </url>
+</urlset>
