@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr Ash Otter - Lab Programmes</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Fix for gradient appearing as blocks instead of smooth gradient */
+    html {
+      min-height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) no-repeat fixed;
+      background-size: cover;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: transparent;
+    }
+    
+    /* Container for page content */
+    .page-container {
+      position: relative;
+      min-height: 100vh;
+      z-index: 1;
+    }
+    
+    /* Navigation */
+    .nav-container {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 0.9em;
+      border-radius: 4px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .nav-btn i {
+      margin-right: 8px;
+    }
+    
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+    }
+    
+    /* Header section */
+    .header-section {
+      text-align: center;
+      padding: 40px 20px;
+      color: white;
+    }
+    
+    .page-title {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .page-subtitle {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+    
+    .page-description {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.8;
+    }
+    
+    /* Programmes grid */
+    .programmes-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+    
+    .programmes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    /* Programme card */
+    .programme-card {
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .programme-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Card header container */
+    .card-image-container {
+      position: relative;
+      height: 120px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card-title-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+    
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .card-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    /* Card content */
+    .card-content {
+      padding: 25px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-description {
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #555;
+      flex-grow: 1;
+      line-height: 1.6;
+    }
+    
+    .programme-features {
+      margin-bottom: 20px;
+    }
+    
+    .features-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: #667eea;
+    }
+    
+    .feature-item {
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      padding-left: 15px;
+      position: relative;
+      line-height: 1.4;
+      color: #666;
+    }
+    
+    .feature-item:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+    }
+    
+    .launch-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      align-self: flex-start;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+    
+    .launch-btn i {
+      margin-left: 8px;
+    }
+    
+    .launch-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    
+    /* Status badge */
+    .status-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    
+    .status-badge.active {
+      background-color: rgba(34, 197, 94, 0.9);
+      color: white;
+    }
+    
+    .status-badge.development {
+      background-color: rgba(249, 115, 22, 0.9);
+      color: white;
+    }
+    
+    .status-badge.beta {
+      background-color: rgba(168, 85, 247, 0.9);
+      color: white;
+    }
+    
+    /* Falling antibodies animation */
+    .raining-antibodies {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .antibody-wrapper {
+      position: absolute;
+      animation: fall linear 15s infinite;
+      pointer-events: none;
+    }
+    
+    .antibody {
+      opacity: 0.7;
+    }
+    
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) translateX(0);
+      }
+      100% {
+        transform: translateY(120vh) translateX(var(--drift));
+      }
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(var(--initialRotation));
+      }
+      100% {
+        transform: rotate(calc(var(--initialRotation) + 1080deg));
+      }
+    }
+        
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+      
+      .programmes-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .card-image-container {
+        height: 160px;
+      }
+      
+      .card-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Container for the falling antibodies animation -->
+  <div class="raining-antibodies"></div>
+  
+  <!-- Main page container -->
+  <div class="page-container">
+    <!-- Navigation -->
+    <div class="nav-container">
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="research-grid-layout.html" class="nav-btn">
+          <i class="fas fa-flask"></i> Research
+        </a>
+      </div>
+    </div>
+    
+    <!-- Header section -->
+    <div class="header-section">
+      <h1 class="page-title">Lab Programmes</h1>
+      <p class="page-subtitle">Computational Tools & Data Analysis Platforms</p>
+      <p class="page-description">
+        A collection of specialized bioinformatics tools and data processing applications developed for immunology research, 
+        spanning from protein analysis to quality control monitoring systems.
+      </p>
+    </div>
+    
+    <!-- Programmes container -->
+    <div class="programmes-container">
+      <div class="programmes-grid">
+        
+        <!-- Alanine Scanning Programme -->
+        <div class="programme-card">
+          <div class="card-image-container">
+            <div class="status-badge active">Active</div>
+            <div class="card-title-overlay">
+              <div class="card-title">Alanine Scanning</div>
+              <div class="card-subtitle">Protein Mutagenesis Tool</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Python bioinformatics tool for systematic alanine scanning mutagenesis analysis. 
+              Processes FASTA sequences to generate comprehensive amino acid substitution reports 
+              for protein structure-function studies.
+            </p>
+            <div class="programme-features">
+              <div class="features-title">Key Features:</div>
+              <div class="feature-item">FASTA sequence processing</div>
+              <div class="feature-item">Systematic amino acid replacement</div>
+              <div class="feature-item">Automated report generation</div>
+              <div class="feature-item">Command-line interface</div>
+            </div>
+            <a href="alanine-scanning.html" class="launch-btn">
+              Launch Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- CSV Processor Programme -->
+        <div class="programme-card">
+          <div class="card-image-container">
+            <div class="status-badge active">Active</div>
+            <div class="card-title-overlay">
+              <div class="card-title">CSV Processor</div>
+              <div class="card-subtitle">Luminex Data Analysis Suite</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Comprehensive Python data processing suite for Luminex immunoassays with graphical user interface. 
+              Performs 4-parameter logistic curve fitting, background subtraction, and quality control analysis.
+            </p>
+            <div class="programme-features">
+              <div class="features-title">Key Features:</div>
+              <div class="feature-item">GUI-based file selection</div>
+              <div class="feature-item">4PL curve fitting with scipy</div>
+              <div class="feature-item">Hook effect detection</div>
+              <div class="feature-item">Quality control flagging</div>
+            </div>
+            <a href="csv-processor.html" class="launch-btn">
+              Launch Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- IQC Monitor Programme -->
+        <div class="programme-card">
+          <div class="card-image-container">
+            <div class="status-badge active">Active</div>
+            <div class="card-title-overlay">
+              <div class="card-title">IQC Monitor</div>
+              <div class="card-subtitle">Quality Control Dashboard</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              React.js quality control monitoring dashboard for laboratory processes. 
+              Features Levy-Jennings plots, statistical process control charts, 
+              and real-time data visualization with TailwindCSS styling.
+            </p>
+            <div class="programme-features">
+              <div class="features-title">Key Features:</div>
+              <div class="feature-item">Real-time data monitoring</div>
+              <div class="feature-item">Levy-Jennings plotting</div>
+              <div class="feature-item">CSV data import with PapaParse</div>
+              <div class="feature-item">Interactive Recharts visualization</div>
+            </div>
+            <a href="iqc-monitor.html" class="launch-btn">
+              Launch Dashboard <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Luminex Data Extractor Programme -->
+        <div class="programme-card">
+          <div class="card-image-container">
+            <div class="status-badge beta">Beta</div>
+            <div class="card-title-overlay">
+              <div class="card-title">Luminex Extractor</div>
+              <div class="card-subtitle">Advanced Data Analysis</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Standalone Python application for advanced Luminex data extraction and analysis. 
+              Provides automated analyte detection, efficiency calculations, and comprehensive 
+              quality assessment with visual validation plots.
+            </p>
+            <div class="programme-features">
+              <div class="features-title">Key Features:</div>
+              <div class="feature-item">Automated analyte detection</div>
+              <div class="feature-item">Standard curve validation</div>
+              <div class="feature-item">Efficiency calculations</div>
+              <div class="feature-item">Visual validation plots</div>
+            </div>
+            <a href="https://asherichia.github.io/LuminexDataExtractor_HTML/LuminexExtractorAnalyser.html" target="_blank" class="launch-btn">
+              Launch Tool <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="modern-footer">
+      <div class="footer-social-container">
+        <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky">
+          <i class="fas fa-cloud"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+          <i class="fas fa-graduation-cap"></i>
+        </a>
+        <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- JavaScript for animations -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initAntibodies();
+    });
+    
+    function initAntibodies() {
+      const container = document.querySelector('.raining-antibodies');
+      container.innerHTML = '';
+      
+      const numAntibodies = 50;
+      for (let i = 0; i < numAntibodies; i++) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'antibody-wrapper';
+        
+        // Random horizontal position
+        const left = Math.random() * 100;
+        wrapper.style.left = left + '%';
+        
+        // Random vertical starting position
+        const topOffset = -50 - Math.random() * 100;
+        wrapper.style.top = topOffset + 'px';
+        
+        // Random animation duration between 12 and 19 seconds
+        const duration = Math.random() * 7 + 12;
+        wrapper.style.animationDuration = duration + 's';
+        
+        // Negative random delay so animations are already in progress
+        const delay = "-" + (Math.random() * duration) + "s";
+        wrapper.style.animationDelay = delay;
+        
+        // Random horizontal drift between -50px and 50px
+        const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
+        wrapper.style.setProperty('--drift', drift);
+        
+        // Initialize attraction offsets
+        wrapper.style.setProperty('--repelX', '0px');
+        wrapper.style.setProperty('--repelY', '0px');
+        wrapper.dataset.targetX = "0";
+        wrapper.dataset.targetY = "0";
+        
+        // Create the antibody image element
+        const img = document.createElement('img');
+        img.src = 'assets/ui/antibody.png';
+        img.className = 'antibody';
+        
+        // Random size between 20 and 50 pixels
+        const size = Math.floor(Math.random() * 31) + 20;
+        img.style.width = size + 'px';
+        
+        // Random initial rotation
+        const rotation = Math.random() * 720 + 'deg';
+        img.style.setProperty('--initialRotation', rotation);
+        
+        // Continuous spin animation
+        const spinDuration = Math.random() * 10 + 15;
+        img.style.animation = 'spin ' + spinDuration + 's linear infinite';
+        
+        wrapper.appendChild(img);
+        container.appendChild(wrapper);
+      }
+      
+      document.addEventListener('mousemove', function(e) {
+        const wrappers = document.querySelectorAll('.antibody-wrapper');
+        wrappers.forEach(function(wrapper) {
+          const rect = wrapper.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const dx = e.clientX - centerX;
+          const dy = e.clientY - centerY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const threshold = 100;
+          let targetX = 0;
+          let targetY = 0;
+          if (distance < threshold) {
+            const force = (threshold - distance) / threshold * 80;
+            const angle = Math.atan2(dy, dx);
+            targetX = Math.cos(angle) * force;
+            targetY = Math.sin(angle) * force;
+          }
+          wrapper.dataset.targetX = targetX;
+          wrapper.dataset.targetY = targetY;
+        });
+      });
+      
+      function smoothUpdate() {
+        const wrappers = document.querySelectorAll('.antibody-wrapper');
+        wrappers.forEach(function(wrapper) {
+          let currentX = parseFloat(wrapper.style.getPropertyValue('--repelX')) || 0;
+          let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
+          let targetX = parseFloat(wrapper.dataset.targetX) || 0;
+          let targetY = parseFloat(wrapper.dataset.targetY) || 0;
+          const smoothing = 0.1;
+          let newX = currentX + smoothing * (targetX - currentX);
+          let newY = currentY + smoothing * (targetY - currentY);
+          wrapper.style.setProperty('--repelX', newX + 'px');
+          wrapper.style.setProperty('--repelY', newY + 'px');
+        });
+        requestAnimationFrame(smoothUpdate);
+      }
+      requestAnimationFrame(smoothUpdate);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Correlation Heatmap</title>
+  <!-- Include Plotly and PapaParse -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    #heatmap {
+      width: 100%;
+      height: 800px;
+    }
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .control-group {
+      margin-right: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Correlation Heatmap</h1>
+  
+  <div class="controls">
+    <div class="control-group">
+      <label for="groupFilter">Filter by Group:</label>
+      <select id="groupFilter">
+        <option value="">All Groups</option>
+        <!-- Options will be populated by JavaScript -->
+      </select>
+    </div>
+    
+    <div class="control-group">
+      <label for="sigThreshold">Significance Threshold:</label>
+      <select id="sigThreshold">
+        <option value="0.001">p &lt; 0.001</option>
+        <option value="0.01">p &lt; 0.01</option>
+        <option value="0.05" selected>p &lt; 0.05</option>
+        <option value="0.1">p &lt; 0.1</option>
+      </select>
+    </div>
+    
+    <div class="control-group">
+      <label>
+        <input type="checkbox" id="showSigOnly" checked>
+        Show Only Significant Correlations
+      </label>
+    </div>
+  </div>
+  
+  <div id="heatmap"></div>
+  
+  <script>
+    // Main data variables
+    let data = null;
+    let samples = [];
+    let groups = [];
+    let majorGroups = [];
+    let uniqueMajorGroups = [];
+    let correlationMatrix = [];
+    let pValueMatrix = [];
+    
+    // Major group mapping (from your R script)
+    const majorGroupMapping = {
+      "Pre": "Negatives",
+      "Negatives": "Negatives",
+      "PD1.1": "IMVANEX Dose 1",
+      "PD1.2": "IMVANEX Dose 1",
+      "PD1.3": "IMVANEX Dose 1",
+      "PD2.1": "IMVANEX Dose 2+",
+      "PD2.2": "IMVANEX Dose 2+",
+      "PD2.3": "IMVANEX Dose 2+",
+      "PD2.4": "IMVANEX Dose 2+",
+      "PD3": "IMVANEX Dose 2+",
+      "MVA": "MVA Vaccinated",
+      "ACAM": "ACAM2000 Vaccinated",
+      "MPX22": "MPXV Conv.",
+      "HistMPX": "MPXV Conv."
+    };
+    
+    // Group order (same as in R script)
+    const groupOrder = Object.keys(majorGroupMapping);
+    
+    // Function to calculate Pearson correlation
+    function pearsonCorrelation(x, y) {
+      // Filter out any NaN values (pairwise)
+      let validPairs = [];
+      for (let i = 0; i < x.length; i++) {
+        if (!isNaN(x[i]) && !isNaN(y[i])) {
+          validPairs.push([x[i], y[i]]);
+        }
+      }
+      
+      // Need at least 2 pairs for correlation
+      if (validPairs.length < 2) {
+        return NaN;
+      }
+      
+      // Extract valid pairs into separate arrays
+      const xValid = validPairs.map(pair => pair[0]);
+      const yValid = validPairs.map(pair => pair[1]);
+      
+      // Calculate means
+      const n = xValid.length;
+      const xMean = xValid.reduce((a, b) => a + b, 0) / n;
+      const yMean = yValid.reduce((a, b) => a + b, 0) / n;
+      
+      // Calculate covariance and variances
+      let covariance = 0;
+      let xVariance = 0;
+      let yVariance = 0;
+      
+      for (let i = 0; i < n; i++) {
+        const xDiff = xValid[i] - xMean;
+        const yDiff = yValid[i] - yMean;
+        covariance += xDiff * yDiff;
+        xVariance += xDiff * xDiff;
+        yVariance += yDiff * yDiff;
+      }
+      
+      // Check for zero variance
+      if (xVariance === 0 || yVariance === 0) {
+        return NaN;
+      }
+      
+      // Calculate correlation
+      return covariance / (Math.sqrt(xVariance) * Math.sqrt(yVariance));
+    }
+    
+    // Function to calculate p-values
+    function calculatePValue(r, n) {
+      if (isNaN(r)) return 1;
+      if (n < 3) return 1;
+      
+      // t-statistic: t = r * sqrt((n-2)/(1-r^2))
+      const t = r * Math.sqrt((n - 2) / (1 - r * r));
+      
+      // Simple p-value approximation (two-tailed t-test)
+      const pValue = 2 * (1 - Math.min(1, Math.exp(-Math.abs(t) * 0.7)));
+      
+      return pValue;
+    }
+    
+    // Function to process the CSV data
+    async function processData() {
+      try {
+        // Fetch the CSV file
+        const response = await fetch('/assets/data/Heatmap.csv');
+        const csvText = await response.text();
+        
+        // Parse the CSV
+        const result = Papa.parse(csvText, {
+          header: true,
+          dynamicTyping: true,
+          skipEmptyLines: true
+        });
+        
+        data = result.data;
+        
+        // Add major group to each row
+        data.forEach(row => {
+          row.MajorGroup = majorGroupMapping[row.Group] || row.Group;
+        });
+        
+        // Sort data by group order
+        data.sort((a, b) => {
+          const indexA = groupOrder.indexOf(a.Group);
+          const indexB = groupOrder.indexOf(b.Group);
+          return indexA - indexB;
+        });
+        
+        // Get numeric columns
+        const numericColumns = [];
+        for (const key in data[0]) {
+          if (typeof data[0][key] === 'number') {
+            numericColumns.push(key);
+          }
+        }
+        
+        // Extract samples, groups, major groups
+        samples = data.map(row => row.SampleNo);
+        groups = data.map(row => row.Group);
+        majorGroups = data.map(row => row.MajorGroup);
+        uniqueMajorGroups = [...new Set(majorGroups)];
+        
+        // Calculate correlation matrix
+        const n = data.length;
+        correlationMatrix = Array(n).fill().map(() => Array(n).fill(0));
+        pValueMatrix = Array(n).fill().map(() => Array(n).fill(0));
+        
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            // For diagonal, correlation is always 1
+            if (i === j) {
+              correlationMatrix[i][j] = 1;
+              pValueMatrix[i][j] = 0;
+              continue;
+            }
+            
+            // Extract numeric values for the two samples
+            const x = numericColumns.map(col => data[i][col]);
+            const y = numericColumns.map(col => data[j][col]);
+            
+            // Calculate Pearson correlation
+            const r = pearsonCorrelation(x, y);
+            correlationMatrix[i][j] = r;
+            
+            // Calculate p-value
+            // Count valid pairs for degrees of freedom
+            let validPairs = 0;
+            for (let k = 0; k < numericColumns.length; k++) {
+              if (!isNaN(data[i][numericColumns[k]]) && !isNaN(data[j][numericColumns[k]])) {
+                validPairs++;
+              }
+            }
+            
+            pValueMatrix[i][j] = calculatePValue(r, validPairs);
+          }
+        }
+        
+        // Populate group filter dropdown
+        const groupFilter = document.getElementById('groupFilter');
+        uniqueMajorGroups.forEach(group => {
+          const option = document.createElement('option');
+          option.value = group;
+          option.textContent = group;
+          groupFilter.appendChild(option);
+        });
+        
+        // Draw the initial heatmap
+        updateHeatmap();
+        
+        // Add event listeners for controls
+        document.getElementById('groupFilter').addEventListener('change', updateHeatmap);
+        document.getElementById('sigThreshold').addEventListener('change', updateHeatmap);
+        document.getElementById('showSigOnly').addEventListener('change', updateHeatmap);
+        
+      } catch (error) {
+        console.error("Error processing data:", error);
+        document.getElementById('heatmap').innerHTML = 
+          `<p style="color: red;">Error loading data: ${error.message}</p>`;
+      }
+    }
+    
+    // Function to update the heatmap based on current filters
+    function updateHeatmap() {
+      const selectedGroup = document.getElementById('groupFilter').value;
+      const sigThreshold = parseFloat(document.getElementById('sigThreshold').value);
+      const showSigOnly = document.getElementById('showSigOnly').checked;
+      
+      // Filter indices based on selected group
+      let filteredIndices = [];
+      for (let i = 0; i < samples.length; i++) {
+        if (!selectedGroup || majorGroups[i] === selectedGroup) {
+          filteredIndices.push(i);
+        }
+      }
+      
+      // Create filtered data
+      const filteredSamples = filteredIndices.map(i => samples[i]);
+      const filteredGroups = filteredIndices.map(i => groups[i]);
+      const filteredMajorGroups = filteredIndices.map(i => majorGroups[i]);
+      
+      // Create filtered correlation and p-value matrices
+      const filteredCorMatrix = filteredIndices.map(i => 
+        filteredIndices.map(j => correlationMatrix[i][j])
+      );
+      
+      const filteredPMatrix = filteredIndices.map(i => 
+        filteredIndices.map(j => pValueMatrix[i][j])
+      );
+      
+      // Apply significance filter if needed
+      const displayMatrix = filteredCorMatrix.map((row, i) => 
+        row.map((val, j) => 
+          (!showSigOnly || filteredPMatrix[i][j] <= sigThreshold) ? val : null
+        )
+      );
+      
+      // Group boundaries for annotations
+      const groupBoundaries = [];
+      let currentGroup = filteredMajorGroups[0];
+      let startIndex = 0;
+      
+      for (let i = 1; i <= filteredMajorGroups.length; i++) {
+        if (i === filteredMajorGroups.length || filteredMajorGroups[i] !== currentGroup) {
+          groupBoundaries.push({
+            group: currentGroup,
+            start: startIndex,
+            end: i - 1
+          });
+          if (i < filteredMajorGroups.length) {
+            currentGroup = filteredMajorGroups[i];
+            startIndex = i;
+          }
+        }
+      }
+      
+      // Create group annotations
+      const annotations = [];
+      
+      // X-axis group annotations
+      groupBoundaries.forEach(boundary => {
+        annotations.push({
+          x: (boundary.start + boundary.end) / 2,
+          y: filteredSamples.length,
+          xref: 'x',
+          yref: 'y',
+          text: boundary.group,
+          showarrow: false,
+          font: {
+            size: 12
+          },
+          textangle: 0
+        });
+      });
+      
+      // Y-axis group annotations
+      groupBoundaries.forEach(boundary => {
+        annotations.push({
+          x: -1,
+          y: (boundary.start + boundary.end) / 2,
+          xref: 'x',
+          yref: 'y',
+          text: boundary.group,
+          showarrow: false,
+          font: {
+            size: 12
+          },
+          textangle: 90
+        });
+      });
+      
+      // Create the heatmap data
+      const plotData = [{
+        z: displayMatrix,
+        x: filteredSamples,
+        y: filteredSamples,
+        type: 'heatmap',
+        colorscale: [
+          [0, 'blue'],
+          [0.5, 'white'],
+          [1, 'red']
+        ],
+        zmin: -1,
+        zmax: 1,
+        showscale: true,
+        colorbar: {
+          title: 'Correlation',
+          titleside: 'right'
+        },
+        hovertemplate: 'Sample 1: %{y}<br>Sample 2: %{x}<br>Correlation: %{z:.3f}<extra></extra>'
+      }];
+      
+      // Layout configuration
+      const layout = {
+        title: 'Significant Correlations Heatmap',
+        xaxis: {
+          title: '',
+          showticklabels: filteredSamples.length < 50, // Only show labels if not too many
+          tickangle: -45,
+          automargin: true
+        },
+        yaxis: {
+          title: '',
+          showticklabels: filteredSamples.length < 50,
+          automargin: true
+        },
+        annotations: annotations,
+        margin: {
+          l: 100,
+          r: 50,
+          t: 50,
+          b: 100
+        },
+        height: Math.max(600, filteredSamples.length * 10 + 200),
+        width: Math.max(800, filteredSamples.length * 10 + 200)
+      };
+      
+      // Config for modebar
+      const config = {
+        responsive: true,
+        displayModeBar: true,
+        modeBarButtonsToAdd: [
+          'drawline',
+          'drawopenpath',
+          'drawclosedpath',
+          'drawcircle',
+          'drawrect',
+          'eraseshape',
+          'toImage'
+        ],
+        displaylogo: false
+      };
+      
+      // Create the plot
+      Plotly.newPlot('heatmap', plotData, layout, config);
+    }
+    
+    // Load and process the data
+    document.addEventListener('DOMContentLoaded', processData);
+  </script>
+</body>
+</html>
