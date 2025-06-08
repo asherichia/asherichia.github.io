@@ -345,10 +345,9 @@
     <!-- Header section -->
     <div class="header-section">
       <h1 class="page-title">Lab Programmes</h1>
-      <p class="page-subtitle">Computational Tools & Data Analysis Platforms</p>
+      <p class="page-subtitle">Assortment of random tools for the lab/bioinformatics/data analysis, all to make life a bit easier and more stragithforward</p>
       <p class="page-description">
-        A collection of specialized bioinformatics tools and data processing applications developed for immunology research, 
-        spanning from protein analysis to quality control monitoring systems.
+        See         <a href="https://github.com/asherichia">Github</a> for further details.
       </p>
     </div>
     
@@ -359,64 +358,61 @@
         <!-- Alanine Scanning Programme -->
         <div class="programme-card">
           <div class="card-image-container">
-            <div class="status-badge active">Active</div>
             <div class="card-title-overlay">
               <div class="card-title">Alanine Scanning</div>
-              <div class="card-subtitle">Protein Mutagenesis Tool</div>
+              <div class="card-subtitle">Protein FASTA sequence mutagenesis tool</div>
             </div>
           </div>
           <div class="card-content">
             <p class="card-description">
-              Python bioinformatics tool for systematic alanine scanning mutagenesis analysis. 
-              Processes FASTA sequences to generate comprehensive amino acid substitution reports 
-              for protein structure-function studies.
+              Python bioinformatics tool for systematic alanine scanning mutagenesis analysis along a FASTA sequence to generate comprehensive amino acid substitution and sequences. Useful for downstream synthesis/bioinformatics structure-function studies.
             </p>
             <div class="programme-features">
               <div class="features-title">Key Features:</div>
-              <div class="feature-item">FASTA sequence processing</div>
-              <div class="feature-item">Systematic amino acid replacement</div>
-              <div class="feature-item">Automated report generation</div>
-              <div class="feature-item">Command-line interface</div>
+              <div class="feature-item">FASTA sequence input</div>
+              <div class="feature-item">Systematic amino acid replacement, single, double and triple mutants</div>
+              <div class="feature-item">Replaces naturally occurring Ala with Gly</div>
+              <div class="feature-item">Python</div>
             </div>
-            <a href="alanine-scanning.html" class="launch-btn">
+            <a href="https://github.com/asherichia/AlanineScanning" class="launch-btn">
               Launch Tool <i class="fas fa-external-link-alt"></i>
             </a>
           </div>
         </div>
         
-        <!-- CSV Processor Programme -->
+        <!-- Plate barcode scan parser -->
         <div class="programme-card">
           <div class="card-image-container">
-            <div class="status-badge active">Active</div>
+           <div class="status-badge beta">Beta</div>
             <div class="card-title-overlay">
-              <div class="card-title">CSV Processor</div>
-              <div class="card-subtitle">Luminex Data Analysis Suite</div>
+              <div class="card-title">File parser for plates</div>
+              <div class="card-subtitle">Tool for assigning samples to 96/384 well plate layouts</div>
             </div>
           </div>
           <div class="card-content">
             <p class="card-description">
-              Comprehensive Python data processing suite for Luminex immunoassays with graphical user interface. 
-              Performs 4-parameter logistic curve fitting, background subtraction, and quality control analysis.
+              Allows the assigning of imported sample lists (TXT or CSV) to either 96 or 384 well plate layouts. Can be used with plain lists, partially completed well locations, or fully mapped lists to produce standardised output files.
             </p>
             <div class="programme-features">
               <div class="features-title">Key Features:</div>
-              <div class="feature-item">GUI-based file selection</div>
-              <div class="feature-item">4PL curve fitting with scipy</div>
-              <div class="feature-item">Hook effect detection</div>
-              <div class="feature-item">Quality control flagging</div>
+              <div class="feature-item">96 or 384 well layouts</div>
+              <div class="feature-item">Automatic well detection/assignment</div>
+              <div class="feature-item">Plate visualisation once assigned</div>
+              <div class="feature-item">HTML in browser use</div>
             </div>
-            <a href="csv-processor.html" class="launch-btn">
+            <a href="https://asherichia.github.io/PlateFileParser/PlateParser.html" class="launch-btn">
               Launch Tool <i class="fas fa-external-link-alt"></i>
             </a>
           </div>
         </div>
-        
+
+
         <!-- IQC Monitor Programme -->
         <div class="programme-card">
           <div class="card-image-container">
-            <div class="status-badge active">Active</div>
+            <div class="status-badge beta">Beta</div>
             <div class="card-title-overlay">
-              <div class="card-title">IQC Monitor</div>
+              <div class="card-title">IQC HTML tracker</div>
               <div class="card-subtitle">Quality Control Dashboard</div>
             </div>
           </div>
@@ -444,22 +440,20 @@
           <div class="card-image-container">
             <div class="status-badge beta">Beta</div>
             <div class="card-title-overlay">
-              <div class="card-title">Luminex Extractor</div>
-              <div class="card-subtitle">Advanced Data Analysis</div>
+              <div class="card-title">Luminex Extractor and Analysis</div>
+              <div class="card-subtitle">Automated data analysis direct from CSV exports</div>
             </div>
           </div>
           <div class="card-content">
             <p class="card-description">
-              Standalone Python application for advanced Luminex data extraction and analysis. 
-              Provides automated analyte detection, efficiency calculations, and comprehensive 
-              quality assessment with visual validation plots.
+              Standalone HTML application for processing of Luminex data CSV files and analysis relative to standards. Provides automated analyte (bead) detection, efficiency calculations on standards, interpolation, hook/low quality standards, and visual plots.
             </p>
             <div class="programme-features">
               <div class="features-title">Key Features:</div>
-              <div class="feature-item">Automated analyte detection</div>
-              <div class="feature-item">Standard curve validation</div>
-              <div class="feature-item">Efficiency calculations</div>
-              <div class="feature-item">Visual validation plots</div>
+              <div class="feature-item">Process direct from Luminex exports</div>
+              <div class="feature-item">Standard curve validation through 4PL curve, with sample interpolation</div>
+              <div class="feature-item">Hook effect and low quality standards</div>
+              <div class="feature-item">Efficiency calculations and interpolation</div>
             </div>
             <a href="https://asherichia.github.io/LuminexDataExtractor_HTML/LuminexExtractorAnalyser.html" target="_blank" class="launch-btn">
               Launch Tool <i class="fas fa-external-link-alt"></i>
