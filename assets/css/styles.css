@@ -201,7 +201,7 @@ background-color: rgba(0, 0, 0, 0.01);
 
 /* Style for the typewriter text */
 #typewriter {
-  font-family: 'Roboto', sans-serif; /* Modern, sleek font */
+  font-family: 'Roboto Mono', monospace;
   font-size: 3em;
   display: inline-block; /* Ensures the ::after pseudo-element aligns correctly */
   /* Optionally add additional styling such as color, margin, etc. */

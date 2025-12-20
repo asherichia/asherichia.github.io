@@ -1,63 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <Title> Dr Ash Otter - </Title>
-  <meta name="description" content="I'm an immunologist working to understand emerging viruses and vaccines.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr Ash Otter - Microbiologist | Google DeepMind CBRNe</title>
+  <meta name="description" content="Microbiologist at Google DeepMind working on AI safety for microbiology risks. Experience in virology, immunology, and emerging viruses.">
+  <meta name="keywords" content="microbiology, virology, immunology, AI safety, emerging viruses, Google DeepMind, CBRNe">
+  <meta name="author" content="Dr Ash Otter">
   <meta name="google-site-verification" content="-4lgZhRwmxA9kxVl32wK2AEU_RMlHaou25VWVkQAyig" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://asherichia.github.io/">
+  <meta property="og:title" content="Dr Ash Otter - Microbiologist | Google DeepMind CBRNe">
+  <meta property="og:description" content="Microbiologist at Google DeepMind working on AI safety for microbiology risks. Experience in virology, immunology, and emerging viruses.">
+  <meta property="og:site_name" content="Dr Ash Otter">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@asherichia">
+  <meta name="twitter:title" content="Dr Ash Otter - Microbiologist | Google DeepMind CBRNe">
+  <meta name="twitter:description" content="Microbiologist at Google DeepMind working on AI safety for microbiology risks.">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://asherichia.github.io/">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/ui/virus-cursor.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <!-- Font Awesome for Social Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Added inline styles to fix the button layout issue -->
+  <!-- Shared Microbe Animation -->
+  <script src="assets/js/microbe-animation.js"></script>
   <style>
-    /* Hero buttons responsive fix */
-    .hero-buttons {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      overflow: hidden;
+      height: 100vh;
+      background: #f5f5f5;
+      position: relative;
+    }
+
+    .background-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 60px;
+      height: 100vh;
+      pointer-events: none;
+    }
+
+    .bio-box {
+      background: rgba(255, 255, 255, 0.98);
+      padding: 35px;
+      border-radius: 0;
+      border: 1px solid #333;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 750px;
+      backdrop-filter: blur(10px);
+      pointer-events: auto;
+      display: flex;
+      gap: 5px;
+      align-items: stretch;
+    }
+
+    .bio-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-right: 10px;
+    }
+
+    .bio-box h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 0;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .bio-box p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #333;
+      margin: 10px 0 0 0;
+    }
+
+    .profile-photo {
+      width: 210px;
+      height: auto;
+      border-radius: 0;
+      object-fit: cover;
+      border: 1px solid #333;
+      flex-shrink: 0;
+      margin-right: 0;
+      margin-left: 0;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .profile-photo:hover {
+      content: url('assets/team/profile_poke.jpg');
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
       margin-top: 20px;
-      padding: 0 10px;
     }
-    
-    .btn {
-      padding: 10px 0;
-      width: 140px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      color: white;
+
+    .simple-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid #333;
+      color: #000;
       text-decoration: none;
-      border-radius: 30px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      margin-bottom: 5px;
-      display: inline-block;
+      font-size: 13px;
+      font-family: 'Roboto Mono', monospace;
+      cursor: pointer;
+      transition: background 0.2s ease;
     }
-    
-    .btn:hover {
+
+    .simple-btn:hover {
+      background: #f0f0f0;
+    }
+
+    .microbe {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    .microbe-body {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .flagellum {
+      position: absolute;
       background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
+      transform-origin: left center;
     }
-    
-    @media (max-width: 480px) {
-      .hero-buttons {
-        gap: 10px;
-      }
-      
-      .btn {
-        width: 120px;
-        padding: 8px 0;
-        font-size: 0.9em;
-      }
+
+    .food-particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
     }
-    
+
+    /* Modern Footer Styles */
+    .modern-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 0;
+      background-color: #222;
+      z-index: 20;
+    }
+
+    .footer-social-container {
+      display: flex;
+      background-color: rgba(0, 0, 0, 0.01);
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      background-color: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .footer-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Icon-specific hover colors */
+    .footer-icon:nth-child(1):hover { color: #1DA1F2; }
+    .footer-icon:nth-child(2):hover { color: #0285FF; }
+    .footer-icon:nth-child(3):hover { color: #0077B5; }
+    .footer-icon:nth-child(4):hover { color: #4285F4; }
+    .footer-icon:nth-child(5):hover { color: #333333; }
+    .footer-icon:nth-child(6):hover { color: #D44638; }
+
     /* Easter Egg Hidden Eyes */
     .easter-egg {
       position: fixed;
@@ -72,7 +231,7 @@
       opacity: 0;
       transition: opacity 0.5s ease;
     }
-    
+
     .easter-egg-hover-area {
       position: fixed;
       bottom: 0;
@@ -81,12 +240,12 @@
       height: 80px;
       z-index: 999;
     }
-    
+
     .easter-egg-hover-area:hover + .easter-egg,
     .easter-egg:hover {
       opacity: 1;
     }
-    
+
     .eye {
       width: 16px;
       height: 16px;
@@ -95,7 +254,7 @@
       position: relative;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
-    
+
     .eye::after {
       content: "";
       position: absolute;
@@ -108,64 +267,105 @@
       transform: translate(-50%, -50%);
       transition: all 0.2s ease;
     }
-    
+
     .easter-egg:hover .eye::after {
       animation: look-around 2s infinite alternate;
     }
-    
+
     @keyframes look-around {
       0%, 100% { transform: translate(-50%, -50%); }
       25% { transform: translate(-30%, -60%); }
       50% { transform: translate(-70%, -50%); }
       75% { transform: translate(-50%, -30%); }
     }
+
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 30px;
+        justify-content: center;
+      }
+
+      .bio-box {
+        padding: 35px;
+        max-width: 90%;
+      }
+
+      .bio-box h1 {
+        font-size: 28px;
+      }
+
+      .bio-box .subtitle {
+        font-size: 16px;
+      }
+
+      .bio-box p {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content-wrapper {
+        padding: 20px;
+      }
+
+      .bio-box {
+        padding: 25px;
+      }
+
+      .bio-box h1 {
+        font-size: 24px;
+      }
+
+      .footer-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
-<body>
-  <div class="hero">
-    <!-- Container for falling antibodies -->
-    <div class="raining-antibodies"></div>
-    <div class="hero-content">
-    
-    <h1 id="typewriter"></h1>
-    
-      <!-- Profile Image -->
-      <div class="profile-container">
-        <img class="profile-image" src="assets/team/profile.jpg" alt="Dr Ash Otter" />
+<body data-auto-init-microbe data-microbe-obstacles=".bio-box" data-microbe-food-count="80" data-microbe-spawn-x="0.5" data-microbe-spawn-y="0.5">
+  <canvas class="background-canvas" id="canvas"></canvas>
+
+  <div class="content-wrapper">
+    <div class="bio-box">
+      <div class="bio-content">
+        <h1>Dr Ash Otter</h1>
+        <p>Interested in microbiology, AI, and understanding emerging viruses.</p>
+        <div class="button-row">
+          <a href="about.html" class="simple-btn">About</a>
+          <a href="research-experience.html" class="simple-btn">Research</a>
+          <a href="lab-programmes.html" class="simple-btn">Tools</a>
+          <a href="mailto:otterad@gmail.com" class="simple-btn">Contact</a>
+        </div>
       </div>
-      <p>I'm <b> Dr Ash Otter</b>, a scientist interested in all things microbiology, AI, <br>and working to understand emerging viruses and vaccines.</p>
-      <div class="hero-buttons">
-        <a href="about.html" class="btn">About</a>
-        <a href="research-grid-layout.html" class="btn">Research</a>
-                <a href="lab-programmes.html" class="btn">Tools</a>
-        <a href="mailto:ashley.otter@ukhsa.gov.uk" class="btn">Contact</a>
-      </div>
+      <img src="assets/team/profile.jpg" alt="Dr Ash Otter" class="profile-photo">
     </div>
   </div>
-  
-<!-- Footer -->
-<footer class="modern-footer">
-  <div class="footer-social-container">
-    <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
-      <i class="fab fa-twitter"></i>
-    </a>
-    <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky">
-      <i class="fas fa-cloud"></i>
-    </a>
-    <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
-      <i class="fab fa-linkedin-in"></i>
-    </a>
-    <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
-      <i class="fas fa-graduation-cap"></i>
-    </a>
-    <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
-      <i class="fab fa-github"></i>
-    </a>
-    <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
-      <i class="fas fa-envelope"></i>
-    </a>
-  </div>
-</footer>
+
+  <!-- Footer -->
+  <footer class="modern-footer">
+    <div class="footer-social-container">
+      <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky">
+        <i class="fas fa-cloud"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+      <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="mailto:otterad@gmail.com" class="footer-icon" aria-label="Email">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+  </footer>
 
   <!-- Easter Egg: Hidden Eyes -->
   <div class="easter-egg-hover-area"></div>
@@ -173,111 +373,6 @@
     <div class="eye"></div>
     <div class="eye"></div>
   </a>
-  
-  <!-- JavaScript to generate falling antibody images with smooth attraction -->
-  <script>
-    const container = document.querySelector('.raining-antibodies');
-    const numAntibodies = 50;
-    for (let i = 0; i < numAntibodies; i++) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'antibody-wrapper';
-      const left = Math.random() * 100;
-      wrapper.style.left = left + '%';
-      const topOffset = -50 - Math.random() * 100;
-      wrapper.style.top = topOffset + 'px';
-      const duration = Math.random() * 7 + 12;
-      wrapper.style.animationDuration = duration + 's';
-      const delay = "-" + (Math.random() * duration) + "s";
-      wrapper.style.animationDelay = delay;
-      const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
-      wrapper.style.setProperty('--drift', drift);
-      wrapper.style.setProperty('--repelX', '0px');
-      wrapper.style.setProperty('--repelY', '0px');
-      wrapper.dataset.targetX = "0";
-      wrapper.dataset.targetY = "0";
-      
-      const img = document.createElement('img');
-      img.src = 'assets/ui/antibody.png';
-      img.className = 'antibody';
-      const size = Math.floor(Math.random() * 31) + 20;
-      img.style.width = size + 'px';
-      const rotation = Math.random() * 720 + 'deg';
-      img.style.setProperty('--initialRotation', rotation);
-      const spinDuration = Math.random() * 10 + 15;
-      img.style.animation = 'spin ' + spinDuration + 's linear infinite';
-      
-      wrapper.appendChild(img);
-      container.appendChild(wrapper);
-    }
-    
-document.addEventListener('mousemove', function(e) {
-  const wrappers = document.querySelectorAll('.antibody-wrapper');
-  wrappers.forEach(function(wrapper) {
-    const rect = wrapper.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const dx = e.clientX - centerX;
-    const dy = e.clientY - centerY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const threshold = 100;
-    let targetX = parseFloat(wrapper.dataset.targetX) || 0;
-    let targetY = parseFloat(wrapper.dataset.targetY) || 0;
-    if (distance < threshold) {
-      const force = (threshold - distance) / threshold * 80;
-      const angle = Math.atan2(dy, dx);
-      targetX = Math.cos(angle) * force;
-      targetY = Math.sin(angle) * force;
-    } else {
-      // Instead of instantly resetting to 0, gradually decay the force
-      targetX *= 0.95;
-      targetY *= 0.95;
-      // Zero out very small values to prevent lingering minor offsets
-      if (Math.abs(targetX) < 0.1) targetX = 0;
-      if (Math.abs(targetY) < 0.1) targetY = 0;
-    }
-    wrapper.dataset.targetX = targetX;
-    wrapper.dataset.targetY = targetY;
-  });
-});
-    
-    function smoothUpdate() {
-      const wrappers = document.querySelectorAll('.antibody-wrapper');
-      wrappers.forEach(function(wrapper) {
-        let currentX = parseFloat(wrapper.style.getPropertyValue('--repelX')) || 0;
-        let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
-        let targetX = parseFloat(wrapper.dataset.targetX) || 0;
-        let targetY = parseFloat(wrapper.dataset.targetY) || 0;
-        const smoothing = 0.1;
-        let newX = currentX + smoothing * (targetX - currentX);
-        let newY = currentY + smoothing * (targetY - currentY);
-        wrapper.style.setProperty('--repelX', newX + 'px');
-        wrapper.style.setProperty('--repelY', newY + 'px');
-      });
-      requestAnimationFrame(smoothUpdate);
-    }
-    smoothUpdate();
-  </script>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const text = "Hello.";
-      let index = 0;
-      const speed = 200; // time between each character (in ms)
-      const delayBeforeStart = 1500; // delay before starting the effect (in ms)
-
-      function typeWriter() {
-        if (index < text.length) {
-          document.getElementById("typewriter").textContent += text.charAt(index);
-          index++;
-          setTimeout(typeWriter, speed);
-        }
-      }
-      
-      setTimeout(typeWriter, delayBeforeStart);
-    });
-  </script>
-
-
 
 </body>
 </html>

@@ -4,10 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dr Ash Otter - Lab Programmes</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/ui/virus-cursor.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Shared Microbe Animation -->
+  <script src="assets/js/microbe-animation.js"></script>
   <style>
     /* Base styles */
     * {
@@ -16,88 +22,103 @@
       padding: 0;
     }
     
-    /* Fix for gradient appearing as blocks instead of smooth gradient */
     html {
-      min-height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) no-repeat fixed;
-      background-size: cover;
+      scroll-behavior: smooth;
     }
-    
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      min-height: 100vh;
+      font-family: 'Roboto Mono', monospace;
       overflow-x: hidden;
-      background: transparent;
+      position: relative;
+      background: #f5f5f5;
     }
     
+    .background-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
     /* Container for page content */
     .page-container {
       position: relative;
       min-height: 100vh;
-      z-index: 1;
+      z-index: 10;
+      padding-top: 100px;
     }
-    
-    /* Navigation */
+
+    /* Floating Navigation Buttons */
     .nav-container {
-      padding: 20px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 10px;
     }
-    
+
     .nav-links {
       display: flex;
-      gap: 15px;
+      gap: 10px;
     }
-    
+
     .nav-btn {
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid #fff;
-      color: #fff;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #333;
+      color: #333;
       padding: 10px 20px;
       text-decoration: none;
-      font-size: 0.9em;
-      border-radius: 4px;
-      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 14px;
+      transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
     }
-    
+
     .nav-btn i {
       margin-right: 8px;
     }
-    
+
     .nav-btn:hover {
-      background: rgba(255, 255, 255, 0.4);
-      transform: translateY(-3px);
+      background: rgba(240, 240, 240, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     
     /* Header section */
     .header-section {
       text-align: center;
       padding: 40px 20px;
-      color: white;
-    }
-    
-    .page-title {
-      font-size: 3rem;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    
-    .page-subtitle {
-      font-size: 1.3rem;
-      opacity: 0.9;
-      margin-bottom: 20px;
-    }
-    
-    .page-description {
-      font-size: 1.1rem;
       max-width: 800px;
       margin: 0 auto;
-      opacity: 0.8;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #333;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .page-description {
+      font-size: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      color: #555;
     }
     
     /* Programmes grid */
@@ -105,6 +126,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px 60px;
+      position: relative;
     }
     
     .programmes-grid {
@@ -119,6 +141,7 @@
       background-color: white;
       border-radius: 12px;
       overflow: hidden;
+      border: 1px solid #333;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       height: 100%;
@@ -135,11 +158,12 @@
     .card-image-container {
       position: relative;
       height: 140px;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+      background: #f0f0f0;
       overflow: visible;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-bottom: 2px solid #333;
     }
     
     .card-title-overlay {
@@ -147,9 +171,8 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
       padding: 35px 25px;
-      color: white;
+      color: #333;
       text-align: center;
       min-height: 100px;
       display: flex;
@@ -158,7 +181,7 @@
     }
     
     .card-title {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 600;
       margin-bottom: 5px;
     }
@@ -193,7 +216,7 @@
       font-weight: 600;
       font-size: 0.9rem;
       margin-bottom: 10px;
-      color: #667eea;
+      color: #333;
     }
     
     .feature-item {
@@ -212,102 +235,204 @@
       top: 8px;
       width: 6px;
       height: 6px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: #333;
       border-radius: 50%;
     }
     
     .launch-btn {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: #333;
       color: white;
-      border: none;
+      border: 2px solid #333;
       padding: 12px 24px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 500;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: all 0.3s ease;
       align-self: flex-start;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       font-size: 0.95rem;
     }
-    
+
     .launch-btn i {
       margin-left: 8px;
     }
-    
+
     .launch-btn:hover {
-      opacity: 0.9;
+      background: white;
+      color: #333;
       transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     
     /* Status badge */
     .status-badge {
       position: absolute;
-      top: 15px;
+      top: 8px;
       right: 15px;
       padding: 5px 12px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      font-weight: 500;
+      border-radius: 2px;
+      font-size: 0.75rem;
+      font-weight: 600;
       text-transform: uppercase;
+      border: 1px solid #333;
+      background-color: white;
+      color: #333;
+      letter-spacing: 0.5px;
     }
-    
+
     .status-badge.active {
-      background-color: rgba(34, 197, 94, 0.9);
+      background-color: #333;
       color: white;
+      border-color: #333;
     }
-    
+
     .status-badge.development {
-      background-color: rgba(249, 115, 22, 0.9);
+      background-color: #666;
       color: white;
+      border-color: #666;
     }
-    
+
     .status-badge.beta {
-      background-color: rgba(168, 85, 247, 0.9);
-      color: white;
+      background-color: white;
+      color: #333;
+      border-color: #333;
     }
     
-    /* Falling antibodies animation */
-    .raining-antibodies {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* Microbe canvas styles */
+    .microbe {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    .microbe-body {
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      border-radius: 50%;
+      position: relative;
     }
-    
-    .antibody-wrapper {
+
+    .flagellum {
       position: absolute;
-      animation: fall linear 15s infinite;
-      pointer-events: none;
+      background: rgba(255, 255, 255, 0.3);
+      transform-origin: left center;
     }
-    
-    .antibody {
-      opacity: 0.7;
+
+    .food-particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
     }
-    
-    @keyframes fall {
-      0% {
-        transform: translateY(-100px) translateX(0);
-      }
-      100% {
-        transform: translateY(120vh) translateX(var(--drift));
-      }
+
+    /* Modern Footer Styles */
+    .modern-footer {
+      position: relative;
+      z-index: 20;
+      padding: 1rem 0;
+      background-color: #222;
+      margin-top: 40px;
     }
-    
-    @keyframes spin {
-      0% {
-        transform: rotate(var(--initialRotation));
-      }
-      100% {
-        transform: rotate(calc(var(--initialRotation) + 1080deg));
-      }
+
+    .footer-social-container {
+      display: flex;
+      background-color: rgba(0, 0, 0, 0.01);
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
     }
-        
+
+    .footer-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      background-color: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .footer-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Icon-specific hover colors */
+    .footer-icon:nth-child(1):hover { color: #1DA1F2; }
+    .footer-icon:nth-child(2):hover { color: #0285FF; }
+    .footer-icon:nth-child(3):hover { color: #0077B5; }
+    .footer-icon:nth-child(4):hover { color: #4285F4; }
+    .footer-icon:nth-child(5):hover { color: #333333; }
+    .footer-icon:nth-child(6):hover { color: #D44638; }
+
+    /* Easter Egg Hidden Eyes */
+    .easter-egg {
+      position: fixed;
+      bottom: 5px;
+      right: 5px;
+      width: 40px;
+      height: 20px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .easter-egg-hover-area {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      z-index: 999;
+    }
+
+    .easter-egg-hover-area:hover + .easter-egg,
+    .easter-egg:hover {
+      opacity: 1;
+    }
+
+    .eye {
+      width: 16px;
+      height: 16px;
+      background-color: white;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .eye::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background-color: #333;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s ease;
+    }
+
+    .easter-egg:hover .eye::after {
+      animation: look-around 2s infinite alternate;
+    }
+
+    @keyframes look-around {
+      0%, 100% { transform: translate(-50%, -50%); }
+      25% { transform: translate(-30%, -60%); }
+      50% { transform: translate(-70%, -50%); }
+      75% { transform: translate(-50%, -30%); }
+    }
+
     /* Responsive design */
     @media (max-width: 768px) {
       .page-title {
@@ -329,10 +454,9 @@
     }
   </style>
 </head>
-<body>
-  <!-- Container for the falling antibodies animation -->
-  <div class="raining-antibodies"></div>
-  
+<body data-auto-init-microbe data-microbe-obstacles=".tool-card" data-microbe-food-count="80" data-microbe-spawn-x="0.2" data-microbe-spawn-y="0.5">
+  <canvas class="background-canvas" id="canvas"></canvas>
+
   <!-- Main page container -->
   <div class="page-container">
     <!-- Navigation -->
@@ -341,7 +465,7 @@
         <a href="index.html" class="nav-btn">
           <i class="fas fa-home"></i> Home
         </a>
-        <a href="research-grid-layout.html" class="nav-btn">
+        <a href="research-experience.html" class="nav-btn">
           <i class="fas fa-flask"></i> Research
         </a>
       </div>
@@ -414,6 +538,7 @@
         <!-- Alanine Scanning Programme -->
         <div class="programme-card">
           <div class="card-image-container">
+            <div class="status-badge beta">Beta</div>
             <div class="card-title-overlay">
               <div class="card-title">Alanine Scanning</div>
               <div class="card-subtitle">Protein FASTA sequence mutagenesis tool</div>
@@ -466,7 +591,7 @@
         <!-- CAULDRON Programme -->
         <div class="programme-card">
           <div class="card-image-container">
-            <div class="status-badge active">Active</div>
+            <div class="status-badge beta">Beta</div>
             <div class="card-title-overlay">
               <div class="card-title">CAULDRON</div>
               <div class="card-subtitle">Curve Analysis Using Luminex Data for IC50 and neutRalisatiON</div>
@@ -544,109 +669,13 @@
       </div>
     </footer>
   </div>
-  
-  <!-- JavaScript for animations -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      initAntibodies();
-    });
-    
-    function initAntibodies() {
-      const container = document.querySelector('.raining-antibodies');
-      container.innerHTML = '';
-      
-      const numAntibodies = 50;
-      for (let i = 0; i < numAntibodies; i++) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'antibody-wrapper';
-        
-        // Random horizontal position
-        const left = Math.random() * 100;
-        wrapper.style.left = left + '%';
-        
-        // Random vertical starting position
-        const topOffset = -50 - Math.random() * 100;
-        wrapper.style.top = topOffset + 'px';
-        
-        // Random animation duration between 12 and 19 seconds
-        const duration = Math.random() * 7 + 12;
-        wrapper.style.animationDuration = duration + 's';
-        
-        // Negative random delay so animations are already in progress
-        const delay = "-" + (Math.random() * duration) + "s";
-        wrapper.style.animationDelay = delay;
-        
-        // Random horizontal drift between -50px and 50px
-        const drift = (Math.random() * 100 - 50).toFixed(0) + 'px';
-        wrapper.style.setProperty('--drift', drift);
-        
-        // Initialize attraction offsets
-        wrapper.style.setProperty('--repelX', '0px');
-        wrapper.style.setProperty('--repelY', '0px');
-        wrapper.dataset.targetX = "0";
-        wrapper.dataset.targetY = "0";
-        
-        // Create the antibody image element
-        const img = document.createElement('img');
-        img.src = 'assets/ui/antibody.png';
-        img.className = 'antibody';
-        
-        // Random size between 20 and 50 pixels
-        const size = Math.floor(Math.random() * 31) + 20;
-        img.style.width = size + 'px';
-        
-        // Random initial rotation
-        const rotation = Math.random() * 720 + 'deg';
-        img.style.setProperty('--initialRotation', rotation);
-        
-        // Continuous spin animation
-        const spinDuration = Math.random() * 10 + 15;
-        img.style.animation = 'spin ' + spinDuration + 's linear infinite';
-        
-        wrapper.appendChild(img);
-        container.appendChild(wrapper);
-      }
-      
-      document.addEventListener('mousemove', function(e) {
-        const wrappers = document.querySelectorAll('.antibody-wrapper');
-        wrappers.forEach(function(wrapper) {
-          const rect = wrapper.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          const dx = e.clientX - centerX;
-          const dy = e.clientY - centerY;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const threshold = 100;
-          let targetX = 0;
-          let targetY = 0;
-          if (distance < threshold) {
-            const force = (threshold - distance) / threshold * 80;
-            const angle = Math.atan2(dy, dx);
-            targetX = Math.cos(angle) * force;
-            targetY = Math.sin(angle) * force;
-          }
-          wrapper.dataset.targetX = targetX;
-          wrapper.dataset.targetY = targetY;
-        });
-      });
-      
-      function smoothUpdate() {
-        const wrappers = document.querySelectorAll('.antibody-wrapper');
-        wrappers.forEach(function(wrapper) {
-          let currentX = parseFloat(wrapper.style.getPropertyValue('--repelX')) || 0;
-          let currentY = parseFloat(wrapper.style.getPropertyValue('--repelY')) || 0;
-          let targetX = parseFloat(wrapper.dataset.targetX) || 0;
-          let targetY = parseFloat(wrapper.dataset.targetY) || 0;
-          const smoothing = 0.1;
-          let newX = currentX + smoothing * (targetX - currentX);
-          let newY = currentY + smoothing * (targetY - currentY);
-          wrapper.style.setProperty('--repelX', newX + 'px');
-          wrapper.style.setProperty('--repelY', newY + 'px');
-        });
-        requestAnimationFrame(smoothUpdate);
-      }
-      requestAnimationFrame(smoothUpdate);
-    }
-  </script>
+
+  <!-- Easter Egg: Hidden Eyes -->
+  <div class="easter-egg-hover-area"></div>
+  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="easter-egg">
+    <div class="eye"></div>
+    <div class="eye"></div>
+  </a>
+
 </body>
 </html>
