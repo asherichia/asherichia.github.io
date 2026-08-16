@@ -31,7 +31,11 @@ function initMicrobeAnimation(options = {}) {
     obstacleSelectors: options.obstacleSelectors || ['.header-section', '.post-card', '.blog-article'],
     microbeSpawnX: options.microbeSpawnX !== undefined ? options.microbeSpawnX : 0.2, // fraction of canvas width
     microbeSpawnY: options.microbeSpawnY !== undefined ? options.microbeSpawnY : 0.5, // fraction of canvas height
+    // Overall size of the microbe. Smaller on phones, where it otherwise fills the screen.
+    microbeScale: options.microbeScale !== undefined ? options.microbeScale
+                  : (window.innerWidth < 768 ? 0.45 : 0.62),
   };
+  const S = config.microbeScale;
 
   // Mouse event listeners
   canvas.addEventListener('mousemove', (e) => {
@@ -58,8 +62,8 @@ function initMicrobeAnimation(options = {}) {
     constructor() {
       this.x = canvas.width / 2;
       this.y = canvas.height / 2;
-      this.width = 140;
-      this.height = 80;
+      this.width = 140 * S;
+      this.height = 80 * S;
       this.targetX = this.x;
       this.targetY = this.y;
       this.velocityX = 0;
@@ -74,10 +78,10 @@ function initMicrobeAnimation(options = {}) {
       this.currentTarget = null; // Track current food target to prevent jumping
 
       this.phagosome = {
-        x: -35,
+        x: -35 * S,
         y: 0,
         particles: [],
-        phagosomeRadius: 20
+        phagosomeRadius: 20 * S
       };
 
       // Initialize ruffle offsets
@@ -95,7 +99,7 @@ function initMicrobeAnimation(options = {}) {
         const angleVariation = (Math.random() - 0.5) * 0.15;
         this.flagella.push({
           angle: baseAngle + angleVariation,
-          length: 20 + Math.random() * 10,
+          length: (20 + Math.random() * 10) * S,
           waveOffset: Math.random() * Math.PI * 2,
           waveSpeed: 0.08 + Math.random() * 0.06
         });
@@ -107,20 +111,20 @@ function initMicrobeAnimation(options = {}) {
         let validPosition = false;
         while (!validPosition) {
           const angle = Math.random() * Math.PI * 2;
-          const radiusX = (Math.random() * (this.width / 2 - 10));
-          const radiusY = (Math.random() * (this.height / 2 - 10));
+          const radiusX = (Math.random() * (this.width / 2 - 10 * S));
+          const radiusY = (Math.random() * (this.height / 2 - 10 * S));
           dotX = Math.cos(angle) * radiusX;
           dotY = Math.sin(angle) * radiusY;
           const distFromPhagosome = Math.hypot(dotX - this.phagosome.x, dotY - this.phagosome.y);
-          const isInFrontZone = dotX > (this.width / 2 - 25) && Math.abs(dotY) < 20;
-          if (distFromPhagosome > this.phagosome.phagosomeRadius + 5 && !isInFrontZone) {
+          const isInFrontZone = dotX > (this.width / 2 - 25 * S) && Math.abs(dotY) < 20 * S;
+          if (distFromPhagosome > this.phagosome.phagosomeRadius + 5 * S && !isInFrontZone) {
             validPosition = true;
           }
         }
         this.cytoplasmicDots.push({
           x: dotX,
           y: dotY,
-          size: 1 + Math.random() * 1.5
+          size: (1 + Math.random() * 1.5) * S
         });
       }
     }
@@ -129,6 +133,7 @@ function initMicrobeAnimation(options = {}) {
       let nearest = null;
       let minDist = Infinity;
       foodParticles.forEach(food => {
+        if (food === this.ignoredTarget) return; // just gave up on this one
         if (!food.eaten && !food.engulfing) {
           const dist = Math.hypot(food.x - this.x, food.y - this.y);
           if (dist < minDist && dist < 300) {
@@ -171,6 +176,18 @@ function initMicrobeAnimation(options = {}) {
         // Find new target if we don't have one
         if (!this.currentTarget) {
           this.currentTarget = this.findNearestFood(foodParticles);
+          this.targetPursuitFrames = 0;
+        } else {
+          // Eating needs food inside a 15-degree cone, so a target approached at a
+          // bad angle can be circled indefinitely. Give up rather than jitter on it.
+          this.targetPursuitFrames = (this.targetPursuitFrames || 0) + deltaTime;
+          if (this.targetPursuitFrames > 240) {
+            this.ignoredTarget = this.currentTarget;
+            this.currentTarget = null;
+            this.targetPursuitFrames = 0;
+            this.targetX = Math.random() * canvas.width;
+            this.targetY = Math.random() * canvas.height;
+          }
         }
 
         const targetFood = this.currentTarget;
@@ -188,7 +205,7 @@ function initMicrobeAnimation(options = {}) {
           const isFrontFacing = Math.abs(angleDiff) < Math.PI / 12; // 15 degree cone (7.5° each side)
           const dist = Math.hypot(dx, dy);
 
-          if (isFrontFacing && dist < this.width / 2 + 15) {
+          if (isFrontFacing && dist < this.width / 2 + 15 * S) {
             targetFood.engulfing = true;
             targetFood.engulfProgress = 0;
             // Store relative offsets (dx, dy) like the backup does
@@ -655,6 +672,23 @@ function initMicrobeAnimation(options = {}) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const currentObstacles = getObstacles();
+
+    // Obstacle rects are viewport-relative, so scrolling (or an accordion opening)
+    // can leave food stranded behind a content box. Move any that ends up there,
+    // otherwise the microbe hovers over the card chasing food it can never reach.
+    foodParticles.forEach((food, index) => {
+      if (food.eaten || food.engulfing) return;
+      if (!isInsideObstacle(food.x, food.y, currentObstacles, 30)) return;
+      for (let attempt = 0; attempt < 30; attempt++) {
+        const candidate = new FoodParticle();
+        if (!isInsideObstacle(candidate.x, candidate.y, currentObstacles, 30) &&
+            Math.hypot(candidate.x - microbe.x, candidate.y - microbe.y) > 100) {
+          if (microbe.currentTarget === food) microbe.currentTarget = null;
+          foodParticles[index] = candidate;
+          break;
+        }
+      }
+    });
 
     // Respawn eaten food particles
     foodParticles.forEach((food, index) => {

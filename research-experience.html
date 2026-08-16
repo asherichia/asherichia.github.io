@@ -1,553 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dr Ash Otter - Research & Experience</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/ui/virus-cursor.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
-    <!-- Font Awesome for icons (minimal use) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr Ash Otter - Work</title>
+  <meta name="description" content="Work across AI safety for microbiology, mpox and orthopoxvirus immunity, SARS-CoV-2 serology, high-throughput assay development, and zoonotic spillover.">
+  <!-- Preload the hover/tap swap image so the first hover doesn't flicker -->
+  <link rel="preload" as="image" href="assets/team/profile_poke.jpg">
+  <link rel="icon" type="image/png" href="assets/ui/virus-cursor.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Shared Microbe Animation -->
-    <script src="assets/js/microbe-animation.js"></script>
-    <style>
-        /* Base styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <script src="assets/js/microbe-animation.js"></script>
+  <style>
+    :root {
+      --c-blue:  #4a7ba7;
+      --c-green: #5f8d5b;
+      --c-amber: #b0863c;
+      --c-pink:  #b06079;
+      --c-teal:  #3f8b87;
+    }
 
-        body {
-            font-family: 'Roboto Mono', monospace;
-            line-height: 1.6;
-            color: #333;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background: #f5f5f5;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-        .background-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: #f5f5f5; color: #333;
+      overflow-x: hidden; position: relative;
+      display: flex; flex-direction: column; min-height: 100vh;
+    }
 
-        /* Container for page content */
-        .page-container {
-            position: relative;
-            flex: 1;
-            /* Pushes footer down */
-            z-index: 10;
-            padding-top: 100px;
-            padding-bottom: 40px;
-            /* Adjusted for relative footer */
-        }
+    .background-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+      pointer-events: none;
+    }
+    @media (hover: hover) and (pointer: fine) { .background-canvas { pointer-events: auto; } }
 
-        /* Floating Navigation Buttons */
-        .nav-container {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-            display: flex;
-            gap: 10px;
-        }
+    .nav-container {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 12px 20px;
+      background: rgba(245,245,245,.85);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #ddd;
+    }
+    .home-btn {
+      background: rgba(255,255,255,.95); border: 1px solid #333; color: #333;
+      padding: 8px 18px; text-decoration: none; font-size: 14px;
+      display: inline-flex; align-items: center; min-height: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1); transition: all .3s ease;
+    }
+    .home-btn i { margin-right: 8px; }
+    .home-btn:hover { background: rgba(240,240,240,.95); transform: translateY(-2px); }
 
-        .home-btn {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #333;
-            color: #333;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(10px);
-        }
+    .layout {
+      position: relative; z-index: 10; flex: 1; width: 100%;
+      max-width: 1060px; margin: 0 auto; padding: 100px 20px 40px;
+      display: grid; grid-template-columns: 300px 1fr; gap: 24px;
+      align-content: start;
+    }
 
-        .home-btn i {
-            margin-right: 8px;
-        }
+    .panel {
+      background: rgba(252,252,252,.82);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid #333; box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
 
-        .home-btn:hover {
-            background: rgba(240, 240, 240, 0.95);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
+    /* --- Sticky contents rail --- */
+    .rail {
+      position: sticky; top: 84px; align-self: start; padding: 22px;
+      /* rail is taller than the viewport on short screens, so let it scroll */
+      max-height: calc(100vh - 104px);
+      overflow-y: auto;
+    }
 
-        /* Intro section */
-        .intro-container {
-            padding: 0 20px 60px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    /* --- Identity block, matching the About page sidebar --- */
+    .rail img {
+      width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 25%;
+      border: 1px solid #333; display: block; margin-bottom: 14px; cursor: pointer;
+    }
+    .rail img:hover { content: url('assets/team/profile_poke.jpg'); }
+    @media (hover: none) { .rail img:active { content: url('assets/team/profile_poke.jpg'); } }
 
-        .intro-title {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #111;
-            font-weight: 400;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-        }
+    .rail h1 { font-size: 22px; line-height: 1.25; margin-bottom: 4px; }
 
-        .intro-text {
-            font-size: 1.1rem;
-            color: #666;
-            width: 100%;
-            font-weight: 400;
-        }
+    .rail .role { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 14px; }
+    .rail .role strong { color: #333; font-weight: 700; }
 
-        /* Filter options */
-        .filter-container {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e0e0e0;
-            max-width: 900px;
-            margin: 0 auto 40px;
-            padding: 0 20px 20px;
-        }
+    .rail .mini {
+      font-size: 13px; line-height: 1.6; color: #555;
+      padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid #ddd;
+    }
 
-        .filter-btn {
-            background: transparent;
-            border: none;
-            color: #999;
-            padding: 0;
-            font-family: 'Roboto Mono', monospace;
-            font-size: 14px;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            position: relative;
-        }
+    .rail .lbl {
+      font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase;
+      color: #aaa; margin-bottom: 12px;
+    }
+    .toc { list-style: none; }
+    .toc a {
+      display: flex; align-items: baseline; gap: 9px;
+      padding: 6px 8px; font-size: 12px; color: #666; text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .toc .n { font-size: 10px; color: #bbb; }
+    .toc a:hover { color: #111; background: rgba(255,255,255,.6); }
+    .toc a.active {
+      color: #111; font-weight: 700;
+      border-left-color: var(--tint, #333); background: rgba(255,255,255,.75);
+    }
+    .toc a.active .n { color: var(--tint, #999); }
 
-        .filter-btn:hover {
-            color: #333;
-        }
+    .scholar {
+      margin-top: 14px; padding-top: 12px; border-top: 1px solid #ddd;
+      font-size: 11px; line-height: 1.6; color: #777;
+    }
+    .scholar a { color: #111; text-decoration: none; border-bottom: 1px solid #bbb; }
+    .scholar a:hover { border-bottom-color: #111; }
 
-        .filter-btn.active {
-            color: #333;
-            font-weight: 700;
-        }
+    /* --- Continuous articles --- */
+    .stream { min-width: 0; display: grid; gap: 24px; }
 
-        .filter-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #333;
-        }
+    .art {
+      padding: 28px; scroll-margin-top: 92px;
+      border-left: 3px solid var(--tint, #333);
+      background: rgba(252,252,252,.82);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid #333; border-right: 1px solid #333; border-bottom: 1px solid #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .art.in { opacity: 1; transform: none; }
 
-        /* Minimal List Layout */
-        .list-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    .art-head {
+      display: grid; grid-template-columns: 46px 1fr auto; gap: 14px;
+      align-items: start; cursor: pointer; user-select: none;
+      padding-bottom: 0; border-bottom: 1px solid transparent;
+      transition: border-color .3s ease, padding-bottom .3s ease, margin-bottom .3s ease;
+    }
+    .art-head:hover h2 { color: var(--tint, #111); }
+    .art-head:focus-visible { outline: 2px solid var(--tint, #333); outline-offset: 4px; }
 
-        .list-item {
-            border-bottom: 1px solid #000;
-            transition: background-color 0.2s ease;
-        }
+    /* Rule and spacing only once the section is open */
+    .art.open .art-head {
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom-color: #e2e2e2;
+    }
 
-        .list-item:first-child {
-            border-top: 1px solid #000;
-        }
+    .tog {
+      font-size: 15px; color: var(--tint, #999); line-height: 1;
+      padding-top: 4px; transition: transform .3s ease;
+    }
+    .art.open .tog { transform: rotate(45deg); }
 
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 0;
-            cursor: pointer;
-            gap: 20px;
-        }
+    .art-body {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .45s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+    }
+    .art.open .art-body { opacity: 1; }
+    .num { font-size: 22px; color: var(--tint, #ccc); line-height: 1; padding-top: 2px; }
+    .art h2 { font-size: 20px; line-height: 1.3; margin-bottom: 5px; transition: color .25s ease; }
+    .wmeta { font-size: 12.5px; color: #888; }
 
-        .list-item:hover .item-header {
-            opacity: 0.7;
-        }
+    .wbody { font-size: 14px; line-height: 1.75; color: #4a4a4a; }
+    .wbody p { margin-bottom: 10px; text-align: justify; }
+    .wbody h3 {
+      font-size: 14px; font-weight: 700; color: #333; margin: 20px 0 8px;
+      padding-left: 10px; border-left: 2px solid var(--tint, #ccc);
+    }
+    .wbody ul { list-style: none; margin-bottom: 14px; }
+    .wbody li { position: relative; padding-left: 16px; margin-bottom: 5px; }
+    .wbody li::before { content: '-'; position: absolute; left: 0; color: var(--tint, #999); }
+    .wbody .papers { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc; }
+    .wbody .papers > h3:first-child { margin-top: 0; }
+    .wbody .papers ol { list-style: none; font-size: 12.5px; line-height: 1.55; }
+    .wbody .papers li { margin-bottom: 9px; padding-left: 15px; }
+    .wbody .papers li::before { content: '>'; color: #999; }
+    .wbody .papers a { color: #111; text-decoration: none; border-bottom: 1px solid #bbb; }
+    .wbody .papers a:hover { border-bottom-color: var(--tint, #111); background: #f0f0f0; }
+    .wbody .venue { color: #888; }
 
-        .item-title-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            flex-grow: 1;
-        }
+    .modern-footer { position: relative; z-index: 20; padding: 1rem 0; background: #222; margin-top: 40px; }
+    .footer-social-container { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+    .footer-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 3rem; height: 3rem; border-radius: 50%; color: #fff; font-size: 1.2rem;
+      background: rgba(255,255,255,.4); text-decoration: none; transition: all .3s ease;
+    }
+    .footer-icon:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,.2); }
+    .footer-icon:nth-child(1):hover { color: #1DA1F2; }
+    .footer-icon:nth-child(2):hover { color: #0285FF; }
+    .footer-icon:nth-child(3):hover { color: #0077B5; }
+    .footer-icon:nth-child(4):hover { color: #4285F4; }
+    .footer-icon:nth-child(5):hover { color: #333333; }
+    .footer-icon:nth-child(6):hover { color: #D44638; }
 
-        .item-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #111;
-        }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; padding: 80px 16px 30px; gap: 24px; }
+      .nav-container { padding: 10px 16px; }
+      .rail { position: static; max-height: none; overflow: visible; }
+      .rail img { width: 140px; float: left; margin: 0 16px 10px 0; }
+      /* grid/flow below the float must clear it */
+      .rail .mini, .toc { clear: both; }
+      .toc { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 8px; }
+      .art { padding: 20px 18px; }
+      .art-head { grid-template-columns: 34px 1fr; gap: 10px; }
+      .num { font-size: 17px; }
+      .wbody p { text-align: left; }
+      .footer-icon { width: 2.5rem; height: 2.5rem; font-size: 1rem; }
+      .footer-social-container { gap: .5rem; }
+    }
 
-        .item-meta {
-            font-size: 0.85rem;
-            color: #888;
-            font-weight: 400;
-        }
+    @media (max-width: 420px) {
+      .toc { grid-template-columns: 1fr; }
+      .rail img { width: 110px; }
+    }
 
-
-
-        .item-toggle {
-            font-size: 1.2rem;
-            color: #000;
-            transition: transform 0.3s ease;
-            min-width: 24px;
-            /* Fixed width to prevent shift */
-            text-align: center;
-        }
-
-        .list-item.active .item-toggle {
-            transform: rotate(45deg);
-            color: #000;
-        }
-
-        /* Accordion Body */
-        .item-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-        }
-
-        .list-item.active .item-body {
-            max-height: 500px;
-            /* Arbitrary large height */
-            opacity: 1;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease 0.1s;
-        }
-
-        .body-content {
-            padding: 0 0 30px 0;
-            width: 100%;
-            color: #555;
-            font-weight: 400;
-            font-size: 0.95rem;
-        }
-
-        .body-content h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #333;
-            margin: 15px 0 8px 0;
-        }
-
-        .body-content ul {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 15px;
-        }
-
-        .body-content li {
-            position: relative;
-            padding-left: 15px;
-            margin-bottom: 5px;
-        }
-
-        .body-content li::before {
-            content: '-';
-            position: absolute;
-            left: 0;
-            color: #999;
-        }
-
-        .key-paper {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #eee;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .key-paper strong {
-            color: #333;
-            font-weight: 700;
-        }
-
-        /* Modern Footer Styles */
-        .modern-footer {
-            position: relative;
-            z-index: 20;
-            padding: 1rem 0;
-            background-color: #222;
-            margin-top: 40px;
-        }
-
-        .footer-social-container {
-            display: flex;
-            background-color: rgba(0, 0, 0, 0.01);
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .footer-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            background-color: rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-        }
-
-        .footer-icon:hover {
-            transform: translateY(-5px);
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Icon-specific hover colors */
-        .footer-icon:nth-child(1):hover {
-            color: #1DA1F2;
-        }
-
-        .footer-icon:nth-child(2):hover {
-            color: #0285FF;
-        }
-
-        .footer-icon:nth-child(3):hover {
-            color: #0077B5;
-        }
-
-        .footer-icon:nth-child(4):hover {
-            color: #4285F4;
-        }
-
-        .footer-icon:nth-child(5):hover {
-            color: #333333;
-        }
-
-        .footer-icon:nth-child(6):hover {
-            color: #D44638;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .intro-title {
-                font-size: 2rem;
-            }
-
-            .item-header {
-                grid-template-columns: 1fr auto;
-                gap: 10px;
-            }
-        }
-    </style>
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .art { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
 </head>
+<body data-auto-init-microbe data-microbe-obstacles=".panel,.art" data-microbe-food-count="25"
+      data-microbe-background-food-count="30" data-microbe-spawn-x="0.7" data-microbe-spawn-y="0.5">
+  <canvas class="background-canvas" id="canvas"></canvas>
 
-<body data-auto-init-microbe data-microbe-obstacles=".list-item,.intro-container" data-microbe-food-count="30"
-    data-microbe-spawn-y="0.5">
-    <script>
-        // Randomize microbe spawn X between 0.5 (Middle) and 0.9 (Right)
-        const spawnX = 0.5 + (Math.random() * 0.4);
-        document.body.setAttribute('data-microbe-spawn-x', spawnX);
-    </script>
-    <!-- Background canvas -->
-    <canvas class="background-canvas" id="canvas"></canvas>
+  <div class="nav-container">
+    <a href="index.html" class="home-btn"><i class="fas fa-home"></i> Home</a>
+  </div>
 
-    <div class="page-container">
-        <!-- Navigation -->
-        <div class="nav-container">
-            <a href="index.html" class="home-btn">
-                <i class="fas fa-home"></i> Home
-            </a>
-        </div>
-        <!-- Intro -->
-        <div class="intro-container">
-            <h1 class="intro-title">Research Projects</h1>
-            <p class="intro-text">A curated list of my work in emerging pathogen serology, diagnostics, and public
-                health.</p>
-        </div>
+  <div class="layout">
+    <aside class="rail panel">
+      <img src="assets/team/profile.jpg" alt="Dr Ash Otter">
+      <h1>Dr Ash Otter</h1>
+      <div class="role">Virologist/Microbiologist<br>AI Safety &middot; CBRNe<br><strong>Google DeepMind</strong></div>
+      <p class="mini">Current / previous work, including prior research.</p>
+      <div class="lbl">Contents</div>
+      <ul class="toc">
+          <li><a href="#ai-safety" data-sec="ai-safety" style="--tint: var(--c-green)"><span class="n">01</span>AI Safety</a></li>
+          <li><a href="#mpox" data-sec="mpox" style="--tint: var(--c-blue)"><span class="n">02</span>Mpox</a></li>
+          <li><a href="#sars-cov-2" data-sec="sars-cov-2" style="--tint: var(--c-teal)"><span class="n">03</span>SARS-CoV-2</a></li>
+          <li><a href="#assays" data-sec="assays" style="--tint: var(--c-pink)"><span class="n">04</span>Assay R&amp;D</a></li>
+          <li><a href="#zoonoses" data-sec="zoonoses" style="--tint: var(--c-amber)"><span class="n">05</span>Zoonoses</a></li>
+          <li><a href="#lab-tools" data-sec="lab-tools" style="--tint: var(--c-blue)"><span class="n">06</span>Lab Tools</a></li>
+          <li><a href="#mycobacteria" data-sec="mycobacteria" style="--tint: var(--c-teal)"><span class="n">07</span>Mycobacteria</a></li>
+          <li><a href="#anthrax" data-sec="anthrax" style="--tint: var(--c-amber)"><span class="n">08</span>Anthrax</a></li>
+          <li><a href="#phage" data-sec="phage" style="--tint: var(--c-green)"><span class="n">09</span>Phage</a></li>
+      </ul>
+      <p class="scholar">Full publication list on
+        <a href="https://scholar.google.co.uk/citations?hl=en&amp;user=-ckBV9wAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+    </aside>
 
-        <!-- Minimal List -->
-        <div class="list-container">
-
-            <!-- RESEARCH: Mpox -->
-            <div class="list-item" data-category="research">
-                <div class="item-header">
-                    <div class="item-title-group">
-                        <div class="item-title">Mpox Immunity</div>
-                        <div class="item-meta">Immunology & Virology</div>
-                    </div>
-
-                    <div class="item-toggle"><i class="fas fa-plus"></i></div>
-                </div>
-                <div class="item-body">
-                    <div class="body-content">
-                        <p>The 2022 mpox outbreak highlighted gaps in our understanding of orthopoxvirus immunity. This
-                            research characterizes the immune responses following both natural mpox infection and
-                            historic smallpox vaccination.</p>
-                        <h3>Key Findings</h3>
+    <main class="stream">
+        <article class="art" id="ai-safety" style="--tint: var(--c-green)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">01</div>
+            <div>
+              <h2>AI Safety for Microbiology &amp; Virology</h2>
+              <div class="wmeta">Google DeepMind &middot; CBRN &middot; Nov 2025 &ndash; Present</div>
+            </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>Part of the CBRNe team within the Responsible Development and Innovation (ReDI) division,
+                            covering AI-associated risks in microbiology.</p>
+                        <h3>What this involves</h3>
                         <ul>
-                            <li>Comparable antibody responses between mpox-infected and smallpox-vaccinated individuals.
-                            </li>
-                            <li>Identification of immunodominant antigens for diagnostic development.</li>
+                            <li>Biological risk assessment paired with threat modelling, drawing on domain expertise in
+                                virology and high-consequence pathogens.</li>
+                            <li>Building evaluations, red-teaming, and mitigations for LLMs, multimodal models, and
+                                agentic workflows &mdash; deployed across Alphabet surfaces.</li>
+                            <li>Engaging industry, academia, and government to set rigorous mitigations on dual-use
+                                topics.</li>
                         </ul>
-                        <div class="key-paper">
-                            <strong>Key Paper:</strong> Otter et al. (2023), Nature Communications.
+                        <div class="papers">
+                            <h3>Key outputs</h3>
+                            <ol>
+                                <li><a href="https://deepmind.google/models/model-cards/gemini-3-1-pro/" target="_blank"
+                                        rel="noopener">Gemini 3.1 Pro model card</a> <span class="venue">&mdash; Google
+                                        DeepMind</span></li>
+                                <li><a href="https://deepmind.google/models/model-cards/gemini-3-7-flash/"
+                                        target="_blank" rel="noopener">Gemini 3.7 Flash model card</a> <span class="venue">&mdash;
+                                        Google DeepMind</span></li>
+                                <li><a href="https://www.nature.com/articles/s41586-026-10644-y" target="_blank"
+                                        rel="noopener">Accelerating scientific discovery with Co-Scientist</a> <span class="venue">&mdash;
+                                        Nature, 2026</span></li>
+                            </ol>
                         </div>
-                    </div>
-                </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="mpox" style="--tint: var(--c-blue)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">02</div>
+            <div>
+              <h2>Mpox &amp; Orthopoxvirus Immunity</h2>
+              <div class="wmeta">UKHSA &middot; Serology lead, mpox incident response</div>
             </div>
-
-            <!-- RESEARCH: Molecular Serology -->
-            <div class="list-item" data-category="research">
-                <div class="item-header">
-                    <div class="item-title-group">
-                        <div class="item-title">Molecular Serology</div>
-                        <div class="item-meta">Next-Gen Methods</div>
-                    </div>
-
-                    <div class="item-toggle"><i class="fas fa-plus"></i></div>
-                </div>
-                <div class="item-body">
-                    <div class="body-content">
-                        <p>Utilizing phage display and next-generation sequencing to map antibody-antigen interactions
-                            at epitope resolution.</p>
-                        <h3>Applications</h3>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>The 2022 mpox outbreak exposed how little was known about orthopoxvirus immunity. I led
+                            serology for the UK response and the studies that followed &mdash; characterising immunity
+                            after infection, after MVA-BN, and after historic smallpox vaccination, and building the
+                            assays needed to measure it.</p>
+                        <h3>Key outputs</h3>
                         <ul>
-                            <li>Vaccine design optimization.</li>
-                            <li>Diagnostic antigen selection.</li>
-                            <li>Understanding immune escape.</li>
+                            <li>First direct comparison of humoral responses after MPXV infection versus smallpox
+                                vaccination, and identification of immunodominant antigens.</li>
+                            <li>Development and diagnostic-accuracy assessment of MpoxPlex, a high-throughput
+                                multiplexed immunoassay now used for immunosurveillance.</li>
+                            <li>Immunogenicity of MVA-BN deployed as prophylaxis, including in children.</li>
+                            <li>Demonstrated that lateral flow tests are unreliable proxies for orthopoxvirus immunity.</li>
+                            <li>Serological evidence of clade Ib transmission in South Kivu, DRC.</li>
                         </ul>
-                    </div>
-                </div>
+                        <div class="papers">
+                            <h3>Selected papers</h3>
+                            <ol>
+                                <li><a href="https://doi.org/10.1038/s41467-023-41587-x" target="_blank" rel="noopener">Monkeypox
+                                        virus-infected individuals mount comparable humoral immune responses as
+                                        smallpox-vaccinated individuals</a> <span class="venue">&mdash; Nature
+                                        Communications, 2023</span></li>
+                                <li><a href="https://doi.org/10.1016/j.lanmic.2024.100987" target="_blank" rel="noopener">Assessment
+                                        of MpoxPlex, a high-throughput and multiplexed immunoassay: a diagnostic
+                                        accuracy study</a> <span class="venue">&mdash; The Lancet Microbe, 2025</span></li>
+                                <li><a href="https://doi.org/10.1016/j.vaccine.2024.126453" target="_blank" rel="noopener">Evaluation
+                                        of a multiplexed immunoassay for assessing long-term humoral immunity to
+                                        orthopoxviruses</a> <span class="venue">&mdash; Vaccine, 2024</span></li>
+                                <li><a href="https://doi.org/10.1016/S1473-3099(24)00556-5" target="_blank" rel="noopener">Limitations
+                                        of mpox lateral flow tests in assessing orthopoxvirus immunity</a> <span class="venue">&mdash;
+                                        The Lancet Infectious Diseases, 2024</span></li>
+                                <li><a href="https://doi.org/10.1016/S1473-3099(23)00270-0" target="_blank" rel="noopener">Safety,
+                                        reactogenicity and immune response after a single dose of MVA-BN against mpox in
+                                        children</a> <span class="venue">&mdash; The Lancet Infectious Diseases, 2023</span></li>
+                                <li><a href="https://doi.org/10.1016/j.lanmic.2024.101045" target="_blank" rel="noopener">Immunogenicity
+                                        of MVA-BN vaccine deployed as mpox prophylaxis: a prospective cohort study</a>
+                                    <span class="venue">&mdash; The Lancet Microbe, 2025</span></li>
+                                <li><a href="https://doi.org/10.1038/s41467-025-62064-7" target="_blank" rel="noopener">Serological
+                                        evidence of clade Ib mpox transmission by sex workers and within households in
+                                        South Kivu, DRC</a> <span class="venue">&mdash; Nature Communications, 2025</span></li>
+                                <li><a href="https://doi.org/10.1093/femsre/fuaf025" target="_blank" rel="noopener">Mpox:
+                                        current knowledge and understanding &mdash; a scoping review</a> <span class="venue">&mdash;
+                                        FEMS Microbiology Reviews, 2025</span></li>
+                                <li><a href="https://doi.org/10.1080/22221751.2025.2576581" target="_blank" rel="noopener">Developing
+                                        accessible and affordable tests to support mpox immunosurveillance and vaccine
+                                        studies</a> <span class="venue">&mdash; Emerging Microbes &amp; Infections, 2025</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="sars-cov-2" style="--tint: var(--c-teal)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">03</div>
+            <div>
+              <h2>SARS-CoV-2</h2>
+              <div class="wmeta">UKHSA &middot; &gt;1.3 million tests &middot; SIREN</div>
             </div>
-
-            <!-- RESEARCH: COVID-19 -->
-            <div class="list-item" data-category="research">
-                <div class="item-header">
-                    <div class="item-title-group">
-                        <div class="item-title">COVID-19 Serology</div>
-                        <div class="item-meta">Public Health Surveillance</div>
-                    </div>
-
-                    <div class="item-toggle"><i class="fas fa-plus"></i></div>
-                </div>
-                <div class="item-body">
-                    <div class="body-content">
-                        <p>Led implementation of SARS-CoV-2 serology testing at national scale, processing over 1.3
-                            million samples.</p>
-                        <h3>Impact</h3>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>Technical lead for the UKHSA SARS-CoV-2 serosurveillance laboratory: standing up, evaluating
+                            and running the assays behind national serosurveillance, the SIREN healthcare-worker cohort,
+                            and vaccine studies. Outputs fed national modelling and JCVI/DCMO policy decisions.</p>
+                        <p>What began as an outbreak-specific response became permanent. The laboratory was established
+                            as a standing UKHSA group &mdash; Emerging Pathogen Serology &mdash; carrying the capability
+                            built for COVID-19 forward to other pathogens.</p>
+                        <h3>Key outputs</h3>
                         <ul>
-                            <li>Data used for JCVI policy decisions.</li>
-                            <li>National modeling and forecasting.</li>
-                            <li>Vaccine effectiveness studies.</li>
+                            <li>SIREN: quantified protection against infection from prior infection and vaccination in
+                                healthcare workers.</li>
+                            <li>Defined antibody correlates of protection against reinfection and against Delta
+                                breakthrough infection.</li>
+                            <li>Showed that immune boosting by Omicron depends on prior SARS-CoV-2 exposure.</li>
+                            <li>Evaluated and implemented commercial serology platforms at national throughput.</li>
                         </ul>
-                    </div>
-                </div>
+                        <div class="papers">
+                            <h3>Selected papers</h3>
+                            <ol>
+                                <li><a href="https://doi.org/10.1016/S0140-6736(21)00675-9" target="_blank" rel="noopener">SARS-CoV-2
+                                        infection rates of antibody-positive compared with antibody-negative health-care
+                                        workers in England (SIREN)</a> <span class="venue">&mdash; The Lancet, 2021</span></li>
+                                <li><a href="https://doi.org/10.1056/NEJMoa2118691" target="_blank" rel="noopener">Protection
+                                        against SARS-CoV-2 after Covid-19 vaccination and previous infection</a> <span class="venue">&mdash;
+                                        New England Journal of Medicine, 2022</span></li>
+                                <li><a href="https://doi.org/10.1126/science.abq1841" target="_blank" rel="noopener">Immune
+                                        boosting by B.1.1.529 (Omicron) depends on previous SARS-CoV-2 exposure</a>
+                                    <span class="venue">&mdash; Science, 2022</span></li>
+                                <li><a href="https://doi.org/10.1016/j.jinf.2022.09.004" target="_blank" rel="noopener">Antibody
+                                        correlates of protection from SARS-CoV-2 reinfection prior to vaccination</a>
+                                    <span class="venue">&mdash; Journal of Infection, 2022</span></li>
+                                <li><a href="https://doi.org/10.1016/j.jinf.2023.07.007" target="_blank" rel="noopener">Antibody
+                                        correlates of protection against Delta infection after vaccination</a> <span class="venue">&mdash;
+                                        Journal of Infection, 2023</span></li>
+                                <li><a href="https://doi.org/10.1128/spectrum.02289-21" target="_blank" rel="noopener">Implementation
+                                        and extended evaluation of the Euroimmun anti-SARS-CoV-2 IgG assay</a> <span class="venue">&mdash;
+                                        Microbiology Spectrum, 2022</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="assays" style="--tint: var(--c-pink)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">04</div>
+            <div>
+              <h2>High-throughput assay R&amp;D</h2>
+              <div class="wmeta">Molecular &amp; serological methods &middot; Automation &middot; Standardisation</div>
             </div>
-
-            <!-- RESEARCH: H5N1 -->
-            <div class="list-item" data-category="research">
-                <div class="item-header">
-                    <div class="item-title-group">
-                        <div class="item-title">H5N1 Serosurveillance</div>
-                        <div class="item-meta">Risk Assessment</div>
-                    </div>
-
-                    <div class="item-toggle"><i class="fas fa-plus"></i></div>
-                </div>
-                <div class="item-body">
-                    <div class="body-content">
-                        <p>Assessment of H5N1 avian influenza exposure in at-risk populations using national blood donor
-                            samples.</p>
-                        <p>Determining the risk of H5N1 spillover in at-risk areas at a population-level.</p>
-                    </div>
-                </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>Developing assays, and then getting them to run at scale. Starting with molecular
+                            diagnostics in diagnostic support at RIPL, then serology R&amp;D, and later setting the
+                            direction for both.</p>
+                        <h3>Molecular diagnostics</h3>
+                        <ul>
+                            <li>Research, evaluation and validation of new molecular diagnostics for ACDP 2, 3 and 4
+                                pathogens &mdash; viral haemorrhagic fevers (pan-filovirus, CCHF, Lassa), arboviruses
+                                (Zika, Rift Valley fever, WNV), and high-pathogenicity bacteria
+                                (<em>B. anthracis</em>, <em>Y. pestis</em>, <em>Brucella</em>).</li>
+                            <li>Routine CL3 culture across a wide range of ACDP 3 pathogens, and a member of the
+                                on-call viral haemorrhagic fever diagnostic service.</li>
+                        </ul>
+                        <h3>Serology development</h3>
+                        <ul>
+                            <li>Oversaw R&amp;D of serology assays for emerging pathogens, such as SARS-CoV-2, Lassa,
+                                and mpox, across ELISA, ECLIA, Luminex, MSD, lateral flow, and virus neutralisation
+                                (inhibition, pseudovirus and live-virus), some to GLP/GMP standards.</li>
+                            <li>Pre-emptive method development for priority pathogens within CEPI scope, including
+                                Nipah, RVFV, and flaviviruses.</li>
+                            <li>Sequencing-based serology (PhIP-seq) with custom antigen libraries, resolving immunity
+                                not just at the whole-protein level but at epitope-specific binding.</li>
+                        </ul>
+                        <h3>Automation, standardisation &amp; transfer</h3>
+                        <ul>
+                            <li>High-throughput virology screening, target/hit selection, and deep mutational scanning
+                                libraries.</li>
+                            <li>Transitioning manual assays into automated high-throughput systems, and technology
+                                transfer to partners in the Netherlands, Thailand, and Vietnam.</li>
+                            <li>Applying the first WHO International Standard for anti-SARS-CoV-2 immunoglobulin to
+                                harmonise readouts across commercial binding-antibody tests &mdash; a prerequisite for
+                                pooling seroepidemiology and vaccine-immunogenicity data internationally.</li>
+                        </ul>
+                        <div class="papers">
+                            <h3>Selected papers</h3>
+                            <ol>
+                                <li><a href="https://doi.org/10.1016/j.lanmic.2025.101329" target="_blank" rel="noopener">Evaluating
+                                        the use of the first WHO International Standard for anti-SARS-CoV-2
+                                        immunoglobulin to harmonise readouts between commercial binding antibody
+                                        tests</a> <span class="venue">&mdash; The Lancet Microbe, 2026</span></li>
+                                <li><a href="https://doi.org/10.1128/spectrum.02289-21" target="_blank" rel="noopener">Implementation
+                                        and extended evaluation of the Euroimmun anti-SARS-CoV-2 IgG assay</a> <span class="venue">&mdash;
+                                        Microbiology Spectrum, 2022</span></li>
+                                <li><a href="https://doi.org/10.1016/j.vaccine.2024.126453" target="_blank" rel="noopener">Evaluation
+                                        of a multiplexed immunoassay for assessing long-term humoral immunity to
+                                        orthopoxviruses</a> <span class="venue">&mdash; Vaccine, 2024</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="zoonoses" style="--tint: var(--c-amber)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">05</div>
+            <div>
+              <h2>Zoonoses &amp; Spillover</h2>
+              <div class="wmeta">Surveillance &middot; Emerging arboviruses &middot; H5N1</div>
             </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>Work on how pathogens move between animals and humans, and whether current surveillance
+                            would pick it up.</p>
+                        <h3>Areas of work</h3>
+                        <ul>
+                            <li>Population-level serosurveillance for H5N1 exposure in at-risk groups, using national
+                                blood donor samples to size the spillover risk.</li>
+                            <li>Screening wild UK deer populations for SARS-CoV-2 exposure &mdash; reverse zoonosis and
+                                the potential for animal reservoirs.</li>
+                            <li>Horizon-scanning and review work on re-emerging arboviruses, including Oropouche virus.</li>
+                            <li>Membership of the UKHSA Vector-borne Diseases Technical Group, assessing and
+                                categorising vector-borne infection risk in the UK.</li>
+                        </ul>
+                        <div class="papers">
+                            <h3>Selected papers</h3>
+                            <ol>
+                                <li><a href="https://doi.org/10.1111/tbed.14534" target="_blank" rel="noopener">Screening
+                                        of wild deer populations for exposure to SARS-CoV-2 in the United Kingdom,
+                                        2020&ndash;2021</a> <span class="venue">&mdash; Transboundary and Emerging
+                                        Diseases, 2022</span></li>
+                                <li><a href="https://doi.org/10.1016/j.ijidoh.2024.100044" target="_blank" rel="noopener">Oropouche
+                                        virus: a re-emerging arbovirus of clinical significance</a> <span class="venue">&mdash;
+                                        IJID One Health, 2024</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="lab-tools" style="--tint: var(--c-blue)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">06</div>
+            <div>
+              <h2>Lab Tools</h2>
+              <div class="wmeta">Browser-based utilities &middot; Free to use</div>
+            </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>Small tools I built to take the tedium out of laboratory data handling. Most run entirely in
+                            the browser &mdash; nothing is uploaded anywhere, so they are safe to use with unpublished
+                            data. All are works in progress; feedback welcome.</p>
+                        <div class="papers">
+                            <h3>Luminex &amp; immunoassay</h3>
+                            <ol>
+                                <li><a href="https://asherichia.github.io/LuminexDataExtractor_HTML/LuminexExtractorAnalyser.html"
+                                        target="_blank" rel="noopener">Luminex Data Extractor</a> <span class="venue">&mdash;
+                                        processes Luminex CSV exports against standards: automated analyte detection,
+                                        4PL standard curves with sample interpolation, efficiency calculations, and
+                                        hook-effect/low-quality standard flagging.</span></li>
+                                <li><a href="https://asherichia.github.io/Cauldron-Tool/LuminexInhibitionAnalyzer.html"
+                                        target="_blank" rel="noopener">CAULDRON</a> <span class="venue">&mdash; Curve
+                                        Analysis Using Luminex Data for IC50 and neutRalisatiON. Processes dilution
+                                        series from neutralisation assays to calculate IC50 values by 4-parameter
+                                        logistic curve fitting.</span></li>
+                            </ol>
+                            <h3>Sample &amp; plate handling</h3>
+                            <ol>
+                                <li><a href="https://asherichia.github.io/PlateFileParser/PlateParser.html"
+                                        target="_blank" rel="noopener">Plate File Parser</a> <span class="venue">&mdash;
+                                        assigns imported sample lists (TXT or CSV) to 96- or 384-well layouts, with
+                                        automatic well assignment and plate visualisation. Works from plain lists,
+                                        partially mapped plates, or fully mapped ones.</span></li>
+                                <li><a href="https://asherichia.github.io/HamiltonParser/hamilton_parser.html"
+                                        target="_blank" rel="noopener">Hamilton Parser</a> <span class="venue">&mdash;
+                                        merges Hamilton Decapper and liquid-handler export files into a single unified
+                                        file.</span></li>
+                            </ol>
+                            <h3>Quality control</h3>
+                            <ol>
+                                <li><a href="iqc-monitor.html" target="_blank" rel="noopener">IQC Tracker</a> <span class="venue">&mdash;
+                                        React dashboard for internal quality control monitoring: Levy&ndash;Jennings
+                                        plots, statistical process control charts, and CSV import for real-time
+                                        visualisation of assay performance.</span></li>
+                            </ol>
+                            <h3>Bioinformatics</h3>
+                            <ol>
+                                <li><a href="https://github.com/asherichia/AlanineScanning" target="_blank"
+                                        rel="noopener">Alanine Scanning</a> <span class="venue">&mdash; Python tool for
+                                        systematic alanine scanning mutagenesis along a FASTA sequence, generating
+                                        single, double and triple substitutions (swapping native alanine for glycine)
+                                        for downstream synthesis and structure&ndash;function work.</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="mycobacteria" style="--tint: var(--c-teal)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">07</div>
+            <div>
+              <h2>Mycobacteria</h2>
+              <div class="wmeta">PhD &middot; 2015&ndash;2019 &middot; University of London (RVC)</div>
+            </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>My PhD characterised Rv1255c, a TetR-family transcriptional regulator encoded in the RD13
+                            region of <em>Mycobacterium tuberculosis</em> &mdash; work on how the tubercle bacillus
+                            regulates its own gene expression.</p>
+                        <p>Related collaborative work looked further back, using a marine sponge mycobacterium to
+                            reconstruct how virulence evolved in the wider genus.</p>
+                        <div class="papers">
+                            <h3>Selected papers</h3>
+                            <ol>
+                                <li><a href="https://doi.org/10.1371/journal.ppat.1012440" target="_blank" rel="noopener">Marine
+                                        sponge microbe provides insights into evolution and virulence of the tubercle
+                                        bacillus</a> <span class="venue">&mdash; PLOS Pathogens, 2024</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="anthrax" style="--tint: var(--c-amber)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">08</div>
+            <div>
+              <h2>Anthrax</h2>
+              <div class="wmeta">Professional training year &middot; <em>Bacillus anthracis</em></div>
+            </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>I initiated and undertook a professional training year focussed on <em>Bacillus
+                                anthracis</em>, the causative agent of anthrax, running independent projects on both
+                            sides of the problem.</p>
+                        <h3>Projects</h3>
+                        <ul>
+                            <li>Isolating novel anthrax bacteriophages for environmentally friendly anthrax
+                                decontamination.</li>
+                            <li>Expression of anthrax toxin subunits for vaccine testing against clinical samples.</li>
+                        </ul>
+                        <p>Both involved working and routinely communicating with collaborators at Dstl, Battelle, and
+                            NATO. I returned as a research assistant in summer 2015 to complete the work and begin
+                            collaboration with Scott Safety, alongside training new research students, presenting at
+                            international conferences, and analysing sequencing and bioinformatic data.</p>
+          </div>
+          </div>
+        </article>
+        <article class="art" id="phage" style="--tint: var(--c-green)">
+          <div class="art-head" role="button" tabindex="0" aria-expanded="false">
+            <div class="num">09</div>
+            <div>
+              <h2>Phage</h2>
+              <div class="wmeta">Undergraduate dissertation &middot; <em>Burkholderia</em> prophages</div>
+            </div>
+            <span class="tog"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="art-body">
+          <div class="wbody">
+<p>Dissertation work characterising prophages in <em>Burkholderia</em>, including the discovery
+                            of a novel inducible prophage in <em>B. vietnamiensis</em> G4 and its distribution across
+                            the wider species complex.</p>
+                        <div class="papers">
+                            <h3>Selected papers</h3>
+                            <ol>
+                                <li><a href="https://doi.org/10.3390/v12060601" target="_blank" rel="noopener">A novel
+                                        inducible prophage from <em>Burkholderia vietnamiensis</em> G4</a> <span class="venue">&mdash;
+                                        Viruses, 2020</span></li>
+                            </ol>
+                        </div>
+          </div>
+          </div>
+        </article>
+    </main>
+  </div>
 
-        </div>
+  <footer class="modern-footer">
+    <div class="footer-social-container">
+      <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky"><i class="fas fa-cloud"></i></a>
+      <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://scholar.google.co.uk/citations?hl=en&amp;user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+      <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="mailto:otterad@gmail.com" class="footer-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
     </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="modern-footer">
-        <div class="footer-social-container">
-            <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon"><i
-                    class="fab fa-twitter"></i></a>
-            <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon"><i
-                    class="fas fa-cloud"></i></a>
-            <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon"><i
-                    class="fab fa-linkedin-in"></i></a>
-            <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank"
-                class="footer-icon"><i class="fas fa-graduation-cap"></i></a>
-            <a href="https://github.com/asherichia" target="_blank" class="footer-icon"><i
-                    class="fab fa-github"></i></a>
-            <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon"><i class="fas fa-envelope"></i></a>
-        </div>
-    </footer>
+  <script>
+    const arts = Array.from(document.querySelectorAll('.art'));
+    const links = Array.from(document.querySelectorAll('.toc a'));
 
-    <script>
-        // Accordion Logic
-        const items = document.querySelectorAll('.list-item');
+    /* ---- collapse / expand ---- */
+    function setOpen(art, open) {
+      const body = art.querySelector('.art-body');
+      const head = art.querySelector('.art-head');
+      art.classList.toggle('open', open);
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // measured, so long sections can't clip
+      body.style.maxHeight = open ? body.scrollHeight + 'px' : null;
+    }
 
-        items.forEach(item => {
-            const header = item.querySelector('.item-header');
-            header.addEventListener('click', () => {
-                // Toggle current item
-                item.classList.toggle('active');
+    arts.forEach(art => {
+      const head = art.querySelector('.art-head');
+      head.addEventListener('click', () => setOpen(art, !art.classList.contains('open')));
+      head.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setOpen(art, !art.classList.contains('open'));
+        }
+      });
+    });
 
-                // Optional: Close others?
-                // Uncomment below to allow only one open at a time
-                /*
-                items.forEach(otherItem => {
-                  if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                  }
-                });
-                */
-            });
+    // Contents link: open the target, then bring it into view
+    links.forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      const art = document.getElementById(a.dataset.sec);
+      if (!art) return;
+      setOpen(art, true);
+      history.replaceState(null, '', '#' + a.dataset.sec);
+      requestAnimationFrame(() => art.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }));
+
+    // Keep open sections correctly sized when text reflows
+    let rt;
+    addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => {
+        document.querySelectorAll('.art.open .art-body').forEach(b => {
+          b.style.maxHeight = 'none';
+          const h = b.scrollHeight;
+          b.style.maxHeight = h + 'px';
         });
+      }, 150);
+    });
 
-        // Filtering Logic
-        const filterBtns = document.querySelectorAll('.filter-btn');
+    // Open the hash target, or the first section by default
+    function openInitial() {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target && target.classList.contains('art')) {
+        setOpen(target, true);
+        requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      } else {
+        setOpen(arts[0], true);
+      }
+    }
+    addEventListener('load', openInitial);
+    addEventListener('hashchange', openInitial);
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active to clicked
-                btn.classList.add('active');
-
-                const filter = btn.getAttribute('data-filter');
-
-                items.forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                        item.classList.remove('active'); // Close hidden items
-                    }
-                });
-            });
+    // Roboto Mono changes text metrics, so remeasure once it has actually loaded
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        document.querySelectorAll('.art.open .art-body').forEach(b => {
+          b.style.maxHeight = 'none';
+          const h = b.scrollHeight;
+          b.style.maxHeight = h + 'px';
         });
-    </script>
+      });
+    }
+
+    // Reveal on entry
+    const reveal = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); } });
+    }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+    arts.forEach(a => reveal.observe(a));
+
+    // Highlight whichever section is nearest the top of the viewport
+    let ticking = false;
+    function mark() {
+      const line = window.innerHeight * 0.3;
+      let current = arts[0].id;
+      for (const a of arts) {
+        if (a.getBoundingClientRect().top <= line) current = a.id;
+      }
+      links.forEach(l => l.classList.toggle('active', l.dataset.sec === current));
+      ticking = false;
+    }
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(mark); } }, { passive: true });
+    mark();
+  </script>
 </body>
-
 </html>

@@ -4,32 +4,39 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Dr Ash Otter</title>
+  <meta name="description" content="Virologist and microbiologist working on AI safety at Google DeepMind. Career history, education, and positions across UKHSA, academia, and scientific societies.">
+  <!-- Preload the hover/tap swap image so the first hover doesn't flicker -->
+  <link rel="preload" as="image" href="assets/team/profile_poke.jpg">
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/ui/virus-cursor.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Social Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Shared Microbe Animation -->
   <script src="assets/js/microbe-animation.js"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* Muted accents picked to sit with the background particles rather than shout */
+    :root {
+      --c-blue:  #4a7ba7;
+      --c-green: #5f8d5b;
+      --c-amber: #b0863c;
+      --c-pink:  #b06079;
+      --c-teal:  #3f8b87;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Roboto Mono', monospace;
       background: #f5f5f5;
+      color: #333;
       overflow-x: hidden;
       position: relative;
+      /* Footer must reach the bottom of the viewport on short pages */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     .background-canvas {
@@ -39,150 +46,376 @@
       width: 100%;
       height: 100%;
       z-index: 1;
+      /* Decorative overlay: must not swallow touch gestures, or the page
+         cannot be scrolled on mobile. */
+      pointer-events: none;
     }
 
-    /* Floating Navigation Buttons */
+    /* Real pointers only: lets the microbe follow the cursor on desktop */
+    @media (hover: hover) and (pointer: fine) {
+      .background-canvas {
+        pointer-events: auto;
+      }
+    }
+
+    /* Full-width bar rather than a floating button, which used to overlap the
+       profile card once the page was scrolled */
     .nav-container {
       position: fixed;
-      top: 20px;
-      left: 20px;
+      top: 0;
+      left: 0;
+      width: 100%;
       z-index: 100;
-      display: flex;
-      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(245, 245, 245, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #ddd;
     }
 
     .home-btn {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid #333;
       color: #333;
-      padding: 10px 20px;
+      padding: 8px 18px;
       text-decoration: none;
       font-size: 14px;
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(10px);
+      min-height: 40px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .home-btn i {
-      margin-right: 8px;
-    }
+    .home-btn i { margin-right: 8px; }
 
     .home-btn:hover {
       background: rgba(240, 240, 240, 0.95);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    /* Content wrapper */
-    .content-wrapper {
+    /* Two-column shell: profile rail on the left, switchable panels on the right */
+    .layout {
       position: relative;
       z-index: 10;
-      width: 100%;
-      padding: 100px 20px 40px;
-      box-sizing: border-box;
-    }
-
-    .section-container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid #333;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .section-container.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Section styling */
-    .section-header {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-      font-size: 24px;
-      font-weight: 700;
-      padding-bottom: 15px;
-      border-bottom: 2px solid #333;
-    }
-
-    /* Bio content */
-    .bio-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .bio-image {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border: 1px solid #333;
-      flex-shrink: 0;
-      margin: 0 auto;
-    }
-
-    .bio-text {
       flex: 1;
-      min-width: 300px;
+      width: 100%;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 100px 20px 40px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      grid-template-rows: auto;
+      gap: 24px;
+      /* Row keeps its natural height (the tab column still stretches to match the
+         sidebar); the leftover space sits below it and pushes the footer down. */
+      align-content: start;
     }
 
-    .bio-text p {
-      margin-bottom: 15px;
+    .panel {
+      background: rgba(252, 252, 252, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid #333;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- Profile rail --- */
+    .profile {
+      position: sticky;
+      top: 84px;
+      align-self: start; /* required, or stretch would defeat the sticky */
+      padding: 22px;
+      /* rail can outgrow a short viewport, so let it scroll rather than clip */
+      max-height: calc(100vh - 104px);
+      overflow-y: auto;
+    }
+
+    .profile img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center 25%;
+      border: 1px solid #333;
+      display: block;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+
+    .profile img:hover {
+      content: url('assets/team/profile_poke.jpg');
+    }
+
+    /* Touch devices have no hover: swap on tap instead */
+    @media (hover: none) {
+      .profile img:active {
+        content: url('assets/team/profile_poke.jpg');
+      }
+    }
+
+    .profile h1 {
+      font-size: 22px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .profile .role {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .profile .role strong {
+      color: #333;
+      font-weight: 700;
+    }
+
+    .tldr {
+      padding: 2px 0;
+      font-size: 13px;
       line-height: 1.6;
-      font-size: 15px;
-      text-align: justify;
+      color: #555;
+      margin-bottom: 18px;
     }
 
-    /* Timeline styling */
-    .timeline-item {
-      margin-bottom: 30px;
+    /* --- Quick facts as tiles --- */
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      border-top: 1px solid #ddd;
+      padding-top: 16px;
+      list-style: none;
+    }
+
+    .facts li {
       position: relative;
-      padding-left: 30px;
-      border-left: 3px solid #999;
+      padding: 12px 10px 11px;
+      text-align: center;
+      border: 1px solid var(--tint, #ddd);
+      background: rgba(255, 255, 255, 0.45); /* fallback for no color-mix support */
+      background: color-mix(in srgb, var(--tint, #999) 8%, transparent);
+      overflow: hidden;
+      transition: transform 0.2s ease;
     }
 
-    .timeline-item:last-child {
-      margin-bottom: 0;
+    .facts li:hover { transform: translateY(-2px); }
+
+    .facts li i {
+      display: block;
+      font-size: 13px;
+      color: var(--tint, #666);
+      margin-bottom: 6px;
+      opacity: 0.9;
     }
 
-    .timeline-item h3 {
-      margin-bottom: 5px;
-      color: #333;
+    .facts b {
+      display: block;
       font-size: 18px;
+      color: #111;
+      line-height: 1.1;
+      margin-bottom: 3px;
+    }
+
+    .facts span {
+      display: block;
+      font-size: 10px;
+      color: #777;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    /* Two wider rows for the non-numeric facts */
+    .facts li.wide {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      padding: 10px 12px;
+    }
+
+    .facts li.wide i { margin-bottom: 0; font-size: 12px; }
+    .facts li.wide b { font-size: 13px; margin-bottom: 0; }
+    .facts li.wide span {
+      margin-left: auto;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 10.5px;
+    }
+
+    /* --- Tabs --- */
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: -1px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tab {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 13px;
+      padding: 12px 18px;
+      background: rgba(240, 240, 240, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid #333;
+      border-right: none;
+      cursor: pointer;
+      color: #666;
+      min-height: 44px;
+    }
+
+    .tab:last-child { border-right: 1px solid #333; }
+
+    .tab[aria-selected="true"] {
+      background: rgba(252, 252, 252, 0.95);
+      color: #111;
       font-weight: 700;
+      border-bottom-color: transparent;
+      box-shadow: inset 0 3px 0 var(--c-blue);
     }
 
-    .timeline-item h4 {
-      margin-bottom: 5px;
-      color: #999;
-      font-size: 16px;
-      font-weight: 700;
+    .tab:hover { color: #111; }
+
+    .tabwrap {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      align-self: start; /* don't stretch to the sidebar; size to content */
     }
 
-    .timeline-item .year {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 8px;
+    .tabpanel { padding: 28px; }
+    .tabpanel[hidden] { display: none; }
+
+    .panel-intro {
       font-size: 14px;
-    }
-
-    .timeline-item p {
-      margin-top: 8px;
-      line-height: 1.6;
-      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 24px;
       text-align: justify;
     }
 
-    /* Modern Footer Styles */
+    /* --- Entries --- */
+    .entry {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 18px;
+      padding: 16px 0;
+      border-top: 1px solid #e2e2e2;
+      /* Rail is always present and always 3px, so hovering can't reflow the text */
+      border-left: 3px solid transparent;
+      padding-left: 12px;
+      transition: border-color 0.25s ease;
+    }
+
+    .entry:first-of-type { border-top: none; padding-top: 0; }
+
+    .entry:hover { border-left-color: var(--c-blue); }
+
+    .entry.current { border-left-color: var(--c-green); }
+
+    .entry .when {
+      font-size: 12px;
+      color: #888;
+      padding-top: 2px;
+    }
+
+    .entry h3 {
+      font-size: 15px;
+      line-height: 1.4;
+      margin-bottom: 3px;
+    }
+
+    .entry .org {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .entry p {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .entry.current h3::after {
+      content: 'NOW';
+      font-size: 10px;
+      background: var(--c-green);
+      color: #fff;
+      padding: 2px 6px;
+      margin-left: 8px;
+      vertical-align: middle;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- Off duty --- */
+    .fun {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .fun-card {
+      padding: 16px 16px 15px;
+      border: 1px solid var(--tint, #ddd);
+      border-left-width: 3px;
+      background: rgba(255, 255, 255, 0.45); /* fallback for no color-mix support */
+      background: color-mix(in srgb, var(--tint, #999) 7%, transparent);
+      transition: transform 0.2s ease;
+    }
+
+    .fun-card:hover { transform: translateY(-2px); }
+
+    .fun-card h3 {
+      font-size: 14px;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .fun-card h3 i { color: var(--tint, #666); font-size: 14px; }
+
+    .fun-card p {
+      font-size: 13px;
+      line-height: 1.65;
+      color: #555;
+    }
+
+    .fun-card.wide { grid-column: 1 / -1; }
+
+    /* --- Roles as compact chips --- */
+    .roles { display: grid; gap: 10px; }
+
+    .role-chip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: baseline;
+      padding: 11px 14px;
+      border: 1px solid #ddd;
+      background: rgba(255, 255, 255, 0.5);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .role-chip { border-left: 3px solid var(--tint, #ccc); }
+    .role-chip:nth-child(5n+1) { --tint: var(--c-blue); }
+    .role-chip:nth-child(5n+2) { --tint: var(--c-green); }
+    .role-chip:nth-child(5n+3) { --tint: var(--c-amber); }
+    .role-chip:nth-child(5n+4) { --tint: var(--c-pink); }
+    .role-chip:nth-child(5n+5) { --tint: var(--c-teal); }
+
+    .role-chip .when { font-size: 11.5px; color: #888; white-space: nowrap; }
+    .role-chip b { font-weight: 700; color: #111; }
+    .role-chip span.where { color: #777; }
+
+    /* --- Footer --- */
     .modern-footer {
       position: relative;
       z-index: 20;
@@ -193,7 +426,6 @@
 
     .footer-social-container {
       display: flex;
-      background-color: rgba(0, 0, 0, 0.01);
       justify-content: center;
       align-items: center;
       gap: 1rem;
@@ -210,18 +442,10 @@
       font-size: 1.2rem;
       background-color: rgba(255, 255, 255, 0.4);
       transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
       text-decoration: none;
     }
 
-    .footer-icon:hover {
-      transform: translateY(-5px);
-      color: white;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Icon-specific hover colors */
+    .footer-icon:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     .footer-icon:nth-child(1):hover { color: #1DA1F2; }
     .footer-icon:nth-child(2):hover { color: #0285FF; }
     .footer-icon:nth-child(3):hover { color: #0077B5; }
@@ -229,284 +453,264 @@
     .footer-icon:nth-child(5):hover { color: #333333; }
     .footer-icon:nth-child(6):hover { color: #D44638; }
 
-    /* Easter Egg */
-    .easter-egg-hover-area {
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      width: 80px;
-      height: 80px;
-      z-index: 999;
-    }
-
-    .easter-egg {
-      position: fixed;
-      bottom: 5px;
-      right: 5px;
-      width: 40px;
-      height: 20px;
-      cursor: pointer;
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    .easter-egg-hover-area:hover + .easter-egg,
-    .easter-egg:hover {
-      opacity: 1;
-    }
-
-    .eye {
-      width: 16px;
-      height: 16px;
-      background-color: white;
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .eye::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 8px;
-      height: 8px;
-      background-color: #333;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: all 0.2s ease;
-    }
-
-    .easter-egg:hover .eye::after {
-      animation: look-around 2s infinite alternate;
-    }
-
-    @keyframes look-around {
-      0%, 100% { transform: translate(-50%, -50%); }
-      25% { transform: translate(-30%, -60%); }
-      50% { transform: translate(-70%, -50%); }
-      75% { transform: translate(-50%, -30%); }
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .nav-container {
-        padding: 10px;
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 80px 16px 30px;
       }
 
-      .section-container {
-        padding: 20px;
+      .profile { position: static; max-height: none; overflow: visible; }
+
+      .profile img {
+        width: 140px;
+        aspect-ratio: 1 / 1;
+        float: left;
+        margin: 0 16px 10px 0;
       }
 
-      .bio-image {
-        margin: 0 auto 20px;
+      .nav-container { padding: 10px 16px; }
+
+      /* Justified monospace opens ugly rivers at phone widths */
+      .profile .role,
+      .panel-intro { text-align: left; }
+
+      /* Grid establishes its own formatting context, so clear the floated photo */
+      .facts { clear: both; }
+
+      .fun { grid-template-columns: 1fr; }
+
+      .tabs { overflow-x: auto; }
+      .tab { flex: 1 0 auto; padding: 12px 14px; }
+      .tabpanel { padding: 20px 18px; }
+
+      .entry {
+        grid-template-columns: 1fr;
+        gap: 4px;
       }
 
-      .bio-content {
-        flex-direction: column;
-        text-align: center;
-      }
+      .role-chip { grid-template-columns: 1fr; gap: 4px; }
 
-      .timeline-item {
-        padding-left: 20px;
-      }
-
-      .footer-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        font-size: 1rem;
-      }
+      .footer-icon { width: 2.5rem; height: 2.5rem; font-size: 1rem; }
+      .footer-social-container { gap: 0.5rem; }
+    }
+    @media (max-width: 420px) {
+      .profile img { width: 110px; }
     }
   </style>
 </head>
-<body data-auto-init-microbe data-microbe-obstacles=".bio-box" data-microbe-food-count="80" data-microbe-spawn-x="0.2" data-microbe-spawn-y="0.5">
+<body data-auto-init-microbe data-microbe-obstacles=".panel" data-microbe-food-count="25"
+      data-microbe-background-food-count="30" data-microbe-spawn-x="0.2" data-microbe-spawn-y="0.5">
   <canvas class="background-canvas" id="canvas"></canvas>
 
-  <!-- Navigation -->
   <div class="nav-container">
-    <a href="index.html" class="home-btn">
-      <i class="fas fa-home"></i> Home
-    </a>
+    <a href="index.html" class="home-btn"><i class="fas fa-home"></i> Home</a>
   </div>
 
-  <!-- Content wrapper -->
-  <div class="content-wrapper">
-    <!-- Bio Section -->
-    <section id="bio" class="section-container visible">
-      <h2 class="section-header">About Me</h2>
-      <div class="bio-content">
-        <img src="assets/team/profile.jpg" alt="Dr Ash Otter" class="bio-image">
-        <div class="bio-text">
-          <p>I'm <b>Dr Ash Otter</b>, a microbiologist with experience across bacteriology, virology, and immunology, specialising in understanding <b>emerging viruses</b>.</p>
-          <p>I work within the <b>CBRNe team</b> at <b>Google DeepMind</b>, ensuring AI models remain safe in the context of microbiology risks. Previous to this, I was a group leader within the <b>UK Health Security Agency</b> at Porton Down.</p>
-          <p>I have extensive interests in all things microbial (not just viruses...) and I'm also a sucker for new technology, with particular interests across zoonoses, high-throughput methodology, AI models for science, and multi-modality.</p>
+  <div class="layout">
+    <!-- Profile rail -->
+    <aside class="panel profile">
+      <img src="assets/team/profile.jpg" alt="Dr Ash Otter">
+      <h1>Dr Ash Otter</h1>
+      <div class="role">Virologist/Microbiologist<br>AI Safety &middot; CBRNe<br><strong>Google DeepMind</strong></div>
+      <p class="tldr"><b>TL;DR</b> &mdash; making AI safe on microbiology topics.</p>
+      <ul class="facts">
+        <!-- All rows use the wide format. Swap, reorder or delete freely;
+             --tint accepts any of --c-blue / --c-green / --c-amber / --c-pink / --c-teal -->
+        <li class="wide" style="--tint: var(--c-blue)">
+          <i class="fas fa-location-dot"></i><b>London, UK</b><span>Based</span>
+        </li>
+        <li class="wide" style="--tint: var(--c-green)">
+          <i class="fas fa-shield-halved"></i><b>AI safety, CBRNe</b><span>Now</span>
+        </li>
+        <li class="wide" style="--tint: var(--c-teal)">
+          <i class="fas fa-flask"></i><b>UKHSA Porton Down</b><span>Previously</span>
+        </li>
+        <li class="wide" style="--tint: var(--c-amber)">
+          <i class="fas fa-graduation-cap"></i><b>Cardiff &amp; UoL</b><span>Trained</span>
+        </li>
+        <li class="wide" style="--tint: var(--c-pink)">
+          <i class="fas fa-pizza-slice"></i><b>Pizza</b><span>Favourite food</span>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Switchable panels -->
+    <div class="tabwrap">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="tab-bio" aria-controls="p-bio" aria-selected="true">Bio</button>
+        <button class="tab" role="tab" id="tab-career" aria-controls="p-career" aria-selected="false">Career</button>
+        <button class="tab" role="tab" id="tab-edu" aria-controls="p-edu" aria-selected="false">Education</button>
+        <button class="tab" role="tab" id="tab-roles" aria-controls="p-roles" aria-selected="false">Roles</button>
+        <button class="tab" role="tab" id="tab-fun" aria-controls="p-fun" aria-selected="false">Non work</button>
+      </div>
+
+      <section class="panel tabpanel" id="p-bio" role="tabpanel" aria-labelledby="tab-bio">
+        <p class="panel-intro">
+          I'm a virologist and microbiologist working on <b>AI safety</b> at <b>Google DeepMind</b>, within the
+          <b>CBRNe team</b>. My job is mitigating AI-associated biological risks.
+        </p>
+        <p class="panel-intro">
+          Before that I spent nearly seven years at the <b>UK Health Security Agency</b> at Porton Down, latterly as a
+          group leader. Experience across a range of high-consequence pathogens in public health, biodefence,
+          surveillance, and research.
+        </p>
+        <p class="panel-intro" style="margin-bottom:0">
+          Interests in all things AI, zoonoses, high-consequence pathogens, diagnostics, and technology &mdash; and all
+          things microbial, not just the viruses.
+        </p>
+      </section>
+
+      <section class="panel tabpanel" id="p-career" role="tabpanel" aria-labelledby="tab-career" hidden>
+        <div class="entry current">
+          <div class="when">Nov 2025 &ndash; Present<br>London, UK</div>
+          <div>
+            <h3>Virology/Microbiology Subject Matter Expert</h3>
+            <div class="org">Google DeepMind</div>
+            <p>Part of the CBRNe team within Responsible Development and Innovation (ReDI), covering AI-associated
+              risks in microbiology.</p>
+            <p>Biological risk assessment paired with threat modelling &mdash; evaluations, red-teaming, and
+              mitigations for LLMs, AI models and agentic workflows across all Alphabet surfaces.</p>
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="entry">
+          <div class="when">Dec 2022 &ndash; Nov 2025</div>
+          <div>
+            <h3>Group Leader, Emerging Pathogen Serology</h3>
+            <div class="org">UK Health Security Agency</div>
+            <p>Led 13 staff developing and validating serology methods (ELISA, Luminex, MSD, LFD) for emerging
+              pathogens including <b>mpox, Lassa, and Nipah</b>. Lead on UKVN and UKRI funding applications.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="when">Sep 2020 &ndash; Dec 2022</div>
+          <div>
+            <h3>Technical Lead, SARS-CoV-2 Serosurveillance</h3>
+            <div class="org">UK Health Security Agency</div>
+            <p>Implementation and evaluation of SARS-CoV-2 serology for serosurveillance and vaccine studies. Over
+              1.3 million tests; data fed national modelling and JCVI/DCMO policy. Established the laboratory as a
+              permanent UKHSA group.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="when">Mar 2019 &ndash; Sep 2020</div>
+          <div>
+            <h3>Research Scientist, Rare and Imported Pathogens Laboratory</h3>
+            <div class="org">UK Health Security Agency</div>
+            <p>Development and validation of diagnostics for ACDP 2, 3 and 4 pathogens, including arboviruses and
+              viral haemorrhagic fevers. Part of the RIPL 24/7 on-call team.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- Employment Section -->
-    <section id="employment" class="section-container">
-      <h2 class="section-header">Employment history</h2>
-      <div class="timeline-item">
-        <h3>Microbiology Subject Matter Expert</h3>
-        <h4>Google DeepMind</h4>
-        <div class="year">November 2025 - Present</div>
-        <p>Working as part of the Responsible Development and Innovation (ReDI) team, working across virology, microbiology, and AI.</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Group Leader, Emerging Pathogen Serology Group</h3>
-        <h4>UK Health Security Agency</h4>
-        <div class="year">December 2022 - November 2025</div>
-        <p>Leading a group of 13 staff, comprised of post-doctoral research associates, research scientists, and technicians. Expertise in the development, validation, and implementation of serology methods (ELISA, Luminex, MSD, LFDs etc) for a range of emerging pathogens, including for <b>Mpox, Lassa, and Nipah</b>.</p>
-        <p>Lead on submitting external funding applications to UKVN and UKRI with academic and industrial partners.</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Technical Lead, SARS-CoV-2 Serosurveillance laboratory</h3>
-        <h4>UK Health Security Agency</h4>
-        <div class="year">September 2020 - December 2022</div>
-        <p>Leading on the implementation and evaluation of SARS-CoV-2 serology assays for use in serosurveillance and vaccine/research studies. Data used for national modelling and policy decision making (JCVI, DCMO).</p>
-        <p>Over 1.3 million tests conducted to date. Establishment of laboratory as new permanent group within UKHSA Porton (Emerging Pathogen Serology).</p>
-      </div>
-      <div class="timeline-item">
-        <h3>Research Scientist, Diagnostic Support - Rare and Imported Pathogens Laboratory</h3>
-        <h4>UK Health Security Agency</h4>
-        <div class="year">March 2019 - September 2020</div>
-        <p>Involved in the development, evaluation, validation and implementation of new commercial and in-house diagnostic assays for diverse ACDP 2, 3 and 4 priority pathogens, including Arboviruses and viral haemorrhagic fevers.</p>
-        <p>Part of RIPL 24/7 on-call team, supporting with PCR testing.</p>
-      </div>
-    </section>
+      <section class="panel tabpanel" id="p-edu" role="tabpanel" aria-labelledby="tab-edu" hidden>
+        <div class="entry">
+          <div class="when">2015&ndash;2019</div>
+          <div>
+            <h3>PhD, Molecular Microbiology</h3>
+            <div class="org">University of London (RVC)</div>
+            <p>"Understanding the role of Rv1255c, a TetR transcriptional regulator encoded in the RD13 region of
+              <em>Mycobacterium tuberculosis</em>"</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="when">2011&ndash;2015</div>
+          <div>
+            <h3>BSc Microbiology</h3>
+            <div class="org">Cardiff University</div>
+            <p>First-class honours, with industrial placement year.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- Education Section -->
-    <section id="education" class="section-container">
-      <h2 class="section-header">Education</h2>
-      <div class="timeline-item">
-        <h3>PhD in molecular microbiology</h3>
-        <h4>University of London (RVC)</h4>
-        <div class="year">2015 - 2019</div>
-        <p>Thesis: "Understanding the role of Rv1255c, a TetR transcriptional regulator encoded in the RD13 region of Mycobacterium tuberculosis"</p>
-      </div>
-      <div class="timeline-item">
-        <h3>BSc Microbiology</h3>
-        <h4>Cardiff University</h4>
-        <div class="year">2011 - 2015</div>
-        <p>First-class honors. With industrial placement year.</p>
-      </div>
-    </section>
+      <section class="panel tabpanel" id="p-roles" role="tabpanel" aria-labelledby="tab-roles" hidden>
+        <p class="panel-intro">Advisory, editorial, and teaching positions held alongside the day job.</p>
+        <div class="roles">
+          <div class="role-chip"><div><b>Pathogenesis and Immunity Lead</b><br><span class="where">ESCMID Scientific Affairs Subcommittee</span></div><div class="when">Feb 2025 &ndash; Present</div></div>
+          <div class="role-chip"><div><b>Chair, Federation of Infection Societies</b><br><span class="where">Microbiology Society</span></div><div class="when">Dec 2023 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Member, Vector-borne Diseases Technical Group</b><br><span class="where">UK Health Security Agency</span></div><div class="when">Jun 2023 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Serology Lead, Monkeypox Technical Group</b><br><span class="where">UK Health Security Agency</span></div><div class="when">Jul 2022 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Visiting Lecturer</b><br><span class="where">University of Bath</span></div><div class="when">Nov 2022 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Senior Leadership Team, SIREN Study</b><br><span class="where">UK Health Security Agency</span></div><div class="when">Jan 2022 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Editor</b><br><span class="where">Journal of Medical Microbiology</span></div><div class="when">Jan 2022 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Sero-epidemiology Steering Group</b><br><span class="where">UK Health Security Agency</span></div><div class="when">Jan 2021 &ndash; Nov 2025</div></div>
+          <div class="role-chip"><div><b>Visiting Specialist Lecturer</b><br><span class="where">University of Plymouth</span></div><div class="when">Oct 2020 &ndash; Nov 2025</div></div>
+        </div>
+      </section>
 
-    <!-- Other Positions Section -->
-    <section id="positions" class="section-container">
-      <h2 class="section-header">Other Positions</h2>
+      <section class="panel tabpanel" id="p-fun" role="tabpanel" aria-labelledby="tab-fun" hidden>
+        <p class="panel-intro">The bits that aren't on the CV.</p>
+        <div class="fun">
 
-      <div class="timeline-item">
-        <h3>Pathogenesis and Immunity Lead, ESCMID Scientific Affairs Subcommittee</h3>
-        <div class="year">Feb 2025 – Present</div>
-        <p>Providing expertise within the the area of immunity and pathogenesis for ESCMID-related scientific affairs meetings and events.</p>
-      </div>
+          <div class="fun-card" style="--tint: var(--c-amber)">
+            <h3><i class="fas fa-cubes"></i> LEGO</h3>
+            <p>What started off during my early years, and still ongoing. Love an epic build.</p>
+          </div>
 
-      <div class="timeline-item">
-        <h3>Chair, Microbiology Society, Federation of Infection Societies</h3>
-        <div class="year">Dec 2023 – Nov 2025</div>
-        <p>Spearheading efforts to promote infection science within Microbiology Society community and bridging clinical and wet-lab research.</p>
-      </div>
+          <div class="fun-card" style="--tint: var(--c-teal)">
+            <h3><i class="fas fa-code"></i> Coding</h3>
+            <p>Always enjoyed coding, but wanted to automate the boring bits of science. Started most of the
+              projects on random stuff I knew we'd be able to automate somehow!</p>
+          </div>
 
-      <div class="timeline-item">
-        <h3>Member, Vector-borne Diseases Technical Group, UK Health Security Agency</h3>
-        <div class="year">Jun 2023 – Nov 2025</div>
-        <p>Contributing to assessment of managing and categorising vector-borne infections and risks within UK.</p>
-      </div>
+          <div class="fun-card" style="--tint: var(--c-green)">
+            <h3><i class="fas fa-person-hiking"></i> Hiking</h3>
+            <p>Enjoy a mountain or two. Favourite hike (so far) &mdash; South Valley loop at Yosemite. But that
+              almost broke me.</p>
+          </div>
 
-      <div class="timeline-item">
-        <h3>Serology Lead, Monkeypox Technical Group, UK Health Security Agency</h3>
-        <div class="year">Jul 2022 – Nov 2025</div>
-        <p>Technical expertise for serology for Mpox incident response and subsequent follow on studies.</p>
-      </div>
+          <div class="fun-card" style="--tint: var(--c-pink)">
+            <h3><i class="fas fa-gamepad"></i> Gaming</h3>
+            <p>Love most things gaming, and a sucker for Fallout, or shoot 'em ups like Halo. Wort wort wort!!</p>
+          </div>
 
-      <div class="timeline-item">
-        <h3>Visiting Lecturer (Part-time), University of Bath</h3>
-        <div class="year">Nov 2022 – Nov 2025</div>
-        <p>Delivering lectures on diagnostics, immunology and emerging infections.</p>
-      </div>
+          <!-- ================================================================
+               ADD YOUR OWN HERE. Copy a .fun-card block and change the icon,
+               heading and text. Set --tint to any of:
+                 var(--c-blue)  var(--c-green)  var(--c-amber)
+                 var(--c-pink)  var(--c-teal)
+               Add class="wide" to make a card span both columns.
+               Font Awesome icon names: https://fontawesome.com/search?o=r&m=free
+               ================================================================ -->
 
-      <div class="timeline-item">
-        <h3>Senior Leadership Team, SIREN Study, UK Health Security Agency</h3>
-        <div class="year">Jan 2022 – Nov 2025</div>
-        <p>Providing strategic leadership within area of serology testing and sample management for UKHSA SIREN study.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Editor, Journal of Medical Microbiology</h3>
-        <div class="year">Jan 2022 – Nov 2025</div>
-        <p>Managing manuscript reviews and guiding editorial decisions, with a focus on virology, diagnostics, and emerging pathogens.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Sero-epidemiology Steering Group, UK Health Security Agency</h3>
-        <div class="year">Jan 2021 – Nov 2025</div>
-        <p>Aiding in decision making on serosurveillance projects and sample utilisation.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>Visiting Specialist Lecturer (Part-time), University of Plymouth</h3>
-        <div class="year">Oct 2020 – Nov 2025</div>
-        <p>Teaching on subjects including emerging pathogens, diagnostics and vaccines.</p>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   </div>
 
-  <!-- Footer -->
   <footer class="modern-footer">
     <div class="footer-social-container">
-      <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-      <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky">
-        <i class="fas fa-cloud"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
-      <a href="https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar">
-        <i class="fas fa-graduation-cap"></i>
-      </a>
-      <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="mailto:ashley.otter@ukhsa.gov.uk" class="footer-icon" aria-label="Email">
-        <i class="fas fa-envelope"></i>
-      </a>
+      <a href="https://twitter.com/asherichia" target="_blank" class="footer-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://bsky.app/profile/asherichia.bsky.social" target="_blank" class="footer-icon" aria-label="Bluesky"><i class="fas fa-cloud"></i></a>
+      <a href="https://www.linkedin.com/in/ashley-otter" target="_blank" class="footer-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://scholar.google.co.uk/citations?hl=en&amp;user=-ckBV9wAAAAJ" target="_blank" class="footer-icon" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+      <a href="https://github.com/asherichia" target="_blank" class="footer-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="mailto:otterad@gmail.com" class="footer-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
     </div>
   </footer>
 
-  <!-- Easter Egg: Hidden Eyes -->
-  <div class="easter-egg-hover-area"></div>
-  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="easter-egg">
-    <div class="eye"></div>
-    <div class="eye"></div>
-  </a>
-
   <script>
-    // Scroll reveal animation for sections
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    function select(tab) {
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
       });
-    }, observerOptions);
+    }
 
-    // Observe all section containers
-    document.querySelectorAll('.section-container').forEach(section => {
-      observer.observe(section);
+    tabs.forEach(tab => tab.addEventListener('click', () => select(tab)));
+
+    // Left/right arrows move between tabs, as expected of a tablist
+    document.querySelector('.tabs').addEventListener('keydown', e => {
+      const i = tabs.indexOf(document.activeElement);
+      if (i === -1) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+        next.focus();
+        select(next);
+        e.preventDefault();
+      }
     });
   </script>
-
 </body>
 </html>

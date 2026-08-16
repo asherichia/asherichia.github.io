@@ -60,7 +60,7 @@ function createFooter() {
     { href: 'https://www.linkedin.com/in/ashley-otter', icon: 'fab fa-linkedin-in', label: 'LinkedIn' },
     { href: 'https://scholar.google.co.uk/citations?hl=en&user=-ckBV9wAAAAJ', icon: 'fas fa-graduation-cap', label: 'Google Scholar' },
     { href: 'https://github.com/asherichia', icon: 'fab fa-github', label: 'GitHub' },
-    { href: 'mailto:ashley.otter@ukhsa.gov.uk', icon: 'fas fa-envelope', label: 'Email' }
+    { href: 'mailto:otterad@gmail.com', icon: 'fas fa-envelope', label: 'Email' }
   ];
 
   socialLinks.forEach(link => {
